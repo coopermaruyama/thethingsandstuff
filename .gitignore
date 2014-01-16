@@ -13,7 +13,6 @@ cron.php
 cron.sh
 downloader/
 errors/
-index.php
 index.php.sample
 install.php
 LICENSE*
