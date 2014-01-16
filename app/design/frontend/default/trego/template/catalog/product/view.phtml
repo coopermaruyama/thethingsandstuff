@@ -109,13 +109,16 @@
                 <?php if (!$_product->isSaleable()): ?>
                     <div class="add-to-box">
                         <?php echo $this->getChildHtml('addto') ?>
+                        <?php if ($_product->getStockItem()->getIsInStock() == 0): ?>
+                            <div class="add-to-cart">
+                               <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart inactive" onclick="return false;"><span><span>Out of stock</span></span></button>
+                           </div>
+                        <?php endif; ?>
                     </div>
                 <?php else://if (!$this->hasOptions()):?>
                     <div class="add-to-box">
                         <?php if($_product->isSaleable()): ?>
                             <?php echo $this->getChildHtml('addtocart') ?>
-                        <?php else: ?>
-                            <?php echo $_product->getStockItem()->getIsInStock(); ?>
                         <?php endif; ?>
                         <?php echo $this->getChildHtml('addto') ?>
                     </div>
