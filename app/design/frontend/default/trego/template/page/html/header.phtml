@@ -43,6 +43,11 @@
                         <div class="clear"></div>
                         <?php $actionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
                         if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/result/", $_SERVER['REQUEST_URI'])):?>
+                        <h3>Sort by Price</h3>
+                        <div id="price-sorter">
+                            <div class="price-sort highest" data-value="desc">Highest</div>
+                            <div class="price-sort lowest" data-value="asc">Lowest</div>
+                        </div>
                         <h3>Price</h3>
                         <div id="price-filter">
                             <div class="price-option" data-value="11" id="pVal11">$</div>
@@ -57,11 +62,7 @@
                             <div class="condition-option" data-value="4" id="cVal4">&#9733;&#9733;&#9733;</div>
                             <div class="condition-option" data-value="3" id="cVal3">&#9733;&#9733;&#9733;&#9733;</div>
                         </div>
-                        <h3>Sort by Price</h3>
-                        <div id="price-sorter">
-                            <div class="price-sort highest" data-value="desc">Highest</div>
-                            <div class="price-sort lowest" data-value="asc">Lowest</div>
-                        </div>
+                       
                         <script>
                            jQuery.noConflict();
                            jQuery(function($) {

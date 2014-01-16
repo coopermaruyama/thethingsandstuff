@@ -100,6 +100,14 @@ $(function() {
 		});
 	};
 
+	// Mobile search bug fix: since resizing window can toggle the sidebar, and clicking the search box on mobile opens up a keyboard which in turn fires a window resize, the sidebar which contains the searchbox goes away. this fixes that.
+	$(".form-search input").click(function(e) { 
+		window.pauseResize = true;
+		window.setTimeout(function() {
+			window.pauseResize = false;
+		}, 5000)
+	});
+
 	// Mobile Navigation
 	$("nav#nav-top select").change(function() {
 	  window.location = $(this).find("option:selected").val();
@@ -136,7 +144,7 @@ $(function() {
 	 });
 
 	 function doneResizing(){
-	    if ($("#header-toggle").hasClass("open-state") && $(window).width() < 835) {
+	    if ($("#header-toggle").hasClass("open-state") && $(window).width() < 835 && !window.pauseResize) {
 	    	$("#header-toggle").trigger("click");
 	    };
 	 } 
