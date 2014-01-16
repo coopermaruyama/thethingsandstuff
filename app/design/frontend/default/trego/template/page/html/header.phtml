@@ -139,7 +139,7 @@ $toolbar->setCollection($this->getChild('catalog_product_list')->getLoadedProduc
 ?>
 <?php endif ?>
 
-<?php if ($actionName == 'cms_index_index'):?>
+<?php if ($actionName == 'cms_index_index' || $actionName == 'catalogsearch_result_index'):?>
     <script type="text/javascript">
 							//<![CDATA[
 							var data = "";
