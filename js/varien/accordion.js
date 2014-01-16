@@ -56,7 +56,7 @@ Accordion.prototype = {
 
             section_name = jQuery(section).attr("id");
             jQuery("#"+section_name+"-header").addClass("active");
-
+            jQuery("*").scrollTop("0");
             var contents = Element.select(section, '.a-item');
             contents[0].show();
             //Effect.SlideDown(contents[0], {duration:.2});
