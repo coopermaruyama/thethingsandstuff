@@ -1,0 +1,145 @@
+<root>
+   <pages>
+      <cms_block>
+         <title>About Us</title>
+         <identifier>about-magento-demo-store</identifier>
+         <content><![CDATA[
+<div class="page-title">
+    <h1>About Us.</h1>
+</div>
+<div class="page-about">
+    <div class="banner">
+        <img src="{{media url="wysiwyg/trego/aboutus/banner.jpg"}}" alt="" />
+    </div>
+    <div class="main">
+        <div class="content">
+            <div class="welcome-text">
+                <h2>Welcome to Trego shop.</h2>
+                <p>&nbsp;&nbsp;Duis tincidunt augue purus, sagittis consectetur risus. Nulla consequat risus velnibh elementum vitae adipiscing magna. Nam tincidunt magna quis libero aliquameu hendrerit nisi varius. <span style="font-style:italic;color:#d04d49;text-decoration:underline;">Proin at magna</span> sem praesent mollis consectetur ligula et veibm. Nullam condimentum, nisl at tempor congue.</p>
+                <p>&nbsp;&nbsp;Risus lectus accumsan magna, et condimentum nulla libero vel mi. Proin bibend
+                velit vulputate nunc elementum vel pulvinar lorem fringilla. Sed sed mi sapien. Curabitur elit tellus, cursus dapibus posuere eget, facilisis nec dui. Vestibulum congue leo et augue aliquet vitae lobortis dolor.</p>
+            </div>
+            <div class="our-team">
+                <h2>Meet our Team</h2>
+                <ul>
+                    <li><img src="{{media url="wysiwyg/trego/aboutus/Dana_Kinsman.jpg"}}" alt="" /><h3>Dana Kinsman</h3><p>General Director</p><div class="social-icons"><a href="http://www.facebook.com" title="Facebook" class="facebook-icon">Facebook</a><a href="http://www.twitter.com" title="Twitter" class="twitter-icon">Twitter</a><a href="http://www.flickr.com" title="Flickr" class="flickr-icon">Flickr</a><a href="http://plus.google.com" title="Googleplus" class="googleplus-icon">Googleplus</a></div></li>
+                    <li><img src="{{media url="wysiwyg/trego/aboutus/Tom_Manserron.jpg"}}" alt="" /><h3>Tom Manserron</h3><p>Creative Director</p><div class="social-icons"><a href="http://www.facebook.com" title="Facebook" class="facebook-icon">Facebook</a><a href="http://www.twitter.com" title="Twitter" class="twitter-icon">Twitter</a><a href="http://www.flickr.com" title="Flickr" class="flickr-icon">Flickr</a><a href="http://plus.google.com" title="Googleplus" class="googleplus-icon">Googleplus</a></div></li>
+                    <li><img src="{{media url="wysiwyg/trego/aboutus/Hannah_Cranewell.jpg"}}" alt="" /><h3>Hannah Cranewell</h3><p>Project Manager</p><div class="social-icons"><a href="http://www.facebook.com" title="Facebook" class="facebook-icon">Facebook</a><a href="http://www.twitter.com" title="Twitter" class="twitter-icon">Twitter</a><a href="http://www.flickr.com" title="Flickr" class="flickr-icon">Flickr</a><a href="http://plus.google.com" title="Googleplus" class="googleplus-icon">Googleplus</a></div></li>
+                </ul>
+                <p>&nbsp;&nbsp;Curabitur elit tellus, cursus dapibus posuere eget, facilisis nec dui. Vestibulum congue leo et augue aliquet vitae lobortis dolor. Duis interdum, est ut vehicula eleifend, sem turpis imperdiet nisl, at tempor orci nisi sit amet dui.</p>
+                <p>&nbsp;&nbsp;Morbi vitae lacus ipsum. Nam placerat mollis ipsum, sit amet lobortis dui malesuada ut. Nullam faucibus varius augue ac tincidunt. Ut pretium laoreet lacus ut vulputate. Curabitur dignissim mollis lacus in malesuada. </p>
+            </div>
+        </div>
+        <div class="right-col">
+            <div class="block block-customer-service">
+                <div class="block-title">
+                    <strong><span>Customer Service</span></strong>
+                </div>
+                <div class="block-content">
+                    <ul>
+                        <li><a href="{{store direct_url="contacts"}}">Contact Us</a></li>
+                        <li><a href="{{store direct_url="customer-service"}}">Returns</a></li>
+                        <li><a href="#">Site Map</a></li>
+                        <li><a href="{{store direct_url="customer-service"}}">Help &amp; Contact Details</a></li>
+                        <li><a href="{{store direct_url="customer-service"}}">Customer FAQ</a></li>
+                        <li><a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy &amp; Cookies Policy</a></li>
+                        <li><a href="{{store direct_url="customer-service"}}">Size Guides</a></li>
+                        <li><a href="{{store direct_url="catalogsearch/term/popular"}}">Terms &amp; Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="block block-testimonials">
+                <div class="block-title">
+                    <strong><span>Testimonials</span></strong>
+                </div>
+                <div class="block-content">
+                    <ul>
+                        <li><img src="{{media url="wysiwyg/trego/aboutus/Roberta_Curabitus.jpg"}}" alt="" />Curabitur elit tellus, curs dapibus posuere eget, facilisis nec dui. Vestibulcongue leo et augue orsi aliquet vitae lobortis dolor. Duis interdum,est ut vehicula eleifend, sem turpis imperdiet nisl, at tempor orci nisi sit amet dui.<div class="writer"><b>Roberta Curabitus,</b> USA</div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        var _width = jQuery(".our-team").width();
+        var _slidewidth = 166;
+        var _slidemargin = 30;
+        var _maxslides = 3;
+        if(_width < 460){
+            _maxslides = 2;
+        }
+        _slidewidth = (_width-_slidemargin*(_maxslides-1))/_maxslides;
+        var ourteam_slider = jQuery('.our-team > ul').bxSlider({
+            minSlides: 1,
+            maxSlides: _maxslides,
+            pager: false,
+            slideWidth: _slidewidth,
+            slideMargin: _slidemargin,
+            responsive: true
+        });
+        var _t_width = jQuery(".block-testimonials").width();
+        var _t_slidewidth = _t_width;
+        var _t_slidemargin = 0;
+        var testimonials_slider = jQuery('.block-testimonials ul').bxSlider({
+            minSlides: 1,
+            maxSlides: 1,
+            pager: false,
+            slideWidth: _t_slidewidth,
+            slideMargin: _t_slidemargin,
+            responsive: true
+        });
+
+        var ot, tt;
+        jQuery(window).resize(function(e){
+            e.preventDefault();
+            if(ot) clearTimeout(ot);
+            ot = setTimeout(function(){
+                var _width = jQuery(".our-team").width();
+                var _slidewidth = 166;
+                var _slidemargin = 30;
+                var _maxslides = 3;
+                if(_width < 460){
+                    _maxslides = 2;
+                }
+                _slidewidth = (_width-_slidemargin*(_maxslides-1))/_maxslides;
+                ourteam_slider.reloadSlider({
+                    minSlides: 1,
+                    maxSlides: _maxslides,
+                    pager: false,
+                    slideWidth: _slidewidth,
+                    slideMargin: _slidemargin,
+                    responsive: true
+                });
+            }, 500);
+            if(tt) clearTimeout(tt);
+            tt = setTimeout(function(){
+                var _t_width = jQuery(".block-testimonials").width();
+                var _t_slidewidth = _t_width;
+                var _t_slidemargin = 0;
+                testimonials_slider.reloadSlider({
+                    minSlides: 1,
+                    maxSlides: 1,
+                    pager: false,
+                    slideWidth: _t_slidewidth,
+                    slideMargin: _t_slidemargin,
+                    responsive: true
+                });
+            }, 500);
+        });
+    });
+</script>]]></content>
+         <is_active>1</is_active>
+         <stores><item>0</item></stores>
+         <root_template>one_column</root_template>
+         <layout_update_xml><![CDATA[
+         <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>jquery_bxslider/jquery.bxslider.min.js</name><params/></action>
+            <action method="addCss"><stylesheet>jquery_bxslider/jquery.bxslider.css</stylesheet></action>
+         </reference>
+         ]]></layout_update_xml>
+      </cms_block>
+   </pages>
+</root>

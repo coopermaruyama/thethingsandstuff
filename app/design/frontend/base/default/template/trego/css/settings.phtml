@@ -1,0 +1,55 @@
+/**
+ * WARNING: Do not change this file. Your changes will be lost.
+ * <?php echo date("Y-m-d H:i:s"); ?>
+ */
+
+<?php
+	$helper = Mage::helper('trego');
+	$d = $helper->getCfgSectionSettings(Mage::registry('cssgen_store'));
+?>
+
+<?php 
+if($d['category_list']['hover_effect']){
+?>
+.col-main > .category-products .products-list li.item:hover {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 5px #888;
+    -moz-box-shadow: 0px 0px 5px #888;
+    -webkit-box-shadow: 0px 0px 5px #888;
+}
+<?php
+}
+if($d['product_view']['related_checkbox']){
+?>
+.block-related .bx-wrapper .bx-controls-direction a {
+    top: -65px !important;
+}
+<?php
+}
+?>
+@media only screen and (max-width: 767px)  {
+<?php
+if($d['header']['hide_on_mobile']){
+?>
+    div.mini-cart-layer { display: none; }
+<?php        
+}
+?>
+}
+
+@media only screen and (min-width: 1025px) and (max-height: 800px)  {
+<?php
+if(!$d['header']['mini_menu_on_laptop']){
+?>
+    #mobnav {
+        display: none;
+    }
+    .nav-container #nav.megamenu { display: block; }
+    .nav-container #nav.default { display: block; }
+    .nav-container #nav.menutype2 { display: block; }
+<?php        
+}
+?>
+}

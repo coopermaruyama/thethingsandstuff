@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<modules>
+		<Trego_Rememberme>
+			<active>true</active>
+			<codePool>community</codePool>
+		</Trego_Rememberme>
+	</modules>
+</config>

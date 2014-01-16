@@ -1,0 +1,95 @@
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+// function getIsHomePage()
+//     {
+//         $page = Mage::app()->getFrontController()->getRequest()->getRouteName();
+//         $homePage = false;
+
+//         if($page =='cms'){
+//             $cmsSingletonIdentifier = Mage::getSingleton('cms/page')->getIdentifier();
+//             $homeIdentifier = Mage::app()->getStore()->getConfig('web/default/cms_home_page');
+//             if($cmsSingletonIdentifier === $homeIdentifier){
+//                 $homePage = true;
+//             }
+//         }
+
+//         return $homePage;
+//     }
+?>
+<?php 
+    function isMobile()
+    {   
+        if(preg_match('/(alcatel|amoi|android|avantgo|blackberry|benq|cell|cricket|docomo|elaine|htc|iemobile|iphone|ipad|ipaq|ipod|j2me|java|midp|mini|mmp|mobi|motorola|nec-|nokia|palm|panasonic|philips|phone|sagem|sharp|sie-|smartphone|sony|symbian|t-mobile|telus|up\.browser|up\.link|vodafone|wap|webos|wireless|xda|xoom|zte)/i', $_SERVER['HTTP_USER_AGENT']))
+        return true;
+    else
+        return false;
+    }
+    if ($_COOKIE["bannerLess"] != "1" && !preg_match('/\/(sell|checkout\/onepage\/)/', $_SERVER['REQUEST_URI']) && !isMobile()) {
+        $showBanner = true;
+    }
+ ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<!-- <div class="overlay-top"></div> -->
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+        <?php echo $this->getChildHtml('header') ?>
+        <div class="main-container col1-layout">
+            <div class="main">
+                <?php echo $this->getChildHtml('breadcrumbs') ?>
+                <div class="col-precontent">
+                <?php if ($showBanner):?>
+                    <div id="things-banner">
+                        <h1>Why Shop TheThingsAndStuff?</h1>
+                        <div class="feature feature-delivery">
+                            <h2>Free Local Delivery</h2>
+                            <span>Within 15 miles of Staples Center</span>
+                        </div>
+                        <div class="feature feature-five-star">
+                            <h2>5-Star Service</h2>
+                            <span>Check out our <a href="http://www.yelp.com/biz/the-things-and-stuff-santa-monica-2" target="_blank">Yelp Reviews</a></span>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="feature feature-tax">
+                            <h2>Sales Tax Included</h2>
+                            <span>We advetise real prices</span>
+                        </div>
+                        <div class="feature feature-satisfaction">
+                            <h2>Satisfaction Guaranteed</h2>
+                            <span>Full refund upon delivery if unsatisfied</span>
+                        </div>
+                        <span class="feature-close" id="hideBanner"></span>
+                    </div>
+                    <script>
+                        jQuery(function() {
+                            jQuery("#hideBanner").click(function(e) {
+                                e.preventDefault();
+                                createCookie("bannerLess","1",365);
+                                jQuery("#things-banner").fadeOut(1500);
+                            });
+                        });
+                    </script>
+                <?php endif; ?>
+                <?php echo $this->getChildHtml('precontents') ?>
+                </div>
+                <div class="col-main">
+                    <?php echo $this->getChildHtml('global_messages') ?>
+                    <?php echo $this->getChildHtml('content') ?>
+                </div>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('footer') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+//Get store id
+$storeId    = Mage::app()->getStore()->getId();
+$show_levels = Mage::getStoreConfig("slidermenu/menu/show_level", $code);
+$show_levels -= 1;
+//Get category model
+$_category = Mage::getModel('catalog/category')->setStoreId($storeId);
+$_cat = $_category->load(Mage::app()->getStore()->getRootCategoryId());
+
+?>
+
+<div class="nav-container">
+    <a id="mobnav"><?php echo $this->__('Menu'); ?></a>
+<?php
+function hasMenuChildren($_cat){
+    $return_val = false;
+    if($_cat->hasChildren()){
+        $_children = $_cat->getChildren();
+        $children_ids = explode(",", $_children);
+        foreach ($children_ids as $child_id){
+            $_child = Mage::getModel('catalog/category')->setStoreId($storeId)->load($child_id);
+            if($_child->getIncludeInMenu()){
+                $return_val = true;
+            }
+        }
+    }
+    return $return_val;
+}
+function cmpCatPosition($a, $b) {
+    if ($a->position == $b->position)
+        return 0;
+    return ($a->position > $b->position) ? 1 : -1;
+}
+
+function showChildrenCategories($_category, $level, $level_limit){
+    $storeId = Mage::app()->getStore()->getId();
+    $html = '';
+    if($level == 0){
+        $html .= '<ul id="nav" class="default">';
+    } else {
+        $html .= '<ul class="level'.$level.'">';
+    }
+    $_children = $_category->getChildren();
+    $children_ids = explode(",", $_children);
+    $categoryChildren = array();   
+    if ($children_ids) {
+        foreach ($children_ids as $categoryId){
+            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $categoryChildren[] = $category;
+        }
+    }
+
+    usort($categoryChildren, 'cmpCatPosition');
+
+    foreach ($categoryChildren as $_child){
+        if($_child->getIncludeInMenu()){
+            $html .= '<li class="level'.$level;
+            if( hasMenuChildren($_child) && $level < $level_limit ){
+                $html .= ' parent';
+            }
+            $html .='">';
+            $html .= '<a href ="'.$_child->getUrl().'"><span>';
+            $html .= $_child->getName();
+            if( hasMenuChildren($_child) && $level < $level_limit ){
+                $html .= ' <em>+</em>';
+            }
+            $html .= '</span></a>';
+            if( hasMenuChildren($_child) && $level < $level_limit ){
+                $html .= showChildrenCategories($_child, $level+1, $level_limit);
+                $html .= '<span class="plus"></span>';
+            }
+            $html .= '</li>';
+        }
+    }
+    $html .= '</ul>';
+    return $html;
+}
+echo showChildrenCategories($_cat, 0, $show_levels);
+?>
+</div><?php //content ?>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery("#nav ul.level1").each(function(){
+        jQuery(this).css('top', jQuery(this).parent().offset().top-jQuery('body').scrollTop());
+        var obj = jQuery(this);
+        setTimeout(function(){jQuery(obj).css('top', jQuery(obj).parent().offset().top-jQuery('body').scrollTop());},300); //for IE8
+    });
+    jQuery(window).resize(function(){
+        jQuery("#nav ul").each(function(){
+            jQuery(this).css('left','');
+        });
+        jQuery("#nav ul.level1").each(function(){
+            jQuery(this).css('top', jQuery(this).parent().offset().top-jQuery('body').scrollTop());
+        });
+    });
+    jQuery("#nav li span.plus").click(function(event){
+        event.stopPropagation();
+        jQuery(".form-language .select-language .sbOptions").slideUp('fast');
+        jQuery(".form-language .select-language .sbToggle").removeClass('sbToggleOpen');
+        if(jQuery(this).hasClass('expanded')){
+            jQuery(this).removeClass('expanded');
+            jQuery(this).parent().removeClass('expanded');
+            jQuery(this).parent().children('ul').slideUp('fast');
+        } else {
+            jQuery(this).parent().parent().children('li.expanded').children('ul').hide();
+            jQuery(this).parent().parent().children('li.expanded').children('span.expanded').removeClass('expanded');
+            jQuery(this).parent().parent().children('li.expanded').removeClass('expanded');
+            jQuery(this).addClass('expanded');
+            jQuery(this).parent().addClass('expanded');
+            jQuery(this).parent().children('ul').slideDown('fast');
+            if(jQuery(window).width()>=768 && jQuery(window).width()<=1024 ){
+                if( jQuery(this).parent().children('ul').offset().left + 170 >= jQuery(window).width() ){
+                    if(jQuery(this).parent().children('ul').hasClass('level1')){
+                        jQuery(this).parent().children('ul').css('left', (jQuery(window).width() - jQuery(this).parent().children('ul').offset().left - 190) + 'px' );
+                    } else {
+                        jQuery(this).parent().children('ul').css('left', '-170px');
+                    }
+                }
+            }
+        }
+    });
+});
+</script>

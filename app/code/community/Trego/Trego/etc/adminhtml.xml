@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <trego_design translate="title" module="trego">
+                                        <title>Theme Design</title>
+                                    </trego_design>
+                                    <trego_settings translate="title" module="trego">
+                                        <title>Theme Settings</title>
+                                    </trego_settings>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

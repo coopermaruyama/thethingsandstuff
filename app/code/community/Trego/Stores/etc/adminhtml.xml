@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <stores translate="title" module="stores">
+                                        <title>Stores</title>
+                                    </stores>
+                                    <errorpage translate="title" module="stores">
+                                        <title>404 Page Settings</title>
+                                    </errorpage>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

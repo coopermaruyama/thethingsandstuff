@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Trego_Ajaxfilter>
+      <active>true</active>
+      <codePool>community</codePool>
+      <version>1.0.0</version>
+    </Trego_Ajaxfilter>
+  </modules>
+</config>

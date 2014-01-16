@@ -1,0 +1,14 @@
+<?php 
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+$enable = Mage::getStoreConfig('filterproducts/bestseller/active',$code);
+?>
+<?php if($enable == 1) { ?>
+<div class="maintitle">
+            <div class="titlemain"><?php echo Mage::getStoreConfig('filterproducts/bestseller/title',$code); ?></div>
+            <div class="viewall"><a href="<?php echo $this->getUrl('filterproducts/index/bestsellers'); ?>"><?php echo $this->__('View All') ?></a></div>
+</div>
+<?php echo $this->getLayout()->createBlock('filterproducts/bestsellers_home_list')->setTemplate('catalog/product/list.phtml')->toHtml(); ?>
+<?php }  ?>
+
+

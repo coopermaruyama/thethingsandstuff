@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <!-- declare module's version information -->
+        <TheThingsAndStuff_Shipping>
+            <version>0.1.0</version>
+        </TheThingsAndStuff_Shipping>
+    </modules>
+
+    <global>
+        <!-- declare model group for new module -->
+        <models>
+            <!-- model group alias to be used in Mage::getModel() -->
+            <thethingsandstuffshipping>
+                <!-- base class name for the model group -->
+                <class>TheThingsAndStuff_Shipping_Model</class>
+            </thethingsandstuffshipping>
+        </models>
+        <!-- declare resource setup for new module -->
+        <resources>
+            <!-- resource identifier -->
+            <thethingsandstuffshipping_setup>
+                <!-- specify that this resource is a setup resource and used for upgrades -->
+                <setup>
+                    <!-- which module to look for install/upgrade files in -->
+                    <module>TheThingsAndStuff_Shipping</module>
+                </setup>
+                <!-- specify database connection for this resource -->
+                <connection>
+                    <!-- do not create new connection, use predefined core setup connection -->
+                    <use>core_setup</use>
+                </connection>
+            </thethingsandstuffshipping_setup>
+        </resources>
+    </global>
+
+    <default>
+        <carriers>
+            <thethingsandstuffshipping>
+                <active>1</active>
+                <allowed_methods>delivery</allowed_methods>
+                <methods>delivery</methods>
+                <sallowspecific>0</sallowspecific>
+                <model>TheThingsAndStuff_Shipping_Model_Carrier_LocalDelivery</model>
+                <name>TheThingsAndStuff Custom Shipping</name>
+                <title>Local Delivery</title>
+                <specificerrmsg>This shipping method is currently unavailable. If
+                    you would like to ship using this shipping method, please contact
+                    us.
+                </specificerrmsg>
+                <handling_type>F</handling_type>
+            </thethingsandstuffshipping>
+        </carriers>
+    </default>
+</config>

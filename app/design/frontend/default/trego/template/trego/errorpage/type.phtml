@@ -1,0 +1,34 @@
+<?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+    $type = Mage::getStoreConfig("errorpage/general/type", $code);
+    if($type == 0){
+?>
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/styles-noroute-1.css');?>" media="all">
+        <button class="button" onclick="setLocation('<?php echo Mage::getBaseUrl(); ?>')" type="button"><span><span>Back to homepage</span></span></button>
+<?php
+    }else{
+?>
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/styles-noroute-2.css');?>" media="all">
+        <div class="error-area">
+            <?php
+            $catalogSearchHelper =  $this->helper('catalogsearch');
+            ?>
+            <form id="error_search_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+                <div class="form-search">
+                    <label for="error_search"><?php echo $this->__('Search:') ?></label>
+                    <input id="error_search" type="text" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" />
+                    <button type="submit" title="<?php echo $this->__('Search') ?>" class="button"></button>
+                    <div id="error_search_autocomplete" class="search-autocomplete"></div>
+                    <script type="text/javascript">
+                    //<![CDATA[
+                        var searchForm = new Varien.searchForm('error_search_form', 'error_search', '<?php echo $this->__('Search...') ?>');
+                        searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'error_search_autocomplete');
+                    //]]>
+                    </script>
+                </div>
+            </form>
+        </div>
+<?php
+    }
+?>

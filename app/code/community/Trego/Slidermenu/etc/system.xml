@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <slidermenu translate="label comment" module="slidermenu">
+            <tab>tregoextensions</tab>
+            <label>Homepage Slider &amp; Menu</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>204</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <slider translate="label comment" module="slidermenu">
+                    <label>Slider Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <slider_enabled translate="label">
+                            <label>Enable Homepage Slider</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </slider_enabled>
+                        <slider_type translate="label">
+                            <label>Homepage Slider Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>slidermenu/sliders</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </slider_type>
+                        <cms_blockid1 translate="label">
+                            <label>CMS BlockID (Default Slider1)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cms_blockid1>
+                        <cms_blockid2 translate="label">
+                            <label>CMS BlockID (Default Slider2)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cms_blockid2>
+                        <cms_blockid3 translate="label">
+                            <label>CMS BlockID (Default Slider3)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cms_blockid3>
+                        <cms_blockid4 translate="label">
+                            <label>CMS BlockID (Vertical Showcase Slider)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cms_blockid4>
+                        <cms_blockid5 translate="label">
+                            <label>CMS BlockID (Revolution Slider)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cms_blockid5>
+                        <options_header translate="label">
+                            <label>Default Slider Options</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </options_header>
+                        <option_auto translate="label">
+                            <label>Auto</label>
+                            <comment>Slides will automatically transition.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>71</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </option_auto>
+                        <option_pause translate="label">
+                            <label>Pause</label>
+                            <comment>Slides will automatically transition.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>72</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </option_pause>
+                        <option_autostart translate="label">
+                            <label>Auto Start</label>
+                            <comment>Auto show starts playing on load. If false, slideshow will start when the "Start" control is clicked</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>73</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </option_autostart>
+                        <option_autohover translate="label">
+                            <label>Auto Hover</label>
+                            <comment>Auto show will pause when mouse hovers over slider</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>74</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </option_autohover>
+                        <option_speed translate="label">
+                            <label>Speed</label>
+                            <comment>Slide transition duration (in ms)</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>75</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </option_speed>
+                        <rs_options_header translate="label">
+                            <label>Revolution Slider Options</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rs_options_header>
+                        <rs_option_delay translate="label">
+                            <label>Delay</label>
+                            <comment>The time one slide stays on the screen in Milliseconds. Global Setting. You can set per Slide extra local delay time via the data-delay in the element</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>81</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rs_option_delay>
+                        <rs_option_onhoverstop translate="label">
+                            <label>onHoverStop</label>
+                            <comment>Stop the Timer if mouse is hovering the Slider.  Caption animations are not stopped !! They will just play to the end.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>82</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rs_option_onhoverstop>
+                    </fields>
+                </slider>
+                <menu translate="label comment" module="slidermenu">
+                    <label>Menu Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <menu_enabled translate="label">
+                            <label>Enable Menu</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </menu_enabled>
+                        <menu_type translate="label">
+                            <label>Menu Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>slidermenu/menus</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </menu_type>
+                        <show_level translate="label">
+                            <label>Show Levels(Default Menu)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_level>
+                        <show_column translate="label">
+                            <label>Show Columns(Mega Menu)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_column>
+                    </fields>
+                </menu>
+            </groups>
+        </slidermenu>
+    </sections>
+</config>

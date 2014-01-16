@@ -1,0 +1,318 @@
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+<?php
+    $_productCollection=$this->getLoadedProductCollection();
+    $_productCollection->addAttributeToSelect('news_from_date')
+        ->addAttributeToSelect('news_to_date');
+    $_helper = $this->helper('catalog/output');
+	$store = Mage::app()->getStore();
+	$code  = $store->getCode();
+?>
+<?php if(!$_productCollection->count()): ?>
+<p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+<div class="category-products">
+    <?php echo $this->getToolbarHtml() ?>
+    <?php // List mode ?>
+    <?php if($this->getMode()!='grid'): ?>
+    <?php $_iterator = 0; ?>
+    <ol class="products-list" id="products-list">
+    <?php foreach ($_productCollection as $_product): ?>
+        <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
+            <?php // Product Image ?>
+            <div class="product-image-area" hover_img="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(350) ?>" base_img="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(350) ?>" >
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                    <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350)->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                </a>
+                <?php if($_product->getRatingSummary()): ?>
+                <?php echo $this->getReviewsSummaryHtml($_product) ?>
+                <?php endif; ?>
+                <div class="clearer"></div>
+            </div>
+            <?php // Product description ?>
+            <div class="product-shop">
+                <div class="f-fix">
+                    <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
+                    <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName() , 'name'); ?></a></h2>
+                    <?php echo $this->getPriceHtml($_product, true) ?>
+                    <div class="desc std">
+                        <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
+                    </div>
+                    <div class="links-set">
+                    <?php if($_product->isSaleable()): ?>
+                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+                        <ul class="add-to-links">
+                            <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                            <?php endif; ?>
+                            <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                                <li><a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+    <?php endforeach; ?>
+    </ol>
+    <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
+
+    <?php else: ?>
+
+    <?php // Grid Mode ?>
+
+    <?php $_collectionSize = $_productCollection->count() ?>
+    <?php $_columnCount = $this->getColumnCount(); ?>
+        <ul class="products-grid">
+    <?php $i=0; foreach ($_productCollection as $_product): ?>
+            <li class="item<?php if($i==0): ?> first<?php elseif($i==$_collectionSize-1): ?> last<?php endif; ?>">
+                <div class="product-image-area" hover_img="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(350) ?>" base_img="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(350) ?>" >
+                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                        <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(350); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                    </a>
+                    <?php 
+                        $top_position = 10;
+                        // Get the Special Price
+                        $specialprice = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialPrice(); 
+                        // Get the Special Price FROM date
+                        $specialPriceFromDate = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialFromDate();
+                        // Get the Special Price TO date
+                        $specialPriceToDate = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialToDate();
+                        // Get Current date
+                        $today =  time();
+                     
+                        if ($specialprice){
+                            if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate)){
+                                if(Mage::getStoreConfig("trego_settings/product_label/sale", $code)){
+                    ?>
+                                <div class="sale-product-icon" style="top: <?php echo $top_position; ?>px"><?php echo $this->__('Sale');?></div>
+                    <?php       
+                                $top_position += 30;
+                                }
+                            }
+                        }
+                    ?>
+                    <?php
+                        $now = date("Y-m-d");
+                        $newsFrom= substr($_product->getData('news_from_date'),0,10);
+                        $newsTo=  substr($_product->getData('news_to_date'),0,10);
+                        if ($newsTo != '' || $newsFrom != ''){
+                            if (($newsTo != '' && $newsFrom != '' && $now>=$newsFrom && $now<=$newsTo) || ($newsTo == '' && $now >=$newsFrom) || ($newsFrom == '' && $now<=$newsTo))
+                            {
+                                if(Mage::getStoreConfig("trego_settings/product_label/new", $code)){
+                        ?> 
+                                <div class="new-product-icon" style="top: <?php echo $top_position; ?>px"><?php echo $this->__('New');?></div>
+                        <?php 
+                                $top_position += 30;
+                                }
+                            }
+                        }
+                        if(Mage::getStoreConfig("trego_settings/category_grid/ratings", $code)){
+                    ?>
+                    <?php if($_product->getRatingSummary()){ ?>
+                    <?php echo $this->getReviewsSummaryHtml($_product, 'short'); ?>
+                    <?php } ?>
+                    <?php
+                        }
+                        if(Mage::getStoreConfig("trego_settings/category_grid/hover_button", $code)){    
+                    ?>
+                    <ul class="cart-button-set">
+                        <li class="first"><a href="<?php echo $this->getAddToCartUrl($_product) ?>" class="addtocart"><?php echo $this->__('Add to Cart') ?></a></li>
+                        <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="addtowishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                        <li class="last"><a href="<?php echo $this->getAddToCompareUrl($_product) ?>" class="addtocompare"><?php echo $this->__('Add to Compare') ?></a></li>
+                    </ul>
+                    <?php
+                        }
+                    ?>
+                    <div class="clearer"></div>
+                </div>
+                <?php echo $this->getPriceHtml($_product, true) ?>
+                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                <?php
+                if(!Mage::getStoreConfig("trego_settings/category_grid/hover_button", $code)){
+                ?>
+                <?php if($_product->isSaleable()): ?>
+                    <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                <?php else: ?>
+                    <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                <?php endif; ?>
+                <ul class="add-to-links">
+                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                        <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                    <?php endif; ?>
+                    <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                        <li><a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+                    <?php endif; ?>
+                </ul>
+                <?php
+                }
+                ?>
+                <?php $i++; ?>
+            </li>
+        <?php endforeach ?>
+        </ul>
+        <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
+    <?php endif; ?>
+        <div class="category-right">
+        <?php
+            echo $this->getChildHtml("category-right");
+        ?>
+        </div>
+    <div class="toolbar-bottom">
+        <?php echo $this->getToolbarHtml() ?>
+    </div>
+    <script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery('.products-grid li:nth-child(3n)').addClass('nth-child-3n');
+        jQuery('.products-grid li:nth-child(3n+1)').addClass('nth-child-3np1');
+        jQuery('.products-grid li:nth-child(2n)').addClass('nth-child-2n');
+        jQuery('.products-grid li:nth-child(2n+1)').addClass('nth-child-2np1');
+<?php
+    if(Mage::getStoreConfig("trego_settings/category_grid/hover_button", $code)){    
+?>
+        jQuery(window).resize(function(){
+            jQuery(".cart-button-set").each(function(){
+                var setobj = jQuery(this);
+                var minWidth = 16;
+                jQuery(this).children(".cart-button-set").children("li").css("width", minWidth+"px");
+                jQuery(this).children(".cart-button-set").children("li").css("overflow", "hidden");
+                jQuery(this).children("li").first().css("width", (jQuery(setobj).width()-96)+"px");
+            });
+        });
+        jQuery(".cart-button-set").each(function(){
+            var setobj = jQuery(this);
+            var minWidth = 16;
+            jQuery(this).children("li").css("width", minWidth+"px");
+            jQuery(this).children("li").css("overflow", "hidden");
+            jQuery(this).children("li").first().css("width", (jQuery(setobj).width()-96)+"px");
+            
+            jQuery(this).children("li").mouseenter(    
+                function(){
+                    var cur_obj = jQuery(this);
+                    jQuery(this).parent().children("li").each(function(){
+                        if(jQuery(this) != jQuery(cur_obj))
+                            jQuery(this).animate({width: minWidth+"px"}, { queue:false, duration:400 });
+                    });
+                    jQuery(this).animate({width: (jQuery(setobj).width()-96)+"px"}, { queue:false, duration:400});
+                }
+            );
+        });
+        jQuery('.category-products .product-image-area').mouseenter(function(){
+            jQuery(this).children('.cart-button-set').children("li").css('width', "16px");
+            jQuery(this).children('.cart-button-set').children("li").first().css('width', (jQuery(this).children('.cart-button-set').width()-96)+"px");
+            jQuery(this).children('.cart-button-set').fadeIn();
+        }).mouseleave(function(){
+            jQuery(this).children('.cart-button-set').fadeOut();
+        });
+<?php
+    }
+    if(Mage::getStoreConfig("trego_settings/category/alternative_image", $code)){
+?>
+        jQuery('.category-products .product-image-area').each(function(){
+            var inarea = false;
+            jQuery(this).mouseenter(function(){
+                if(!jQuery(this).parent().parent().parent().parent().parent().hasClass('block') && inarea == false){
+                    var hover_img = jQuery(this).attr('hover_img');
+                    var base_img = jQuery(this).attr('base_img');
+                    var img = jQuery(this).children('a.product-image').children('img');
+                    //jQuery(img).attr('src', hover_img);
+                    /********************************/
+                    var ele = jQuery(img).clone().appendTo(jQuery(img).parent()).css({position:"absolute","top":"0px","left":"0px","z-index":"2"}).attr("src",base_img);
+                    jQuery(img).css("z-index",1);
+                    jQuery(img).attr('src', hover_img);
+                    jQuery(ele).fadeOut(400,function(){jQuery(ele).remove();});
+                }
+                inarea = true;
+            }).mouseleave(function(){
+                if(!jQuery(this).parent().parent().parent().parent().parent().hasClass('block') && inarea == true){
+                    var hover_img = jQuery(this).attr('hover_img');
+                    var base_img = jQuery(this).attr('base_img');
+                    var img = jQuery(this).children('a.product-image').children('img');
+                    //jQuery(img).attr('src', base_img);
+                    /********************************/
+                    var ele = jQuery(img).clone().appendTo(jQuery(img).parent()).css({position:"absolute","top":"0px","left":"0px","z-index":"2"}).attr("src",hover_img);
+                    jQuery(img).css("z-index",1);
+                    jQuery(img).attr('src', base_img);
+                    jQuery(ele).fadeOut(400,function(){jQuery(ele).remove();});
+                }
+                inarea = false;
+            });
+        });
+<?php
+    }
+    if(Mage::getStoreConfig("trego_settings/category_grid/hover_effect", $code)){    
+?>
+        var ishover = false;
+        jQuery('.col-main .products-grid li.item').mouseenter(function(){
+            if(!ishover){
+                jQuery('.col-main .products-grid li.item').css({
+                    'marginRight':'',
+                    'marginLeft':'',
+                    'marginTop':'',
+                    'marginBottom':'',
+                    'paddingRight':'',
+                    'paddingLeft':'',
+                    'paddingTop':'',
+                    'paddingBottom':'',
+                    'zIndex':'1',
+                    'border-radius':'',
+                    'box-shadow' : '',
+                    '-moz-box-shadow' : '',
+                    '-webkit-boxshadow' : '',
+                    'backgroundColor' : 'transparent'
+
+                });
+                jQuery(this).css('marginRight', (parseFloat(jQuery(this).css('marginRight').replace('px', ''))-8)+"px");
+                jQuery(this).css('marginLeft', (parseFloat(jQuery(this).css('marginLeft').replace('px', ''))-8)+"px");
+                jQuery(this).css('marginTop', (parseFloat(jQuery(this).css('marginTop').replace('px', ''))-8)+"px");
+                //jQuery(this).css('marginBottom', (parseFloat(jQuery(this).css('marginBottom').replace('px', ''))-8)+"px");
+                jQuery(this).css('paddingRight', (parseFloat(jQuery(this).css('paddingRight').replace('px', ''))+8)+"px");
+                jQuery(this).css('paddingLeft', (parseFloat(jQuery(this).css('paddingLeft').replace('px', ''))+8)+"px");
+                jQuery(this).css('paddingTop', (parseFloat(jQuery(this).css('paddingTop').replace('px', ''))+8)+"px");
+                //jQuery(this).css('paddingBottom', (parseFloat(jQuery(this).css('paddingBottom').replace('px', ''))+8)+"px");
+                jQuery(this).css('backgroundColor', '#f1f1f1');
+                jQuery(this).css('zIndex', '2');
+                jQuery(this).css({
+                    'border-radius' : '5px',
+                    'box-shadow' : '0px 0px 5px #888',
+                    '-moz-box-shadow' : '0px 0px 5px #888',
+                    '-webkit-boxshadow' : '0px 0px 5px #888'
+                });
+                ishover = true;
+            }
+        }).mouseleave(function(){
+            jQuery(this).css({
+                'marginRight':'',
+                'marginLeft':'',
+                'marginTop':'',
+                'marginBottom':'',
+                'paddingRight':'',
+                'paddingLeft':'',
+                'paddingTop':'',
+                'paddingBottom':'',
+                'zIndex':'1',
+                'border-radius':'',
+                'box-shadow' : '',
+                '-moz-box-shadow' : '',
+                '-webkit-boxshadow' : '',
+                'backgroundColor' : 'transparent'
+
+            });
+            ishover = false;
+        });
+<?php
+    }
+?>
+    });
+    </script>
+</div>
+<?php endif; ?>

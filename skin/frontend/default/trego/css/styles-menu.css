@@ -1,0 +1,858 @@
+#nav em { font-style: normal; }
+#nav.menutype2 li em { display: none; }
+.tablet-overlay { 
+    background: url(../images/top-menu-bg-overlay.png); 
+    position: fixed; 
+    width: 100%;
+    height: 265px;
+    left: 0;
+    top: 183px;
+    z-index: 1;
+    border-top: 1px solid #DDDDDD;
+    display: none;
+}
+
+.tablet-overlay { display: none !important; }
+#nav.default {
+    padding: 0 0 0 30px;
+    display: block;
+    width: 189px;
+}
+#nav.default li {
+    border-bottom: 0;
+}
+#nav.default > li {
+    padding-right: 30px;
+}
+#nav.default > li > a {
+    border-bottom: 1px solid #dddddd;
+    transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+    -moz-transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+    -webkit-transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+    -o-transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+}
+#nav.default li > a:hover, #nav.default li.over > a {
+    color: #fff !important;
+    background: #585858;
+}
+#nav.default li .shown-sub ul.shown-sub, #nav.default li .shown-sub li div.shown-sub {
+    left: 170px;
+}
+#nav.default ul, #nav.default div {
+    border: none;
+    width: 170px;
+    display: block !important;
+}
+#nav.default ul.level1 {
+    position: fixed;
+}
+#nav ul span, #nav ul li.last li span {
+    padding: 0 15px;
+}
+#nav.default li ul.shown-sub, #nav.default li div.shown-sub {
+    left: 193px;
+    top: 0;
+}
+#nav.default ul li, #nav.default ul li.active {
+    background: none;
+    padding-right: 3px;
+}
+#nav.default ul li > a {
+    color: #fff !important;
+    background: url(../images/menu1_bg.png) repeat;
+}
+#nav.default ul li > a:hover, #nav.default ul li.over > a {
+    color: #fff !important;
+    background: url(../images/menu1_hover_bg.png) repeat;
+}
+#nav.default li span.plus { display: none; }
+
+
+
+
+
+#nav.menutype2 {
+    padding: 0 0 0 30px;
+    display: block;
+}
+#nav.menutype2 li {
+    border-bottom: 0;
+}
+#nav.menutype2 > li {
+    padding-right: 0;
+}
+#nav.menutype2 > li > a {
+    border-bottom: 1px solid #dddddd;
+    margin-right: 30px;
+}
+#nav.menutype2 li > a:hover, #nav.menutype2 li.over > a {
+    color: #4e4d49;
+    background: none;
+}
+#nav.menutype2 ul.level1 li > a:hover, #nav.menutype2 ul.level1 li.over > a {
+    border-right: 2px solid #a5a29d;
+    background: url(../images/top-menu-bg-2.png) repeat;
+}
+#nav.menutype2 > li > ul, #nav.menutype2 > li > div {
+    position: static;
+    width: auto;
+    border: none;
+    padding: 12px 2px 12px 0;
+    display: none;
+}
+#nav.menutype2 ul li a {
+    color: #5b5a55;
+    line-height: 20px;
+    background: none;
+}
+#nav.menutype2 ul li, #nav.menutype2 ul li.active {
+    padding-bottom: 1px;
+    background: none;
+}
+#nav.menutype2 li.level1 {
+    background: url(../images/top-menu-li.png) 10px 11px no-repeat;
+}
+#nav.menutype2 li.level1 > a > span {
+    padding-left: 22px;
+}
+#nav.menutype2 div.desc { display: block; position: static; }
+#nav.menutype2 li ul.level2 { display: none; }
+#nav.menutype2 li.level1.over ul.level2,
+#nav.menutype2 li ul.shown-sub {
+    position: fixed;
+    left: 218px;
+    top: 0;
+    height: 100%;
+    padding: 0;
+    padding-top: 245px;
+    border: none;
+    background: url(../images/top-menu-bg-2-2.png) repeat-y;
+    width: 285px;
+    display: block !important;
+}
+#nav.menutype2 li .shown-sub li div {
+    display:block;
+    position: static;
+}
+#nav.menutype2 span.plus {
+    background: url(../images/expand-icon2.png) 10px 10px no-repeat;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+#nav.menutype2 span.plus:hover, #nav.menutype2 li.expanded span.plus:hover {
+    background-color: #fff;
+    background-color: rgba(255,255,255,.3);
+}
+#nav.menutype2 li > span.plus { 
+    display: none;
+}
+#nav.menutype2 > li.level0 > span.plus { 
+    position: absolute;
+    top: 6px;
+    right: 30px;
+    display: block;
+}
+#nav.menutype2 li.expanded span.plus {
+    background: url(../images/expand-icon2.png) 10px -40px no-repeat;
+}
+#nav.menutype2 li.level2 { padding-bottom: 2px;}
+#nav.menutype2 li.level2 a {
+    border-right: 0 !important;
+    margin-right: 5px;
+    background: url(../images/top-menu-bg-2.png) repeat;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 7px 0 10px 0;
+    display: block; 
+    min-height: 55px; 
+}
+#nav.menutype2 li.level2 a span {
+    font-family: 'PTSans_Caption';
+    font-size: 14px;
+    color: #5b5a55;
+    text-transform: uppercase;
+    width: 180px;
+    float: left;
+    padding-bottom:0;
+}
+#nav.menutype2 li.level2 a div.desc {
+    border: 0;
+    padding: 0 15px;
+    font-family: 'PTSans_Caption';
+    font-size: 12px;
+    color: #85847e !important;
+    line-height: 14px;
+    float: left;
+    width: 180px;
+    margin-top: 5px;
+}
+#nav.menutype2 li.level2 a img {
+    float: right;
+    margin: -20px 15px 0 0;
+    width: 55px;
+    height: 55px;
+}
+
+
+
+
+#nav.megamenu {
+    padding: 0 0 0 0px;
+    display: block;
+}
+#nav.megamenu li {
+    border-bottom: 0;
+}
+#nav.megamenu ul, #nav.megamenu div {
+    border: none;
+    display: block; /* !important */
+}
+#nav.megamenu ul li, #nav.megamenu ul li.active {
+    background: none;
+}
+#nav.megamenu li.level0 > a{
+    width: 100%;
+    border-bottom: 1px solid #000000;
+    border-top: 1px solid #4f4f4f;
+}
+#nav.megamenu li.level0 > a:hover, #nav.megamenu li.level0.over > a {
+    color: #fff !important;
+    background: #676767;
+}
+#nav.megamenu ul li a {
+    background: none;
+}
+#nav.megamenu ul li.level1 > a {
+    display: block;
+    margin: 0px auto;
+    width: 83%;
+    border-bottom: 1px solid #333333;
+    border-top: 1px solid #4B4B4B;
+    /*border-bottom: 1px solid #3D3D3D;
+    border-top: 1px solid #757575;*/
+    line-height: 22px;
+    padding-top: 5px;
+}
+#nav.megamenu ul li.level2 a:hover, #nav.megamenu ul li.level2.over a {
+    background: url(../images/top-menu-bg-3-2.png);
+}
+#nav.megamenu ul li a span {
+    font-family: 'PTSans_Caption';
+    font-size: 12px;
+    color: #fff;
+}
+#nav.megamenu ul li.level1 > a > span {
+    font-size: 16px;
+    text-transform: capitalize;
+    padding: 0 0 0 0px;
+    font-family: "Helvetica Neue";
+    text-shadow: 0px -1px #111;
+}
+#nav.megamenu ul li.level1 > a > span em {
+    display: none;
+}
+#nav.megamenu ul.level1 {
+    background: url(../images/bg_subnav.png);
+    width: auto;
+    padding: 0;
+    display: none;
+    position: relative;
+    top: 0;
+    left: 0;
+    float: none;
+}
+#nav.megamenu li.level0 ul.level1.shown-sub {
+    left: 216px !important;
+}
+#nav.megamenu li.level1 {
+    float: none;
+    width: 100%;
+    margin: 0 auto;
+
+    font-family: "Helvetica Neue";
+    text-transform: capitalize;
+    padding: 0;
+    display: block;
+}
+#nav.megamenu li.level1:first-child > a {
+    border-top: none;
+}
+#nav.megamenu li.level1:last-child > a {
+    border-bottom: none;
+}
+#nav.megamenu li.level1.first {
+    clear: both;
+}
+#nav.megamenu ul.level2 {
+    position: static;
+    width: 100%;
+    list-style-type: none;
+    background: rgba(0,0,0,.2);
+    padding: 8px 0px;
+    box-shadow: 0px 0px 2px rgba(0,0,0,1) inset;
+}
+#nav.megamenu li.level2 > a > span {
+    line-height: 15px;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: 'Helvetica Neue';
+    display: block;
+    margin: 3px 0px 3px 10px;
+    width: 93%;}
+    #nav.megamenu li span.plus { display: none; }
+}
+/*@media only screen and (min-width: 768px) and (max-width: 1024px)  {
+    #nav.default { display: block !important; }
+    #nav.default > li {
+
+        padding: 0 15px;
+    }
+    #nav.default > li:last-child {
+        padding-right: 0;
+    }
+    #nav.default > li.parent {
+        padding-right: 15px;
+    }
+    #nav.default li {
+        border-bottom: 0;
+    }
+    #nav.default > li > a {
+        border-bottom: 0;
+        transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+        -moz-transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+        -webkit-transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+        -o-transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+    }
+    #nav.default li > a:hover, #nav.default li.over > a, #nav.default li.expanded > a {
+        color: #fff !important;
+        background: #585858;
+    }
+    #nav.default ul {
+        left: 0;
+        display: none;
+    }
+    #nav.default ul, #nav.default div {
+        border: none;
+        width: 170px;
+        display: none;
+        left: 0;
+        top: 100px;
+    }
+    #nav.default ul.level1 {
+        top: 100px !important;
+    }
+    #nav.default li ul li ul, #nav.default li ul li div {
+        left: 170px;
+        top: 0;
+        z-index: 3;
+    }
+    #nav.default ul li, #nav.default ul li.active {
+        background: none;
+        padding-right: 3px;
+    }
+    #nav.default ul li > a {
+        color: #fff !important;
+        background: url(../images/menu1_bg.png) repeat;
+    }
+    #nav.default ul li > a:hover, #nav.default ul li.over > a, #nav.default ul li.expanded > a {
+        color: #fff !important;
+        background: url(../images/menu1_hover_bg.png) repeat;
+    }
+    #nav.default li span.plus { 
+        display: block;
+        position: absolute;
+        right: 5px;
+        top: 4px;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        background: url(../images/top-menu-expand-icon.png) no-repeat;
+        z-index: 2;
+    }
+    #nav.default li span.plus.expanded { 
+        background: url(../images/top-menu-expand-icon.png) 0 -60px no-repeat;
+    }
+    #nav.default > li > span.plus { 
+        right: 0;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        background: url(../images/top-menu-expand-icon-medium.png) 0 -40px no-repeat;
+    }
+    #nav.default > li > span.plus.expanded { 
+        background: url(../images/top-menu-expand-icon-medium.png) 0 -60px no-repeat;
+    }
+    #nav.default li em { display: none; }
+    
+    
+    
+    .header .header-bground.menu-expanded {
+        background: url("../images/top-side-menu-expended-bg.png") repeat-x scroll 0 0 transparent;
+    }
+    #nav.menutype2 {
+        display: block !important;
+        position: relative;
+    }
+    #nav.menutype2 li {
+        padding: 0 10px;
+        position: static;
+    }
+    #nav.menutype2 li {
+        border-bottom: 0;
+    }
+    #nav.menutype2 > li > a { display:inline-block; float: left;}
+    #nav.menutype2 li > a:hover, #nav.menutype2 li.over > a {
+        color: #4e4d49;
+        background: none;
+    }
+    #nav.menutype2 li.level1 {
+        border-bottom: 2px solid transparent;
+    }
+    #nav.menutype2 li.level1.expanded {
+        border-bottom: 2px solid #a5a29d;
+    }
+    #nav.menutype2 span.plus {
+        background: url(../images/expand-icon2.png) 10px 10px no-repeat;
+        width: 27px;
+        height: 27px;
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+    }
+    #nav.menutype2 li > span.plus { 
+        display: none;
+    }
+    #nav.menutype2 > li.level0 > span.plus { 
+        display: inline-block;
+        float: right;
+    }
+    #nav.menutype2 span.plus:hover, #nav.menutype2 li.expanded span.plus:hover {
+        background-color: #fff;
+        background-color: rgba(255,255,255,.3);
+    }
+    #nav.menutype2 li.level0.expanded > span.plus {
+        background: url(../images/expand-icon2.png) 10px -40px no-repeat;
+    }
+    #nav.menutype2 > li > ul, #nav.menutype2 > li > div {
+        position: absolute;
+        width: 728px;
+        border: none;
+        padding: 42px 0 0;
+        display: none;
+        left: inherit;
+        right: 0;
+        top: 28px;
+        text-align: right;
+        height: 30px;
+    }
+    #nav.menutype2 ul li a {
+        color: #5b5a55;
+        line-height: 20px;
+        background: none;
+    }
+    #nav.menutype2 ul li.level1 > a { display: inline-block; float: left; }
+    #nav.menutype2 ul li, #nav.menutype2 ul li.active {
+        padding-bottom: 1px;
+        background: none;
+    }
+    #nav.menutype2 li.level1 {
+        background: url(../images/top-menu-li.png) 10px 11px no-repeat;
+        display: inline-block;
+    }
+    #nav.menutype2 li.level1 > a > span {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    #nav.menutype2 li.level1 > span.plus {
+        display: inline-block;
+        float: right;
+    }
+    #nav.menutype2 li.level1.expanded > span.plus {
+        background: url(../images/expand-icon2.png) 10px -41px no-repeat;
+    }
+    #nav.menutype2 ul.level2 { 
+        display: none; 
+        left: 64px;
+        top: 80px;
+        width: 600px;
+        border: 0;
+    }
+    #nav.menutype2 li.level2 { 
+        float: left;
+        padding: 2px 5px; 
+        width: 290px;
+        height: 77px;
+    }
+    #nav.menutype2 li.level2 a {
+        margin-right: 5px;
+        background: url(../images/top-menu-bg-2.png) repeat;
+        border: 1px solid #ddd;
+        padding: 7px 0 10px 0;
+        height: 58px;
+    }
+    #nav.menutype2 li.level2 a span {
+        font-family: 'PTSans_Caption';
+        font-size: 14px;
+        color: #5b5a55;
+        text-transform: uppercase;
+        width: 180px;
+        float: left;
+        padding-bottom:0;
+    }
+    #nav.menutype2 li.level2 a div.desc {
+        border: 0;
+        padding: 0 15px;
+        font-family: 'PTSans_Caption';
+        font-size: 12px;
+        color: #85847e !important;
+        line-height: 14px;
+        float: left;
+        width: 180px;
+        margin-top: 5px;
+        position: static;
+    }
+    #nav.menutype2 li.level2 a img {
+        float: right;
+        margin: -20px 15px 0 0;
+        width: 55px;
+        height: 55px;
+    }
+    
+    
+    
+    
+    
+    #nav.megamenu {
+        padding: 0 0 0 30px;
+        display: block !important;
+    }
+    #nav.megamenu li {
+        border-bottom: 0;
+    }
+    #nav.megamenu ul, #nav.default div {
+        border: none;
+    }
+    #nav.megamenu ul li, #nav.megamenu ul li.active {
+        background: none;
+    }
+    #nav.megamenu li.level0 {
+        margin-left: 15px;
+    }
+    #nav.megamenu li.level0 > a {
+        float: left;
+    }
+    #nav.megamenu li.level0 > a span em {
+        color: rgb(100, 110, 122);
+        text-shadow: 0px -1px 0px black;
+        font-weight: bold;
+        display: inline-block;
+        float: right;
+        margin-right: 2px;
+        font-size: 28px;
+
+    }
+    #nav.megamenu li.level0.expanded > a, #nav.megamenu li.level0.over > a {
+        color: #fff !important;
+        background: #676767;
+        width: auto;
+    }
+    #nav.megamenu ul li a {
+        background: none;
+    }
+    #nav.megamenu ul li.level2.expanded a, #nav.megamenu ul li.level2.over a {
+        background: url(../images/top-menu-bg-3-2.png);
+    }
+    #nav.megamenu ul li a span {
+        font-family: 'PTSans_Caption';
+        font-size: 12px;
+        color: #fff;
+    }
+    #nav.megamenu ul li.level1 > a > span {
+        font-size: 14px;
+        text-transform: uppercase;
+        padding: 0 0 0 9px;
+    }
+    #nav.megamenu ul li.level1 > a > span em {
+        display: none;
+    }
+    #nav.megamenu ul.level1 {
+        position: fixed;
+        left: 216px;
+        top: 185px;
+        width: auto;
+        background: url(../images/top-menu-bg-3.png);
+        padding: 15px;
+        display: none;
+    }
+    #nav.megamenu li.level1 {
+        float: left;
+        width: 150px;
+        margin: 0 5px;
+    }
+    #nav.megamenu li.level1.first {
+        clear: both;
+    }
+    #nav.megamenu ul.level2 {
+        position: static;
+        width: 150px;
+        display: block !important;
+    }
+    #nav.megamenu li.level2 > a > span {
+        background: url(../images/top-menu-li-white.png) 10px 12px no-repeat;
+        line-height: 27px;
+        padding: 0 0 0 20px;
+    }
+    #nav.megamenu span.plus {
+        background: url(../images/top-menu-expand-icon-medium.png) 0 -35px no-repeat;
+        width: 20px;
+        height: 30px;
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+    }
+    #nav.megamenu li > span.plus { 
+        display: none;
+    }
+    #nav.megamenu > li.level0 > span.plus { 
+        display: inline-block;
+        float: right;
+    }
+    #nav.megamenu span.plus:hover, #nav.menutype2 li.expanded span.plus:hover {
+        background-color: #fff;
+        background-color: rgba(255,255,255,.3);
+    }
+    #nav.megamenu li.level0.expanded > span.plus {
+        background-position: 0 -55px;
+    }
+    #nav.megamenu li em { display: none; }
+}
+
+@media only screen and (max-width: 767px)  {
+    .tablet-overlay { display: none !important; }
+    .nav-container ul#nav.default {
+        background: none;
+        width: 300px;
+        right: 10px;
+        top: 80px;
+        display: none;
+    }
+    #nav.default li > a {
+        color: #fff !important;
+        background: url(../images/menu1_bg.png) repeat;
+        margin-bottom: 1px;
+    }
+    #nav.default li > a:hover, #nav.default li.over > a {
+        color: #fff !important;
+        background: url(../images/menu1_hover_bg.png) repeat;
+    }
+    #nav.default ul {
+        border: 0;
+        position: static;
+        display: none;
+        width: 100%;
+    }
+    #nav.default ul.shown-sub {
+        display: none;
+    }
+    #nav.default ul span {
+        padding-left: 20px;
+    }
+    #nav.default ul ul span {
+        padding-left: 30px;
+    }
+    #nav.default ul ul ul span {
+        padding-left: 40px;
+    }
+    #nav.default ul ul ul ul span {
+        padding-left: 50px;
+    }
+    #nav.default ul li > a {
+        color: #fff !important;
+        background: url(../images/menu1_bg.png) repeat;
+        margin-bottom: 1px;
+    }
+    #nav.default ul li > a:hover, #nav.default ul li.over > a {
+        color: #fff !important;
+        background: url(../images/menu1_hover_bg.png) repeat;
+    }
+    #nav.default li em { display: none; }
+    #nav.default li span.plus { 
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        background: url(../images/top-menu-expand-icon.png) 5px 5px no-repeat;
+    }
+    #nav.default li span.plus.expanded { 
+        background: url(../images/top-menu-expand-icon.png) 5px -55px no-repeat;
+    }
+    
+    
+    
+    
+    
+    .nav-container ul#nav.menutype2 {
+        background: url(../images/top-menu-bg-320-2.png) repeat;
+        width: 300px;
+        right: 10px;
+        top: 75px;
+        display: none;
+    }
+    #nav.menutype2 li > a {
+        background: url(../images/top-menu-bg-320-2-2.png) repeat;
+        margin-bottom: 1px;
+        font-size: 17px;
+    }
+    #nav.menutype2 li > a span {
+        color: #4E4D49;
+        padding: 0 20px;
+    }
+    #nav.menutype2 ul {
+        border: 0;
+        position: static;
+        display: none;
+        width: 100%;
+    }
+    #nav.menutype2 ul li {
+        background: none;
+    }
+    #nav.menutype2 ul li.level1 a{
+        background: url(../images/top-menu-bg-320-2-3.png) repeat;
+        margin-bottom: 1px;
+        padding-bottom: 0;
+        font-size: 16px;
+    }
+    #nav.menutype2 ul li.level1 a span {
+        color: #5B5A55;
+    }
+    #nav.menutype2 ul.shown-sub {
+        display: none;
+    }
+    #nav.menutype2 ul span {
+        padding-left: 20px;
+    }
+    #nav.menutype2 li em { display: none; }
+    #nav.menutype2 li span.plus { 
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        background: url(../images/top-menu-expand-icon2.png) 5px 5px no-repeat;
+    }
+    #nav.menutype2 li span.plus.expanded { 
+        background: url(../images/top-menu-expand-icon2.png) 5px -55px no-repeat;
+    }
+    #nav.menutype2 ul li.level2 a {
+        background: none;
+        border: 1px solid #ddd;
+        padding: 7px 0 10px 0;
+        height: 58px;
+    }
+    #nav.menutype2 li.level2 a span {
+        color: #5b5a55;
+        float: left;
+        font-family: 'PTSans_Caption';
+        font-size: 14px;
+        line-height: 25px;
+        padding-left: 20px;
+        text-transform: uppercase;
+        width: 180px;
+    }
+    #nav.menutype2 li.level2 a div.desc {
+        border: 0;
+        padding: 0 15px;
+        font-family: 'PTSans_Caption';
+        font-size: 12px;
+        color: #85847e !important;
+        line-height: 14px;
+        float: left;
+        width: 180px;
+        margin-top: 5px;
+        position: static;
+    }
+    #nav.menutype2 li.level2 a img {
+        float: right;
+        margin: -20px 15px 0 0;
+        width: 55px;
+        height: 55px;
+    }
+    
+    
+    
+    .nav-container ul#nav.megamenu {
+        background: none;
+        width: 300px;
+        right: 10px;
+        top: 75px;
+        display: none;
+    }
+    #nav.megamenu li > a {
+        color: #fff !important;
+        background: url(../images/menu1_bg.png) repeat;
+        margin-bottom: 1px;
+    }
+    #nav.megamenu li > a:hover, #nav.megamenu li.over > a {
+        color: #fff !important;
+        background: url(../images/menu1_hover_bg.png) repeat;
+    }
+    #nav.megamenu ul {
+        border: 0;
+        position: static;
+        display: none;
+        width: 100%;
+    }
+    #nav.megamenu ul.shown-sub {
+        display: none;
+    }
+    #nav.megamenu ul span {
+        padding-left: 20px;
+    }
+    #nav.megamenu ul ul span {
+        padding-left: 30px;
+    }
+    #nav.megamenu ul ul ul span {
+        padding-left: 40px;
+    }
+    #nav.megamenu ul ul ul ul span {
+        padding-left: 50px;
+    }
+    #nav.megamenu ul li > a {
+        color: #fff !important;
+        background: url(../images/menu1_bg.png) repeat;
+        margin-bottom: 1px;
+    }
+    #nav.megamenu ul li > a:hover, #nav.default ul li.over > a {
+        color: #fff !important;
+        background: url(../images/menu1_hover_bg.png) repeat;
+    }
+    #nav.megamenu li em { display: none; }
+    #nav.megamenu li span.plus { 
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        background: url(../images/top-menu-expand-icon.png) 5px 5px no-repeat;
+    }
+    #nav.megamenu li span.plus.expanded { 
+        background: url(../images/top-menu-expand-icon.png) 5px -55px no-repeat;
+    }
+}
+
+@media only screen and (min-width: 1025px) and (min-height:801px) {
+    #nav.default, #nav.menutype2, #nav.megamenu {
+        display: block !important;
+    }
+}*/

@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="footer_links">
+            <block type="blog/blog" name="add.blog.footer">               
+                <action method="addBlogLink" ifconfig="blog/menu/footer"><param>footer</param></action>
+            </block>
+        </reference>
+        <reference name="top.links">
+            <block type="blog/blog" name="add.blog.link">
+                <action method="addBlogLink" ifconfig="blog/menu/top"><param>top</param></action>              
+            </block>
+        </reference>
+    </default>
+
+    <blog_index_index>
+        <reference name="footer" >
+            <block type="blog/blog" name="copyright.blog.footer" template="trego_blog/copyright.phtml"/>
+        </reference>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>jquery_accordion/jquery.akordeon.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/jquery.slides.min.js</name><params/></action>
+            <action method="addCss"><stylesheet>jquery_accordion/jquery.akordeon.css</stylesheet></action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>trego_blog/css/style.css</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="blog/blog" name="blog" template="trego_blog/blog.phtml"/>
+        </reference>
+        <reference name="right">
+            <block type="blog/menu_sidebar" name="right.blog.menu" before="-">
+                <action method="setTemplate" ifconfig="blog/menu/right" ifvalue="1">
+                    <template>trego_blog/menu.phtml</template>
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+            <block type="core/template" template="trego_blog/flickrphotos.phtml" after="-" name="right.flickrphotos" />
+            <remove name="catalog.compare.sidebar"/>
+            <remove name="cart_sidebar"/>
+            <remove name="right.poll"/>
+            <remove name="right.reports.product.viewed"/>
+        </reference>
+        <reference name="left">
+            <block type="blog/menu_sidebar" name="left.blog.menu"  before="-">
+                <action method="setTemplate" ifconfig="blog/menu/left">
+                    <template>trego_blog/menu.phtml</template> 
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+        </reference>
+    </blog_index_index>
+    
+    <blog_index_list>
+        <reference name="footer" >
+            <block type="blog/blog" name="copyright.blog.footer" template="trego_blog/copyright.phtml"/>
+        </reference>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>jquery_accordion/jquery.akordeon.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/jquery.slides.min.js</name><params/></action>
+            <action method="addCss"><stylesheet>jquery_accordion/jquery.akordeon.css</stylesheet></action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>trego_blog/css/style.css</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="blog/blog" name="blog" template="trego_blog/blog.phtml">
+                <block type="blog/product_toolbar" name="trego_blog_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                    <block type="page/html_pager" name="product_list_toolbar_pager"/>                   
+                </block>
+            </block>
+        </reference>
+        <reference name="right">
+            <block type="blog/menu_sidebar" name="right.blog.menu" before="-">
+                <action method="setTemplate" ifconfig="blog/menu/right" ifvalue="1">
+                    <template>trego_blog/menu.phtml</template>
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+            <block type="core/template" template="trego_blog/flickrphotos.phtml" after="-" name="right.flickrphotos" />
+            <remove name="catalog.compare.sidebar"/>
+            <remove name="cart_sidebar"/>
+            <remove name="right.poll"/>
+            <remove name="right.reports.product.viewed"/>
+        </reference>
+        <reference name="left">
+            <block type="blog/menu_sidebar" name="left.blog.menu"  before="-">
+                <action method="setTemplate" ifconfig="blog/menu/left">
+                    <template>trego_blog/menu.phtml</template> 
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+        </reference>
+    </blog_index_list>    
+    <blog_post_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>jquery_accordion/jquery.akordeon.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/jquery.slides.min.js</name><params/></action>
+            <action method="addCss"><stylesheet>jquery_accordion/jquery.akordeon.css</stylesheet></action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>trego_blog/css/style.css</name>
+            </action>
+        </reference>
+        <reference name="footer" >
+            <block type="blog/blog" name="copyright.blog.footer" template="trego_blog/copyright.phtml"/>
+        </reference>
+        <reference name="content">
+            <block type="blog/post" name="post" template="trego_blog/post.phtml">
+                <block type="blog/product_toolbar" name="trego_blog_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                    <block type="page/html_pager" name="product_list_toolbar_pager"/>                   
+                </block>
+            </block>
+        </reference>
+        <reference name="right">
+            <block type="blog/menu_sidebar" name="right.blog.menu" before="-">
+                <action method="setTemplate" ifconfig="blog/menu/right" ifvalue="1">
+                    <template>trego_blog/menu.phtml</template>
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+            <block type="core/template" template="trego_blog/flickrphotos.phtml" after="-" name="right.flickrphotos" />
+            <remove name="catalog.compare.sidebar"/>
+            <remove name="cart_sidebar"/>
+            <remove name="right.poll"/>
+            <remove name="right.reports.product.viewed"/>
+        </reference>
+        <reference name="left">
+            <block type="blog/menu_sidebar" name="left.blog.menu"  before="-">
+                <action method="setTemplate" ifconfig="blog/menu/left">
+                    <template>trego_blog/menu.phtml</template> 
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+        </reference>
+    </blog_post_view>
+    <blog_cat_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>jquery_accordion/jquery.akordeon.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/jquery.slides.min.js</name><params/></action>
+            <action method="addCss"><stylesheet>jquery_accordion/jquery.akordeon.css</stylesheet></action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>trego_blog/css/style.css</name>
+            </action>
+        </reference>
+        <reference name="footer" >
+            <block type="blog/blog" name="copyright.blog.footer" template="trego_blog/copyright.phtml"/>
+        </reference>
+        <reference name="content">
+            <block type="blog/cat" name="cat" template="trego_blog/cat.phtml">
+                 <block type="blog/product_toolbar" name="trego_blog_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                    <block type="page/html_pager" name="product_list_toolbar_pager"/>                   
+                </block>
+            </block>
+        </reference>
+        <reference name="right">
+            <block type="blog/menu_sidebar" name="right.blog.menu" before="-">
+                <action method="setTemplate" ifconfig="blog/menu/right" ifvalue="1">
+                    <template>trego_blog/menu.phtml</template>
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+            <block type="core/template" template="trego_blog/flickrphotos.phtml" after="-" name="right.flickrphotos" />
+            <remove name="catalog.compare.sidebar"/>
+            <remove name="cart_sidebar"/>
+            <remove name="right.poll"/>
+            <remove name="right.reports.product.viewed"/>
+        </reference>
+        <reference name="left">
+            <block type="blog/menu_sidebar" name="left.blog.menu"  before="-">
+                <action method="setTemplate" ifconfig="blog/menu/left">
+                    <template>trego_blog/menu.phtml</template> 
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+        </reference>
+    </blog_cat_view>
+    
+    <blog_rss_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>jquery_accordion/jquery.akordeon.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/jquery.slides.min.js</name><params/></action>
+            <action method="addCss"><stylesheet>jquery_accordion/jquery.akordeon.css</stylesheet></action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>trego_blog/css/style.css</name>
+            </action>
+        </reference>
+        <reference name="footer" >
+            <block type="blog/blog" name="copyright.blog.footer" template="trego_blog/copyright.phtml"/>
+        </reference>
+        <block type="blog/rss" output="toHtml" name="rss.blog.new"/>
+        <reference name="right">
+            <block type="blog/menu_sidebar" name="right.blog.menu" before="-">
+                <action method="setTemplate" ifconfig="blog/menu/right" ifvalue="1">
+                    <template>trego_blog/menu.phtml</template>
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+            <block type="core/template" template="trego_blog/flickrphotos.phtml" after="-" name="right.flickrphotos" />
+            <remove name="catalog.compare.sidebar"/>
+            <remove name="cart_sidebar"/>
+            <remove name="right.poll"/>
+            <remove name="right.reports.product.viewed"/>
+        </reference>
+        <reference name="left">
+            <block type="blog/menu_sidebar" name="left.blog.menu"  before="-">
+                <action method="setTemplate" ifconfig="blog/menu/left">
+                    <template>trego_blog/menu.phtml</template> 
+                </action>
+                <block type="blog/tags" name="blog_tags" />
+            </block>
+        </reference>
+    </blog_rss_index>
+</layout> 

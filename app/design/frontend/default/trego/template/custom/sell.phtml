@@ -1,0 +1,24 @@
+
+<script type="text/javascript">// <![CDATA[
+jQuery(function() {
+    jQuery('#file_upload').uploadify({
+        'formData'     : {
+          'timestamp' : '<?php echo $timestamp;?>',
+          'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+        },
+        'swf'      : '/skin/frontend/base/default/js/uploadify/uploadify.swf',
+        'uploader' : '/skin/frontend/base/default/js/uploadify/uploadify.php',
+        'onUploadSuccess': function(file) {
+          jQuery("form.buy-sell").append('<input name="files[]" type="hidden" value="'+ file.name +'">');
+        },
+         'onUploadStart' : function(file) {
+            jQuery("form.buy-sell button[type=submit]").attr('disabled','disabled').attr("style",'background: #D8D8D8;font-size: 11px;border: none;text-shadow: none;box-shadow: none;').text("Processing...");
+        },
+        'onQueueComplete' : function(queueData) {
+            jQuery("form.buy-sell button[type=submit]").removeAttr("disabled").removeAttr("style").text("Submit");
+        },
+        'fileTypeExts' : '*.gif; *.jpg; *.png; *.jpeg'
+        // Put your options here
+    });
+});
+// ]]></script>

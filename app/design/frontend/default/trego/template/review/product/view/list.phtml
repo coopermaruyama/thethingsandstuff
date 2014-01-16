@@ -1,0 +1,45 @@
+<?php $_items = $this->getReviewsCollection()->getItems();?>
+<?php if (count($_items)):?>
+<div class="akordeon-item">
+    <div class="akordeon-item-head">
+        <div class="akordeon-item-head-container">
+            <div class="akordeon-heading">
+                <?php echo $this->__('Customer Reviews') ?>
+            </div>
+        </div>
+    </div>
+    <div class="akordeon-item-body">
+        <div class="akordeon-item-content">
+        <?php echo $this->getChildHtml('toolbar') ?>
+            <div class="box-collateral box-reviews" id="customer-reviews">
+                <dl>
+                <?php foreach ($_items as $_review):?>
+                    <dt>
+                        <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><?php echo $this->htmlEscape($_review->getTitle()) ?></a>
+                        <?php 
+                            $_votes = $_review->getRatingVotes(); 
+                            $_percent = 0;
+                            if (count($_votes)){
+                                foreach ($_votes as $_vote){
+                                    $_percent += $_vote->getPercent();
+                                }
+                                $_percent = $_percent / count($_votes);
+                            }
+                        ?>
+                        <div class="rating-box">
+                            <div class="rating" style="width:<?php echo $_percent ?>%;"></div>
+                        </div>
+                        <span><?php echo $this->htmlEscape($_review->getNickname()) ?></span>
+                        <small class="date"><?php echo Mage::getModel('core/date')->date('M j, Y' , strtotime($_review->getCreatedAt())) ?></small>
+                    </dt>
+                    <dd>
+                        <?php echo nl2br($this->htmlEscape($_review->getDetail())) ?>
+                    </dd>
+                <?php endforeach; ?>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <?php endif;?>
+</div>
+<?php echo $this->getChildHtml('review_form') ?>

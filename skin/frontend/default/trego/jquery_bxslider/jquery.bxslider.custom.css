@@ -1,0 +1,322 @@
+/**
+ * BxSlider v4.0 - Fully loaded, responsive content slider
+ * http://bxslider.com
+ *
+ * Written by: Steven Wanderski, 2012
+ * http://stevenwanderski.com
+ * (while drinking Belgian ales and listening to jazz)
+ *
+ * CEO and founder of bxCreative, LTD
+ * http://bxcreative.com
+ */
+
+
+/** RESET AND LAYOUT
+===================================*/
+
+.bx-wrapper {
+	position: fixed;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 51;
+}
+.bx-wrapper img {
+	max-width: 100%;
+	display: block;
+}
+
+/** THEME
+===================================*/
+
+.bx-wrapper .bx-pager,
+.bx-wrapper .bx-controls-auto {
+	position: absolute;
+	bottom: -30px;
+	width: 100%;
+}
+
+/* LOADER */
+
+.bx-wrapper .bx-loading {
+	min-height: 50px;
+	background: url(images/bx_loader.gif) center center no-repeat #fff;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2000;
+}
+
+/* PAGER */
+
+.bx-wrapper .bx-pager {
+	text-align: center;
+	font-size: .85em;
+	font-family: Arial;
+	font-weight: bold;
+	color: #666;
+	padding-top: 20px;
+    display: none;
+}
+
+.bx-wrapper .bx-pager .bx-pager-item,
+.bx-wrapper .bx-controls-auto .bx-controls-auto-item {
+	display: inline-block;
+	*zoom: 1;
+	*display: inline;
+}
+
+.bx-wrapper .bx-pager.bx-default-pager a {
+	background: #666;
+	text-indent: -9999px;
+	display: block;
+	width: 10px;
+	height: 10px;
+	margin: 0 5px;
+	outline: 0;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.bx-wrapper .bx-pager.bx-default-pager a:hover,
+.bx-wrapper .bx-pager.bx-default-pager a.active {
+	background: #000;
+}
+
+.bx-wrapper .bx-controls-direction a.disabled {
+	/*display: none;*/
+}
+
+/* AUTO CONTROLS (START / STOP) */
+
+.bx-wrapper .bx-controls-auto {
+	text-align: center;
+}
+
+.bx-wrapper .bx-controls-auto .bx-start {
+	display: block;
+	text-indent: -9999px;
+	width: 10px;
+	height: 11px;
+	outline: 0;
+	background: url(images/controls.png) -86px -11px no-repeat;
+	margin: 0 3px;
+}
+
+.bx-wrapper .bx-controls-auto .bx-start:hover,
+.bx-wrapper .bx-controls-auto .bx-start.active {
+	background-position: -86px 0;
+}
+
+.bx-wrapper .bx-controls-auto .bx-stop {
+	display: block;
+	text-indent: -9999px;
+	width: 9px;
+	height: 11px;
+	outline: 0;
+	background: url(images/controls.png) -86px -44px no-repeat;
+	margin: 0 3px;
+}
+
+.bx-wrapper .bx-controls-auto .bx-stop:hover,
+.bx-wrapper .bx-controls-auto .bx-stop.active {
+	background-position: -86px -33px;
+}
+
+/* PAGER WITH AUTO-CONTROLS HYBRID LAYOUT */
+
+.bx-wrapper .bx-controls.bx-has-controls-auto.bx-has-pager .bx-pager {
+	text-align: left;
+	width: 80%;
+}
+
+.bx-wrapper .bx-controls.bx-has-controls-auto.bx-has-pager .bx-controls-auto {
+	right: 0;
+	width: 35px;
+}
+
+/* IMAGE CAPTIONS */
+
+.bx-wrapper .bx-caption {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background: #666\9;
+	background: rgba(80, 80, 80, 0.75);
+	width: 100%;
+}
+
+.bx-wrapper .bx-caption span {
+	color: #fff;
+	font-family: Arial;
+	display: block;
+	font-size: .85em;
+	padding: 10px;
+}
+
+.std, .footer-container {display: none;}
+.bx-wrapper .bx-viewport { height: 100% !important; }
+.bx-wrapper ul {
+    height: 100%;
+}
+.bx-wrapper ul li {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    background-position: top center;
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+}
+.bx-controls-direction, .bx-wrapper ul li div {
+    width: 711px;
+    height: 712px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+}
+.bx-wrapper ul li div {
+    background: url(images/desc_bg.png) no-repeat;
+}
+/* DIRECTION CONTROLS (NEXT / PREV) */
+
+.bx-wrapper .bx-prev {
+    left: 265px;
+    background: url(images/bx_prev.png) no-repeat;
+}
+
+.bx-wrapper .bx-next {
+    right: 265px;
+    background: url(images/bx_next.png) no-repeat;
+}
+
+.bx-wrapper .bx-prev:hover {
+    background: url(images/bx_prev_hover.png) no-repeat;
+}
+
+.bx-wrapper .bx-next:hover {
+    background: url(images/bx_next_hover.png) no-repeat;
+}
+
+.bx-wrapper .bx-controls-direction a {
+    position: absolute;
+    bottom: 70px;
+    outline: 0;
+    width: 84px;
+    height: 87px;
+    text-indent: -9999px;
+    z-index: 9999;
+}
+.bx-wrapper ul li div h3 {
+    font-family: 'Raleway_Thin';
+    font-size: 105px;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: #413e3b;
+    line-height: 105px;
+    margin-top: 160px;
+    margin-left: 15px;
+}
+.bx-wrapper ul li div p {
+    font-family: Verdana;
+    font-size: 20px;
+    text-align: center;
+    color: #494745;
+    padding: 20px 35px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px)  {
+    .bx-controls-direction, .bx-wrapper ul li div {
+        width: 513px;
+        height: 514px;
+    }
+    .bx-wrapper ul li div {
+        background: url(images/desc_bg_2.png) no-repeat;
+    }
+    /* DIRECTION CONTROLS (NEXT / PREV) */
+
+    .bx-wrapper .bx-prev {
+        left: 180px;
+        background: url(images/bx_prev_2.png) no-repeat;
+    }
+
+    .bx-wrapper .bx-next {
+        right: 180px;
+        background: url(images/bx_next_2.png) no-repeat;
+    }
+
+    .bx-wrapper .bx-prev:hover {
+        background: url(images/bx_prev_hover_2.png) no-repeat;
+    }
+
+    .bx-wrapper .bx-next:hover {
+        background: url(images/bx_next_hover_2.png) no-repeat;
+    }
+
+    .bx-wrapper .bx-controls-direction a {
+        bottom: 60px;
+        width: 70px;
+        height: 72px;
+    }
+    .bx-wrapper ul li div h3 {
+        font-size: 75px;
+        line-height: 75px;
+        margin-top: 110px;
+        margin-left: 15px;
+    }
+    .bx-wrapper ul li div p {
+        font-size: 14px;
+        padding: 15px 35px;
+    }
+}
+
+@media only screen and (max-width: 767px)  {
+    .bx-controls-direction, .bx-wrapper ul li div {
+        width: 284px;
+        height: 285px;
+    }
+    .bx-wrapper ul li div {
+        background: url(images/desc_bg_3.png) no-repeat;
+    }
+    /* DIRECTION CONTROLS (NEXT / PREV) */
+
+    .bx-wrapper .bx-prev {
+        left: 80px;
+        background: url(images/bx_prev_3.png) no-repeat;
+    }
+
+    .bx-wrapper .bx-next {
+        right: 80px;
+        background: url(images/bx_next_3.png) no-repeat;
+    }
+
+    .bx-wrapper .bx-prev:hover {
+        background: url(images/bx_prev_hover_3.png) no-repeat;
+    }
+
+    .bx-wrapper .bx-next:hover {
+        background: url(images/bx_next_hover_3.png) no-repeat;
+    }
+
+    .bx-wrapper .bx-controls-direction a {
+        bottom: 40px;
+        width: 58px;
+        height: 60px;
+    }
+    .bx-wrapper ul li div h3 {
+        font-size: 44px;
+        line-height: 44px;
+        margin-top: 70px;
+        margin-left: 5px;
+    }
+    .bx-wrapper ul li div p {
+        display: none;
+    }
+}
