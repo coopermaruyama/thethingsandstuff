@@ -29,6 +29,23 @@
  * @see Mage_Checkout_Block_Agreements
  */
 ?>
+<?php $getCouponCode = Mage::getSingleton('checkout/cart')->getQuote()->getCouponCode(); ?>
+
+<form id="discount-coupon-form" action="<?php echo $this->getBaseUrl().'checkout/onepage/coupon/';?>" method="post">
+
+<label for="coupon_code"> <?php echo $this->__('Enter your coupon code if you have one.') ?></label><br />
+
+<input id="coupon_code" name="coupon_code" value="<?php echo $getCouponCode; ?>"/>
+
+<?php  if(strlen($getCouponCode)) { ?>
+
+<button type="button" onclick="updateCoupon(2);" value="<?php echo $this->__('Remove Coupon')?>"><span><?php echo $this->__('Remove Coupon') ?></span></button>
+
+<?php } ?>
+
+<button type="button" onclick="updateCoupon(1);" value="<?php echo $this->__('Apply Coupon')?>"><span><?php echo $this->__('Apply Coupon') ?></span></button>
+
+</form>
 
 <?php if (!$this->getAgreements()) return; ?>
 <form action="" id="checkout-agreements" onsubmit="return false;">
