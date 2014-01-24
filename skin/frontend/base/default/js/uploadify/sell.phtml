@@ -1,6 +1,7 @@
 
 <script type="text/javascript">// <![CDATA[
 jQuery(function() {
+    window.uploadedFilesCount = 0;
     jQuery('#file_upload').uploadify({
         'formData'     : {
           'timestamp' : '<?php echo $timestamp;?>',
@@ -13,6 +14,13 @@ jQuery(function() {
         },
         'onQueueComplete' : function(queueData) {
             jQuery(this).closest("form").find("button[type=submit]").removeAttr("disabled").removeAttr("style").text("Submit");
+        },
+        'onSWFReady': function() {
+            jQuery("#file_upload-queue").after('<div id="uploaded-files-count"><span>0</span> files uploaded.</div>');
+        },
+        'onUploadSuccess' : function(file, data, response) {
+            window.uploadedFilesCount++;
+            jQuery("#uploaded-files-count span").text(window.uploadedFilesCount);
         }
         // Put your options here
     });
