@@ -22,7 +22,7 @@
 <?php echo $this->getIncludes() ?>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery("select").each(function(){
+        jQuery("select:not(.disableselectbox)").each(function(){
             jQuery(this).selectbox();
         });
     });
