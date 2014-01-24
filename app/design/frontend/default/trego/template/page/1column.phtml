@@ -26,7 +26,7 @@
     else
         return false;
     }
-    if ($_COOKIE["bannerLess"] != "1" && !preg_match('/\/(sell|checkout\/onepage\/)/', $_SERVER['REQUEST_URI']) && !isMobile()) {
+    if ($_COOKIE["bannerLess"] != "1" && !preg_match('/\/(sell|move|checkout\/onepage\/)/', $_SERVER['REQUEST_URI']) && !isMobile()) {
         $showBanner = true;
     }
  ?>
