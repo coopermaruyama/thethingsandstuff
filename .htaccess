@@ -121,6 +121,7 @@
 ## path relative to web root
 
     #RewriteBase /magento/
+    RewriteRule ^static/ - [L,NC]
 
 ############################################
 ## uncomment next line to enable light API calls processing
