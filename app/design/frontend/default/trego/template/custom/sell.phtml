@@ -11,6 +11,8 @@ jQuery(function() {
         'uploader' : '/skin/frontend/base/default/js/uploadify/uploadify.php',
         'onUploadSuccess': function(file) {
           jQuery("form.buy-sell").append('<input name="files[]" type="hidden" value="'+ file.name +'">');
+          window.uploadedFilesCount++;
+          jQuery("#uploaded-files-count span").text(window.uploadedFilesCount);
         },
          'onUploadStart' : function(file) {
             jQuery("form.buy-sell button[type=submit]").attr('disabled','disabled').attr("style",'background: #D8D8D8;font-size: 11px;border: none;text-shadow: none;box-shadow: none;').text("Processing...");
@@ -20,10 +22,6 @@ jQuery(function() {
         },
         'onSWFReady': function() {
             jQuery("#file_upload-queue").after('<div id="uploaded-files-count"><span>0</span> files uploaded.</div>');
-        },
-        'onUploadSuccess' : function(file, data, response) {
-            window.uploadedFilesCount++;
-            jQuery("#uploaded-files-count span").text(window.uploadedFilesCount);
         },
         'fileTypeExts' : '*.gif; *.jpg; *.png; *.jpeg'
         // Put your options here
