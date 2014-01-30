@@ -1,0 +1,4 @@
+#!/bin/bash
+rsync -r ./app/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/app/
+rsync -r ./skin/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/skin/
+rsync -r ./js/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/js/
