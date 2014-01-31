@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors',1);
 error_reporting(E_ALL);
-$product_id = $_POST['product_id'];
+
 /**
 * Example of simple product POST using Admin account via Magento REST API. OAuth authorization is used
 */
@@ -15,6 +15,7 @@ $consumerKey = '83e41a6ay7yovk7a9rjzivwmfsm3bu1m';
 $consumerSecret = 'jgiwtmo828r6b0dcemawkzeg524h0yjk';
 
 session_start();
+extract($_POST);
 if (!isset($_GET['oauth_token']) && isset($_SESSION['state']) && $_SESSION['state'] == 1) {
     $_SESSION['state'] = 0;
 }
@@ -37,7 +38,7 @@ try {
         $_SESSION['secret'] = $accessToken['oauth_token_secret'];
         header('Location: ' . $callbackUrl);
         exit;
-    } else {
+    } else if ($token == "52eb285a49e57") {
         $oauthClient->setToken($_SESSION['token'], $_SESSION['secret']);
         $resourceUrl = "$apiUrl/products/$product_id/categories";
         $productData = json_encode(array(
@@ -48,6 +49,7 @@ try {
         print_r($oauthClient->getLastResponseInfo());
     }
 } catch (OAuthException $e) {
+    header('HTTP/1.1 400 Bad Request', true, 400);
     echo "<pre>";
     print_r($e);
     echo "</pre>";
