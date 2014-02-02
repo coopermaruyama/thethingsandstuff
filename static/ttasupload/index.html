@@ -44,6 +44,7 @@
           -moz-box-sizing: border-box;
           -webkit-box-sizing: border-box;
           padding: 10px 28px;
+          overflow: scroll;
         }
         .success-text {
           color: rgb(103, 180, 34);
@@ -198,9 +199,9 @@
                 priceTier: $("select[name=priceTier]").val(),
                 depth: $("input[name=depth]").val(),
                 width: $("input[name=width]").val(),
-                height: $("input[name=width]").val(),
+                height: $("input[name=height]").val(),
                 size: $("input[name=size]").val(),
-                notes: $("input[name=notes]").val(),
+                notes: $("textarea[name=notes]").val(),
                 unique_id: window.unique_id
               }
             })
@@ -221,9 +222,9 @@
               .done(function(data) {
                 $("#lightbox-message").append('<span class="success-text">done.</span><br>');
                 //post images
-                counter = 1;
+                counter = 0;
                 $.each(window.filesArray, function(index, val) {
-                  $("#lightbox-message").append("<span id='image"+index+"'>Uploading image #"+index+"... </span><br>");
+                  $("#lightbox-message").append("<span id='image"+(index+1)+"'>Uploading image #"+(index+1)+"... </span><br>");
                   $.ajax({
                     url: '/static/ttasupload/images.php',
                     type: 'POST',
@@ -237,13 +238,14 @@
                     },
                   })
                   .done(function(data) {
-                    $("#image"+index).after('<span class="success-text">done.</span>');
+                    $("#image"+(index+1)).after('<span class="success-text">done.</span>');
                     //empty everything
-                    if (Object.keys(window.filesArray).length == counter) {
-                      $("#lightbox-bg").fadeOut("slow");
-                      $("#lightbox-message").html("");
-                    };
                     counter++;
+                    if (Object.keys(window.filesArray).length == counter) {
+                      $("#lightbox-message").append("<br><br><h4 class='success-text'>Successfully uploaded product!</h4>").delay(1500).queue(function(next) {
+                        location.reload();
+                      });
+                    }
                   });
                 });
               });

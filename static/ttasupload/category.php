@@ -1,18 +1,18 @@
 <?php
-ini_set('display_errors',1);
-error_reporting(E_ALL);
+// ini_set('display_errors',1);
+// error_reporting(E_ALL);
 
 /**
 * Example of simple product POST using Admin account via Magento REST API. OAuth authorization is used
 */
-$host = "http://127.0.0.1";
+$host = "http://thethingsandstuff.com";
 $callbackUrl = $host."/static/ttasupload/category.php";
 $temporaryCredentialsRequestUrl = $host."/oauth/initiate?oauth_callback=" . urlencode($callbackUrl);
 $adminAuthorizationUrl = $host.'/admin/oauth_authorize';
 $accessTokenRequestUrl = $host.'/oauth/token';
 $apiUrl = $host.'/api/rest';
-$consumerKey = '83e41a6ay7yovk7a9rjzivwmfsm3bu1m';
-$consumerSecret = 'jgiwtmo828r6b0dcemawkzeg524h0yjk';
+$consumerKey = 'b98lbkxvjpfe1ot8gx2bzlcxgqw7hnkr';
+$consumerSecret = 'u5663plc0df72ojjkydnqu2libdrujgs';
 
 session_start();
 extract($_POST);

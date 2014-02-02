@@ -26,14 +26,14 @@ if( !function_exists( 'http_parse_headers' ) ) {
      }
 }
 
-$host = "http://127.0.0.1";
-$callbackUrl = $host."/static/ttasupload/test.php";
+$host = "http://thethingsandstuff.com";
+$callbackUrl = $host."/static/ttasupload/product.php";
 $temporaryCredentialsRequestUrl = $host."/oauth/initiate?oauth_callback=" . urlencode($callbackUrl);
 $adminAuthorizationUrl = $host.'/admin/oauth_authorize';
 $accessTokenRequestUrl = $host.'/oauth/token';
 $apiUrl = $host.'/api/rest';
-$consumerKey = '83e41a6ay7yovk7a9rjzivwmfsm3bu1m';
-$consumerSecret = 'jgiwtmo828r6b0dcemawkzeg524h0yjk';
+$consumerKey = 'b98lbkxvjpfe1ot8gx2bzlcxgqw7hnkr';
+$consumerSecret = 'u5663plc0df72ojjkydnqu2libdrujgs';
 
 session_start();
 extract($_POST);
@@ -73,8 +73,8 @@ try {
             'status'            => 2,
             'visibility'        => 4,
             'name'              => "(#$unique_id)",
-            'description'       => '$notes',
-            'short_description' => '$notes',
+            'description'       => "$notes",
+            'short_description' => "$notes",
             'price'             => 1.00,
             'tax_class_id'      => 0,
             'price_tier'        => $priceTier,
@@ -84,6 +84,7 @@ try {
             'depth'             => $depth,
             'owner'             => $ownerCode,
             'size_frontend'     => $size,
+            'size'              => "1",
             'stock_data' => array(
                 'qty'               => '1',
                 'is_in_stock'       => 1,

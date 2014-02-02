@@ -18,3 +18,4 @@ var/log
 var/report
 media/catalog/product/cache
 *.DS_Store
+media/*
