@@ -520,3 +520,12 @@
     margin-top:15px;
   }
 }
+#checkout-review-load {
+  padding-bottom: 160px;
+}
+.cashondelivery-instructions-content {
+  height: auto;
+}
+#payment_form_cashondelivery {
+  padding-bottom: 0;
+}
