@@ -42,12 +42,20 @@
                         ?> -->
                         <div class="clear"></div>
                         <?php $actionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
-                        if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI'])):?>
+                        // if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI'])):
+                        if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI']) ):
+                        ?>
                         <h3>Sort by Price</h3>
                         <div id="price-sorter">
                             <div class="price-sort highest" data-value="desc">Highest</div>
                             <div class="price-sort lowest" data-value="asc">Lowest</div>
                         </div>
+                    <?php endif ?>
+                        <?php $actionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
+                        // if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI'])):
+                        if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() && !preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI']) ):
+                        ?>
+                        
                         <h3>Price</h3>
                         <div id="price-filter">
                             <div class="price-option" data-value="11" id="pVal11">$</div>
