@@ -125,7 +125,6 @@ $(function() {
 	 	$("#header-toggle").removeClass("open-state").animate({left:5},1000);
 	 	$(".main-container").animate({marginLeft: 1},1000);
 	 	$("#header-sidebar-overlay").css('left','0');
-	 	$("#opc-wrap").is(':visible') && $("#opc-wrap,#checkoutSteps .buttons-set").animate({left: "-=219"},1000);
 	 };
 	 $(".products-grid .price-box").hover(function() {
 	 	$(this).closest("li.item").css("opacity",".9");
