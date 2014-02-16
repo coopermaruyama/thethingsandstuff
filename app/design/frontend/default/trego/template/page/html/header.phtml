@@ -74,23 +74,7 @@
                         <script>
                            jQuery.noConflict();
                            jQuery(function($) {
-                                // Sort by Price Button
-                                $("#price-sorter .price-sort").click(function(e) {
-                                    if($(this).hasClass("active")) {return;}
-                                    dir = $(this).data("value");
-                                    url_with_direction = updateQueryStringParameter(window.location.href,"dir",dir);
-                                    url_with_order = updateQueryStringParameter(url_with_direction,"order","price");
-                                    sliderAjax(url_with_order);
-                                    $("#price-sorter .price-sort").removeClass("active");
-                                    $(this).addClass("active");
-                                });
-                                $("#price-sorter .price-sort").each(function() {
-                                    (getURLParameter("order") == "price" && getURLParameter("dir") == $(this).data("value")) && $(this).addClass("active");
-                                });
-                                if (window.location.pathname == "/") {
-                                    $("#price-sorter .price-sort.highest").addClass("active");
-                                };
-								// BEGIN CONDITION FILTER PLUGIN [EnvyWeb]
+   								// BEGIN CONDITION FILTER PLUGIN [EnvyWeb]
 								urlVal = decodeURIComponent( getURLParameter("condition"));
 								urlArray = urlVal.split(",");
 								$.each( urlArray, function(i,v) { //decode URI, convert to array, then iterate
@@ -150,6 +134,25 @@ $toolbar->setCollection($this->getChild('catalog_product_list')->getLoadedProduc
 <?php if ($actionName == 'cms_index_index' || $actionName == 'catalogsearch_result_index'|| $actionName == 'catalogsearch_advanced_result'):?>
     <script type="text/javascript">
 							//<![CDATA[
+                            jQuery(function($) {
+                                // Sort by Price Button
+                                $("#price-sorter .price-sort").click(function(e) {
+                                    if($(this).hasClass("active")) {return;}
+                                    dir = $(this).data("value");
+                                    url_with_direction = updateQueryStringParameter(window.location.href,"dir",dir);
+                                    url_with_order = updateQueryStringParameter(url_with_direction,"order","price");
+                                    sliderAjax(url_with_order);
+                                    $("#price-sorter .price-sort").removeClass("active");
+                                    $(this).addClass("active");
+                                });
+                                $("#price-sorter .price-sort").each(function() {
+                                    (getURLParameter("order") == "price" && getURLParameter("dir") == $(this).data("value")) && $(this).addClass("active");
+                                });
+                                if (window.location.pathname == "/") {
+                                    $("#price-sorter .price-sort.highest").addClass("active");
+                                };
+
+                            });
 							var data = "";
 							var active = false;
 							jQuery(function($){
