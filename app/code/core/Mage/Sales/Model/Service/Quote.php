@@ -300,7 +300,7 @@ class Mage_Sales_Model_Service_Quote
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
-                Mage::throwException(Mage::helper('sales')->__('Please specify a shipping method.'));
+                Mage::throwException(Mage::helper('sales')->__('Invalid shipping address - please go back and enter a valid shipping address.'));
             }
         }
 
