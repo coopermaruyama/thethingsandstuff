@@ -25,9 +25,6 @@
             step = jQuery(this).data("step");
             jQuery("#checkoutSteps #opc-"+step+" .step-title").trigger("click");
         });
-        jQuery(document).on("sidebarWidthChanged", function(event, pixels) {
-            jQuery("#opc-wrap, #checkoutSteps .buttons-set").animate({left: pixels},1000);
-        });
     });
 </script>
 
