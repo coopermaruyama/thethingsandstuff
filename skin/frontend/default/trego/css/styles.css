@@ -2575,7 +2575,13 @@ td.for-desktop {
 
 /* Checkout Agreements */
 .checkout-agreements li { margin:30px 0; }
-.checkout-agreements .agreement-content { overflow:auto; height:12em; padding:10px; background-color:#fbfaf6; border:1px solid #bbb6a5; }
+.checkout-agreements .agreement-content {
+    overflow:auto;
+    min-height: 3em;
+    padding:10px;
+    background-color:#fbfaf6; 
+    border:1px solid #bbb6a5; 
+}
 .checkout-agreements .agree { margin:0; padding:10px 0 10px 11px; }
 .checkout-agreements .agree input.checkbox { margin-right:6px; }
 .checkout-agreements .agree label { font-weight:bold; color:#666; }
