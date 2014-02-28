@@ -339,7 +339,8 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
     public function getAttributeUsedForSortByArray()
     {
         $options = array(
-            'position'  => Mage::helper('catalog')->__('Position')
+            'position'  => Mage::helper('catalog')->__('Position'),
+            'created_at' => Mage::helper('catalog')->__('Date') //envyweb
         );
         foreach ($this->getAttributesUsedForSortBy() as $attribute) {
             /* @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
