@@ -160,7 +160,7 @@
             <?php // SKIP STEP 1 START ?>
             <?php if($this->helper('skipstep1')->isSkipEnabled() && $this->getQuote()->isAllowedGuestCheckout()): ?>
             <li class="control">
-                <input type="checkbox" class="checkbox" name="login[register]" id="login:register" value="1" title="<?php echo $this->__('Register') ?>" onclick="toggleRegister(this)"<?php if (Mage::getStoreConfig('checkout/skipstep1/default_method')=='register'): ?> checked="checked"<?php endif ?>/><label for="login:register"><?php echo $this->__('Register with us for future convenience') ?></label>
+                <input type="checkbox" class="checkbox" name="login[register]" id="login:register" value="1" title="<?php echo $this->__('Register') ?>" onclick="toggleRegister(this)"<?php if (Mage::getStoreConfig('checkout/skipstep1/default_method')=='register'): ?> checked="checked"<?php endif ?>/><label for="login:register"><?php echo $this->__('Register with us for 10% off this and future orders!') ?></label>
             </li>
             <?php endif ?>
             <?php // SKIP STEP 1 END ?>
