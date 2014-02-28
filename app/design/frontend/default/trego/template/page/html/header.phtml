@@ -44,46 +44,46 @@
                         <?php $actionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
                         // if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI'])):
                         if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI']) ):
-                        ?>
+                            ?>
                         <h3>Sort by Price</h3>
                         <div id="price-sorter">
                             <div class="price-sort highest" data-value="desc">Highest</div>
                             <div class="price-sort lowest" data-value="asc">Lowest</div>
                         </div>
                     <?php endif ?>
-                        <?php $actionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
+                    <?php $actionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
                         // if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI'])):
-                        if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() && !preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI']) ):
+                    if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() && !preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI']) ):
                         ?>
-                        
-                        <h3>Price</h3>
-                        <div id="price-filter">
-                            <div class="price-option" data-value="11" id="pVal11">$</div>
-                            <div class="price-option" data-value="12" id="pVal12">$$</div>
-                            <div class="price-option" data-value="13" id="pVal13">$$$</div>
-                            <div class="price-option" data-value="14" id="pVal14">$$$$</div>
-                        </div>
-                        <h3>Condition</h3>
-                        <div id="condition-filter">
-                            <div class="condition-option" data-value="6" id="cVal6">&#9733;</div>
-                            <div class="condition-option" data-value="5" id="cVal5">&#9733;&#9733;</div>
-                            <div class="condition-option" data-value="4" id="cVal4">&#9733;&#9733;&#9733;</div>
-                            <div class="condition-option" data-value="3" id="cVal3">&#9733;&#9733;&#9733;&#9733;</div>
-                        </div>
-                       
-                        <script>
-                           jQuery.noConflict();
-                           jQuery(function($) {
+
+                    <h3>Price</h3>
+                    <div id="price-filter">
+                        <div class="price-option" data-value="11" id="pVal11">$</div>
+                        <div class="price-option" data-value="12" id="pVal12">$$</div>
+                        <div class="price-option" data-value="13" id="pVal13">$$$</div>
+                        <div class="price-option" data-value="14" id="pVal14">$$$$</div>
+                    </div>
+                    <h3>Condition</h3>
+                    <div id="condition-filter">
+                        <div class="condition-option" data-value="6" id="cVal6">&#9733;</div>
+                        <div class="condition-option" data-value="5" id="cVal5">&#9733;&#9733;</div>
+                        <div class="condition-option" data-value="4" id="cVal4">&#9733;&#9733;&#9733;</div>
+                        <div class="condition-option" data-value="3" id="cVal3">&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+
+                    <script>
+                     jQuery.noConflict();
+                     jQuery(function($) {
    								// BEGIN CONDITION FILTER PLUGIN [EnvyWeb]
-								urlVal = decodeURIComponent( getURLParameter("condition"));
-								urlArray = urlVal.split(",");
+                                urlVal = decodeURIComponent( getURLParameter("condition"));
+                                urlArray = urlVal.split(",");
 								$.each( urlArray, function(i,v) { //decode URI, convert to array, then iterate
 									$("#cVal"+v).addClass("active").data("active","true");
 								});
 								$('.condition-option').click(function() {
 									activeVal = $(this).data("active") == "true" ? "" : "true";
 									$(this).data("active" , activeVal);
-                                 
+
 									$(this).toggleClass('active');
 									conditionArray = [];
 									$('.condition-option').each(function() {
@@ -93,7 +93,7 @@
 									});
 									conditionVal = conditionArray.join(",");
 									conditionUrl = updateQueryStringParameter( window.location.href, "condition", encodeURIComponent(conditionVal) );
-                                 
+
 									sliderAjax(conditionUrl);
 								});
 								//END CONDITION FILTER PLUGIN [EnvyWeb]
@@ -106,7 +106,7 @@
 								$('.price-option').click(function() {
 									pActiveVal = $(this).data("active") == "true" ? "" : "true";
 									$(this).data("active" , pActiveVal);
-                                 
+
 									$(this).toggleClass('active');
 									priceArray = [];
 									$('.price-option').each(function() {
@@ -116,7 +116,7 @@
 									});
 									priceVal = priceArray.join(",");
 									priceUrl = updateQueryStringParameter( window.location.href, "pt", encodeURIComponent(priceVal) );
-                                 
+
 									sliderAjax(priceUrl);
 								});
 								//END PRICE FILTER PLUGIN [EnvyWeb]
@@ -153,44 +153,44 @@ $toolbar->setCollection($this->getChild('catalog_product_list')->getLoadedProduc
                                 };
 
                             });
-							var data = "";
-							var active = false;
-							jQuery(function($){
-								if($('body').find('#resultLoading').attr('id') != 'resultLoading'){
-                                    $('.main').append('<div id="resultLoading" style="display:none"><div><img src="http://thethingsandstuff.com/media/wysiwyg/trego/ajaxfilter/default/ajax-loader.gif"><div>Filtering...</div></div><div class="bg"></div></div>');}
-                                    var height = $('.main').outerHeight();
-                                    var width = $('.main').outerWidth();
-                                    $('.ui-slider-handle').css('cursor','pointer');
-                                    
-                                    $('#resultLoading').css({
-                                     'width':'100%',
-                                     'height':'100%',
-                                     'position':'fixed',
-                                     'z-index':'10000000',
-                                     'top':'0',
-                                     'left':'0'
-                                 });	
-                                    $('#resultLoading .bg').css({
-                                     'background':'#000000',
-                                     'opacity':'0.5',
-                                     'width':'100%',
-                                     'height':'100%',
-                                     'position':'absolute',
-                                     'top':'0'
-                                 });
-                                    $('#resultLoading>div:first').css({
-                                     'width': '100%',
-                                     'text-align': 'center',
-                                     'position': 'absolute',
-                                     'left': '0',
-                                     'top': '50%',
-                                     'font-size':'16px',
-                                     'z-index':'10',
-                                     'color':'#ffffff'
-                                     
-                                 });
-                                    
-                                    
+var data = "";
+var active = false;
+jQuery(function($){
+    if($('body').find('#resultLoading').attr('id') != 'resultLoading'){
+        $('.main').append('<div id="resultLoading" style="display:none"><div><img src="http://thethingsandstuff.com/media/wysiwyg/trego/ajaxfilter/default/ajax-loader.gif"><div>Filtering...</div></div><div class="bg"></div></div>');}
+        var height = $('.main').outerHeight();
+        var width = $('.main').outerWidth();
+        $('.ui-slider-handle').css('cursor','pointer');
+
+        $('#resultLoading').css({
+           'width':'100%',
+           'height':'100%',
+           'position':'fixed',
+           'z-index':'10000000',
+           'top':'0',
+           'left':'0'
+       });	
+        $('#resultLoading .bg').css({
+           'background':'#000000',
+           'opacity':'0.5',
+           'width':'100%',
+           'height':'100%',
+           'position':'absolute',
+           'top':'0'
+       });
+        $('#resultLoading>div:first').css({
+           'width': '100%',
+           'text-align': 'center',
+           'position': 'absolute',
+           'left': '0',
+           'top': '50%',
+           'font-size':'16px',
+           'z-index':'10',
+           'color':'#ffffff'
+
+       });
+
+
 								// Created bug due to removing toolbar html [EnvyWeb]
 								//         // $('.toolbar a').on('click', function(e){if(!$(this).hasClass('sbToggle') && !$(this).hasClass('sbSelector') && !$(this).parent().parent().hasClass('sbOptions')){var url=$(this).attr('href');sliderAjax(url);e.preventDefault()}});
 								// $('.toolbar select').removeAttr('onchange');
@@ -201,7 +201,7 @@ $toolbar->setCollection($this->getChild('catalog_product_list')->getLoadedProduc
 
 /*DONOT EDIT THIS CODE*/
 function sliderAjax(url) {
-   jQuery(function($) {
+ jQuery(function($) {
     $('#resultLoading .bg').height('100%');
     $('#resultLoading').fadeIn(300);
     window.location.href = url;
@@ -210,14 +210,14 @@ function sliderAjax(url) {
 
 
 function callback(){
-    
+
 }
 						//]]>
-                   </script>
-               <?php endif ?>
-           </div>
-           <div class="clear"></div>
-           <div class="yelp">
+                 </script>
+             <?php endif ?>
+         </div>
+         <div class="clear"></div>
+         <div class="yelp">
             <a target="_blank" href="https://www.facebook.com/theThingsAndStuff">
                 <img src="/skin/frontend/default/trego/images/socialicons/fb.png" alt="">
             </a>
@@ -227,6 +227,12 @@ function callback(){
             <a target="_blank" href="http://www.yelp.com/biz/the-things-and-stuff-santa-monica-2">
                 <img class="yelpLG" src="/skin/frontend/default/trego/images/yelpW.png" />
             </a>
+        </div>
+        <div class="clear"></div>
+        <div class="header-bottom-links">
+            <a href="/all.html?newest">Newest Items</a>
+            //
+            <a href="/all.html">All Items</a>
         </div>
     </div>
     
