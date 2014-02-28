@@ -4033,6 +4033,17 @@ ul.products-grid li.item > .price-box {
     top: 5px;
     width: 23px;
 }
+.view-product-categories {
+    text-align: center;
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 15px auto;
+    display: none;
+}
+.header-bottom-links {
+    color: #8EB8D3;
+}
 .sorter .sort-by > a {
     display: inline-block;
 }
@@ -5485,6 +5496,9 @@ ul.cart-button-set li.first{
 
     /************* width < 768px ***************/
     @media only screen and (max-width: 767px)  {
+        .view-product-categories {
+            display: block;
+        }
         nav#nav-top ul {
             display: none;
         }

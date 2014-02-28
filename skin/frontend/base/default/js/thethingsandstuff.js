@@ -119,6 +119,10 @@ $(function() {
 		$(this).hasClass("open-state") ? $(document).trigger("sidebarWidthChanged", "-=219") : $(document).trigger("sidebarWidthChanged", "+=219");
 		$(this).toggleClass("open-state");
 	});
+	$(".view-product-categories a").click(function(e) {
+		e.preventDefault();
+		$("#header-toggle").trigger('click');
+	});
 	 //  830
 	 if ($(window).width() < 835) {
 	 	$("#header-sidebar").animate({left:-219},1000);
