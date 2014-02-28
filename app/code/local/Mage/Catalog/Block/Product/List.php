@@ -156,6 +156,11 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 		{
 			$_productCollection=$this->_getProductCollection();
 		}
+
+        if(!isset($_GET['order']) && isset($_GET['newest'])) {
+            $this->_productCollection->getSelect()->reset( Zend_Db_Select::ORDER );
+            $this->_productCollection->getSelect()->order('e.entity_id desc');
+        }
 		return $_productCollection;
 		//echo $_productCollection->getSelect();
 		 
