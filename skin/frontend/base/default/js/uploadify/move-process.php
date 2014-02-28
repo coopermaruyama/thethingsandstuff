@@ -1,6 +1,7 @@
 <?php 
 extract($_POST);
 $body =  "<strong>Move date:</strong> ". $moveDate . "<br><br>
+                        <strong>Contact Info: </strong>" . $contactInfo . "<br><br>
                         <strong>Origin Address: </strong>" . $originAddress . "<br><br>
                         <strong>Destination Address: </strong>" . $destination . "<br><br>
                         <strong>Number of Rooms: </strong>" . $numberofRooms . "<br><br>
