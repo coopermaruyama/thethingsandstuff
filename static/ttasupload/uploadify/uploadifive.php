@@ -15,7 +15,10 @@ if (!empty($_FILES)) {
         $tempFile = $_FILES['Filedata']['tmp_name'];
         $targetPath = $_SERVER['DOCUMENT_ROOT'] . $targetFolder;
         $filename = $_FILES['Filedata']['name'];
+        $mtime = round(microtime(true) * 1000);
         $filename = str_replace(' ', '_', $filename);
+        $farray = explode(".", $filename);
+        $filename = $farray[0].$mtime.".".end($farray);
         $targetFile = rtrim($targetPath,'/') . '/' . $filename;
 
         // Validate the file type
