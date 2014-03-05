@@ -152,15 +152,30 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 				->addAttributeToFilter('price_tier', array('in' => $priceTierArray))
 				->setOrder('price', 'DESC');
 		}
+        else if (!isset($_GET['order']) && isset($_GET['newest'])) {
+            $cat_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
+            $category = Mage::getModel('catalog/category')->load($cat_id);
+            $_productCollection = Mage::getResourceModel('catalog/product_collection')->addCategoryFilter($category);
+            $_productCollection->addAttributeToSelect('*')
+                ->setOrder('e.entity_id', 'DESC');
+            $pageSize = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 12;
+            if (isset($_GET['p'])) {
+                $page = intVal($_GET['p']);
+
+                $_productCollection->setPage($page,$pageSize);
+            } else {
+                $_productCollection->setPage(1,$pageSize);
+            }
+        }
 		else
 		{
 			$_productCollection=$this->_getProductCollection();
 		}
-
-        if(!isset($_GET['order']) && isset($_GET['newest'])) {
-            $this->_productCollection->getSelect()->reset( Zend_Db_Select::ORDER );
-            $this->_productCollection->getSelect()->order('e.entity_id desc');
-        }
+        // if(!isset($_GET['order']) && isset($_GET['newest'])) {
+        //     $this->_productCollection->getSelect()->reset( Zend_Db_Select::ORDER );
+        //     $this->_productCollection->getSelect()->order('e.entity_id desc');
+        // }
+        
 		return $_productCollection;
 		//echo $_productCollection->getSelect();
 		 
