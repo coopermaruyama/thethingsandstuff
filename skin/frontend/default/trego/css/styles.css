@@ -4043,6 +4043,8 @@ ul.products-grid li.item > .price-box {
 }
 .header-bottom-links {
     color: #8EB8D3;
+    margin-top: 16px;
+    margin-bottom: -6px;
 }
 .sorter .sort-by > a {
     display: inline-block;
@@ -6340,26 +6342,6 @@ ul.cart-button-set li.first{
         position:relative;
         top:1px;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .price-box .frontend-size {
     vertical-align: -17px;
     width: 130px;
@@ -6369,24 +6351,17 @@ ul.cart-button-set li.first{
     color: white;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*iPhone stuff*/
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) { 
+    .header .box-scroll {
+        width:219px;
+        margin:0;
+        padding: 0;
+        box-sizing:border-box;
+        -moz-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+    }
+    #header-sidebar {
+        overflow: scroll !important;
+    }
+}
