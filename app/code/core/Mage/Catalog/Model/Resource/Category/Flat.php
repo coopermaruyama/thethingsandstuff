@@ -1337,7 +1337,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Index_Model_Resourc
                 array(
                     'main_table.entity_id',
                     'main_table.custom_design',
-                    'main_table.custom_design_apply',
+                    // 'main_table.custom_design_apply',
                     'main_table.custom_design_from',
                     'main_table.custom_design_to',
                 )

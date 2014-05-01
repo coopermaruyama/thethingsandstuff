@@ -157,7 +157,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
             $category = Mage::getModel('catalog/category')->load($cat_id);
             $_productCollection = Mage::getResourceModel('catalog/product_collection')->addCategoryFilter($category);
             $_productCollection->addAttributeToSelect('*')
-                ->setOrder('e.entity_id', 'DESC');
+                ->setOrder('created_at', 'DESC');
             $pageSize = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 12;
             if (isset($_GET['p'])) {
                 $page = intVal($_GET['p']);
