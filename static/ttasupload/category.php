@@ -42,7 +42,7 @@ try {
         $oauthClient->setToken($_SESSION['token'], $_SESSION['secret']);
         $resourceUrl = "$apiUrl/products/$product_id/categories";
         $productData = json_encode(array(
-            'category_id'           => 98
+            'category_id'           => 106
         ));
         $headers = array('Content-Type' => 'application/json');
         $oauthClient->fetch($resourceUrl, $productData, OAUTH_HTTP_METHOD_POST, $headers);

@@ -87,6 +87,9 @@ jQuery.noConflict();
 	});
 $(function() {
 
+	// rewrite newest items url
+	$(".nav-container li.level0 a[href*=newest]").attr("href",$(".nav-container li.level0 a[href*=newest]").attr("href")+"?newest");
+
 	// persist navigation accordion state
 	parser = document.createElement("a");
 	parser.href = window.location.href;
