@@ -8,13 +8,17 @@
 ****/
 // config
 var $table = $('#tablecontents'), //Main table container for rows
+    $tfoot = $("#tablefooter"),
     $filters = [
       $("select#order_by"),
       $("select#order"),
       $("select#per_page")
     ],
     current_page = getParameterByName("page") == "" ? 1 : parseInt(getParameterByName("page")),
-    records = {};
+    records = {},
+    totals_paid = 0,
+    total_tax = 0,
+    filter = "";
 // Intialize
 $(function() {
   init();
@@ -35,6 +39,29 @@ function initEvents() {
     row_id = $(this).closest("tr").data("row-id");
     saveColumn(row_id, name, value)
   });
+  $(document).on("click", "span.filterable", function() {
+    filter_column = $(this).data("column");
+    filter_value = $(this).text();
+    filter = encodeURIComponent("WHERE `revenue_records`.`"+filter_column+"`='"+filter_value+"'");
+    clearRecords();
+    fetchRecords();
+    $("p.filter-text").html('<strong>Filtering <i>'+filter_column+'</i> by <i>'+filter_value+'</i><br><a href="javascript:location.reload()">remove</a></strong>');
+  });
+}
+function createTotals() {
+  $tfoot.html("<tr><th></th><th></th><th></th><th></th><th></th><th><strong>Totals Paid</strong></th><th></th><th><strong>Total Tax</strong></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>");
+  $tr = $("<tr></tr>").appendTo( $tfoot );
+  totals_paid = 0;
+  total_tax = 0;
+  $.each(records, function(index,value) {
+    totals_paid += parseInt(value.total_paid);
+    total_tax += parseInt(value.tax);
+  });
+  $tr.append('<td></td><td></td><td></td><td></td><td></td>\
+                 <td><strong>$'+totals_paid+'</strong></td>\
+                 <td></td>\
+                 <td><strong>$'+total_tax+'</strong></td>\
+                 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>');
 }
 function setupCookies() {
   $.each(['per_page','order','order_by'], function(index, val) {
@@ -59,9 +86,13 @@ function setupPagination() {
     $("li#next_page a").attr('href',updateQueryStringParameter(window.location.href,"page", (parseInt(getParameterByName("page")) + 1) ) );
   };
 }
+function clearRecords() {
+  records = {};
+  $table.html("");
+}
 function fetchRecords() {
   $.ajax({
-    url: '/static/report/fetch.php?order_by='+$.cookie('order_by')+'&order='+$.cookie('order')+'&per_page='+$.cookie('per_page')+"&page="+current_page,
+    url: '/static/report/fetch.php?order_by='+$.cookie('order_by')+'&order='+$.cookie('order')+'&per_page='+$.cookie('per_page')+"&page="+current_page+'&filter='+filter,
     type: 'GET',
     dataType: 'text',
     data: {}
@@ -73,6 +104,7 @@ function fetchRecords() {
       records[val.id].create();
       records[val.id].update();
     });
+    createTotals();
   });
 }
 function saveColumn( row_id, name, value ) {
@@ -171,8 +203,8 @@ Record.prototype = {
       this.$order_type.html(this.order_type);
       this.$customer.html(this.customer);
       this.$service_date.html(this.service_date);
-      this.$total_paid.html(this.total_paid);
-      this.$delivery_address.html(this.shipping_street+'<br>'+this.shipping_city+', '+this.shipping_region+' '+this.shipping_postal);
+      this.$total_paid.html("$"+this.total_paid);
+      this.$delivery_address.html(this.shipping_street+'<br><span class="filterable" data-column="shipping_city">'+this.shipping_city+'</span>, <span class="filterable" data-column="shipping_region">'+this.shipping_region+'</span> <span class="filterable" data-column="shipping_postal">'+this.shipping_postal+'</span>');
       this.$tax.html(this.calculateTax());
       this.addItems();
       // events
@@ -183,12 +215,12 @@ Record.prototype = {
       });
     } else {
       this.$actions.html('<button type="button" class="btn btn-warning editing">Editing</button><br><button type="button" class="btn btn-danger delete">Delete</button>');
-      this.$order_date.html('<input type="text" value="'+this.order_date+'" data-name="order_date"></input>');
-      this.$order_type.html('<input type="text" value="'+this.order_type+'" data-name="order_type"></input>');
-      this.$customer.html('<input type="text" value="'+this.customer+'" data-name="customer"></input>');
-      this.$service_date.html('<input type="text" value="'+this.service_date+'" data-name="service_date"></input>');
-      this.$total_paid.html('<input type="text" value="'+this.total_paid+'" data-name="total_paid"></input>');
-      this.$delivery_address.html('<input type="text" value="'+this.shipping_street+'" data-name="shipping_street"><br><input type="text" value="'+this.shipping_city+'" data-name="shipping_city"><br><input type="text" value="'+this.shipping_region+'" data-name="shipping_region"><br><input type="text" value="'+this.shipping_postal+'" data-name="shipping_postal">');
+      this.$order_date.html('<input class="form-control" type="text" value="'+this.order_date+'" data-name="order_date"></input>');
+      this.$order_type.html('<input class="form-control" type="text" value="'+this.order_type+'" data-name="order_type"></input>');
+      this.$customer.html('<input class="form-control" type="text" value="'+this.customer+'" data-name="customer"></input>');
+      this.$service_date.html('<input class="form-control" type="text" value="'+this.service_date+'" data-name="service_date"></input>');
+      this.$total_paid.html('<input class="form-control" type="text" value="'+this.total_paid+'" data-name="total_paid"></input>');
+      this.$delivery_address.html('<input class="form-control" type="text" value="'+this.shipping_street+'" data-name="shipping_street"><br><input class="form-control" type="text" value="'+this.shipping_city+'" data-name="shipping_city"><br><input class="form-control" type="text" value="'+this.shipping_region+'" data-name="shipping_region"><br><input class="form-control" type="text" value="'+this.shipping_postal+'" data-name="shipping_postal">');
       this.$tax.html(this.calculateTax());
       this.addItems();
       // events
@@ -234,8 +266,8 @@ Record.prototype = {
           self['$item'+i].text(self.items[items_index].item);
           self['$item'+i+'_price'].text('$'+self.items[items_index].price);
         } else {
-          self['$item'+i].html('<input type="text" value="'+self.items[items_index].item+'" data-name="item'+i+'"></input>');
-          self['$item'+i+'_price'].html('<input type="text" value="'+self.items[items_index].price+'" data-name="item'+i+'_price"></input>');
+          self['$item'+i].html('<input class="form-control" type="text" value="'+self.items[items_index].item+'" data-name="item'+i+'"></input>');
+          self['$item'+i+'_price'].html('<input class="form-control" type="text" value="'+self.items[items_index].price+'" data-name="item'+i+'_price"></input>');
         }
       }
     }
