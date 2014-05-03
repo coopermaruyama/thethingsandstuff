@@ -9,6 +9,7 @@
 // config
 var $table = $('#tablecontents'), //Main table container for rows
     $tfoot = $("#tablefooter"),
+    $createButton = $("button#createRow"),
     $filters = [
       $("select#order_by"),
       $("select#order"),
@@ -32,20 +33,29 @@ function init() {
   setupPagination();
 }
 function initEvents() {
-  $table.delegate( "input", "blur", function() {
-    console.log($(this));
-    name = $(this).data("name");
-    value = $(this).val();
-    row_id = $(this).closest("tr").data("row-id");
-    saveColumn(row_id, name, value)
-  });
+  // filter row
   $(document).on("click", "span.filterable", function() {
     filter_column = $(this).data("column");
     filter_value = $(this).text();
-    filter = encodeURIComponent("WHERE `revenue_records`.`"+filter_column+"`='"+filter_value+"'");
+    filter = encodeURIComponent("AND `revenue_records`.`"+filter_column+"`='"+filter_value+"'");
     clearRecords();
     fetchRecords();
     $("p.filter-text").html('<strong>Filtering <i>'+filter_column+'</i> by <i>'+filter_value+'</i><br><a href="javascript:location.reload()">remove</a></strong>');
+  });
+  // lightbox
+  var $lightbox = $('#lightbox'); 
+  $('[data-target="#lightbox"]').on('click', function(event) {
+      $lightbox.find('.close').addClass('hidden');
+  });
+  $lightbox.on('shown.bs.modal', function (e) {
+      $lightbox.find('.close').removeClass('hidden');
+  });
+  // create record
+  $createButton.click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    $form = $(this).closest("form");
+    newRecord( $form );
   });
 }
 function createTotals() {
@@ -98,36 +108,14 @@ function fetchRecords() {
     data: {}
   })
   .done(function(data) {
+    append = $.cookie("order") == "ASC" ? false : true;
     parsed_data = JSON.parse(data);
     $.each(parsed_data, function(index, val) {
       records[val.id] = new Record(val);
-      records[val.id].create();
+      records[val.id].create( append );
       records[val.id].update();
     });
     createTotals();
-  });
-}
-function saveColumn( row_id, name, value ) {
-  column_name = name;
-  value = value;
-  if (/date/.test(column_name)) {
-    value += " " + (new Date()).toTimeString().split(" ")[0];
-  };
-  $.ajax({
-    url: '/static/report/api.php',
-    type: 'POST',
-    dataType: 'text',
-    data: {
-      action: 'update_column',
-      row_id: row_id,
-      column_name: column_name,
-      new_value: value
-    },
-  })
-  .done(function(data) {
-    if (data == "success") {
-      console.log("Updated row "+row_id+": "+column_name+" to "+value);
-    };
   });
 }
 function updateQueryStringParameter(uri, key, value) {
@@ -146,6 +134,31 @@ function getParameterByName(name) {
         results = regex.exec(location.search);
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+function newRecord( $form ) {
+  var record_type = $('select[name=record_type]', $form).val(),
+      customer_name = $('input[name=customer_name]', $form).val(),
+      total_paid = $('input[name=total_paid]', $form).val();
+  $.ajax({
+    url: 'api.php',
+    type: 'POST',
+    dataType: 'text',
+    data: {
+      action: "new_record",
+      record_type: record_type,
+      customer_name: customer_name,
+      total_paid: total_paid
+    },
+  })
+  .done(function(data) {
+    // console.log("success");
+    $("#lightbox").modal("hide")
+    var parsed_data = JSON.parse(data),
+        record_data = parsed_data["record"],
+        record = new Record( record_data );
+    record.create(false);
+    record.update();
+  });
+}
 
 // Create the Record Object
 var Record = function( data ) { //dataObject is what's returned from the db
@@ -154,7 +167,7 @@ var Record = function( data ) { //dataObject is what's returned from the db
   this.locked = data.locked == "1" ? true : false;
   this.order_date = data.order_date;
   this.order_type = data.order_type;
-  this.customer = data.customer_name;
+  this.customer_name = data.customer_name;
   this.service_date = data.service_date;
   this.total_paid = data.total_paid;
   this.shipping_street = data.shipping_street;
@@ -168,14 +181,14 @@ var Record = function( data ) { //dataObject is what's returned from the db
 }
 
 Record.prototype = {
-  create: function() {
-    self = this;
+  create: function( should_append ) {
+    var self = this;
     // create structure
-    this.$row                = $('<tr id="row-'+this.row_id+'" data-row-id="'+this.row_id+'"></tr>').appendTo( $table );
+    this.$row                = should_append ? $('<tr id="row-'+this.row_id+'" data-row-id="'+this.row_id+'"></tr>').appendTo( $table ) : $('<tr id="row-'+this.row_id+'" data-row-id="'+this.row_id+'"></tr>').prependTo( $table );
     this.$actions            = $('<td class="actions"></td>').appendTo( this.$row );
     this.$order_date         = $('<td class="order_date"></td>').appendTo( this.$row );
     this.$order_type         = $('<td class="order_type"></td>').appendTo( this.$row );
-    this.$customer           = $('<td class="customer"></td>').appendTo( this.$row );
+    this.$customer_name           = $('<td class="customer"></td>').appendTo( this.$row );
     this.$service_date       = $('<td class="service_date"></td>').appendTo( this.$row );
     this.$total_paid         = $('<td class="total_paid"></td>').appendTo( this.$row );
     this.$delivery_address   = $('<td class="delivery_address"></td>').appendTo( this.$row );
@@ -192,7 +205,18 @@ Record.prototype = {
     this.$item5_price        = $('<td class="item5_price"></td>').appendTo( this.$row );
     this.$cells = [this.$row, this.$actions, this.$order_date, this.$order_type, this.$customer, this.$service_date, this.$total_paid, this.$delivery_address, this.$tax, this.$item1, this.$item1_price, this.$item2, this.$item2_price, this.$item3, this.$item3_price, this.$item4, this.$item4_price, this.$item5, this.$item5_price]
     // bind events
-    $(this.$actions).delegate( "button.editing,button.locked", 'click', $.proxy( self.toggleLock, self ));
+    this.$actions.on( 'click', "button.editing,button.locked",  function() {
+      self.toggleLock()
+    });
+    this.$row.on( "blur", "input", function() {
+      self.saveColumn($(this));
+    });
+    this.$actions.on( 'click','button.delete', function() {
+      var confirm = window.confirm("Are you sure?");
+      if (confirm == true) {
+        self.destroy();
+      }
+    });
   },
   update: function() {
     self = this;
@@ -201,7 +225,7 @@ Record.prototype = {
       this.$actions.html('<button type="button" class="btn btn-default locked">Locked</button>');
       this.$order_date.html(this.order_date);
       this.$order_type.html(this.order_type);
-      this.$customer.html(this.customer);
+      this.$customer_name.html(this.customer_name);
       this.$service_date.html(this.service_date);
       this.$total_paid.html("$"+this.total_paid);
       this.$delivery_address.html(this.shipping_street+'<br><span class="filterable" data-column="shipping_city">'+this.shipping_city+'</span>, <span class="filterable" data-column="shipping_region">'+this.shipping_region+'</span> <span class="filterable" data-column="shipping_postal">'+this.shipping_postal+'</span>');
@@ -217,7 +241,7 @@ Record.prototype = {
       this.$actions.html('<button type="button" class="btn btn-warning editing">Editing</button><br><button type="button" class="btn btn-danger delete">Delete</button>');
       this.$order_date.html('<input class="form-control" type="text" value="'+this.order_date+'" data-name="order_date"></input>');
       this.$order_type.html('<input class="form-control" type="text" value="'+this.order_type+'" data-name="order_type"></input>');
-      this.$customer.html('<input class="form-control" type="text" value="'+this.customer+'" data-name="customer"></input>');
+      this.$customer_name.html('<input class="form-control" type="text" value="'+this.customer_name+'" data-name="customer_name"></input>');
       this.$service_date.html('<input class="form-control" type="text" value="'+this.service_date+'" data-name="service_date"></input>');
       this.$total_paid.html('<input class="form-control" type="text" value="'+this.total_paid+'" data-name="total_paid"></input>');
       this.$delivery_address.html('<input class="form-control" type="text" value="'+this.shipping_street+'" data-name="shipping_street"><br><input class="form-control" type="text" value="'+this.shipping_city+'" data-name="shipping_city"><br><input class="form-control" type="text" value="'+this.shipping_region+'" data-name="shipping_region"><br><input class="form-control" type="text" value="'+this.shipping_postal+'" data-name="shipping_postal">');
@@ -233,8 +257,49 @@ Record.prototype = {
       });
     }
   },
+  destroy: function() {
+    var self = this;
+    $.ajax({
+      url: 'api.php',
+      type: 'POST',
+      dataType: 'text',
+      data: {
+        action: "destroy",
+        row_id: self.row_id
+      },
+    })
+    .done(function() {
+      self.$row.fadeOut();
+    });
+  },
+  saveColumn: function( $inputElem ) {
+    var self = this;
+    column_name = $inputElem.data("name");
+    value = $inputElem.val();
+    if (/date/.test(column_name)) {
+      value += " " + (new Date()).toTimeString().split(" ")[0];
+    };
+    $.ajax({
+      url: '/static/report/api.php',
+      type: 'POST',
+      dataType: 'text',
+      data: {
+        action: 'update_column',
+        row_id: self.row_id,
+        column_name: column_name,
+        new_value: value
+      },
+    })
+    .done(function(data) {
+      console.log(data);
+      if (data == "success") {
+        // console.log("Updated row "+self.row_id+": "+column_name+" to "+value);
+        records[self.row_id][column_name] = value;
+      };
+    });
+  },
   toggleLock: function() {
-    self = this;
+    var self = this;
     row_id = self.row_id;
     action = this.locked ? "unlock_row" : "lock_row";
     $.ajax({

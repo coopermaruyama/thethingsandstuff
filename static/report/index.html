@@ -25,19 +25,40 @@
         span.filterable:hover {
           opacity: 1;
         }
+        #main {
+          padding: 0 20px;
+        }
+        #lightbox .modal-content {
+            display: inline-block;
+            text-align: left;   
+            width: 100%;
+        }
+        #lightbox .close {
+            opacity: 1;
+            color: rgb(255, 255, 255);
+            background-color: rgb(25, 25, 25);
+            padding: 5px 8px;
+            border-radius: 30px;
+            border: 2px solid rgb(255, 255, 255);
+            position: absolute;
+            top: -15px;
+            right: -55px;
+            
+            z-index:1032;
+        }
       </style>
     </head>
     <body>
 
 
-     <div class="container-liquid">
+     <div class="container-liquid" id="main">
        <div class="">
          <h1>TheThingsAndStuff Revenue Report</h1>
          <hr>
          <div class="row well well-lg">
            <div class="col-md-2">
               <div class="form-group">
-                <label for="">sort by: </label>
+                <label for="">Sort By: </label>
                 <select name="order_by" id="order_by" class="form-control">
                   <option value="id">ID</option>
                   <option value="order_date">Order Date</option>
@@ -52,20 +73,29 @@
               </div>
            </div>
            <div class="col-md-3">
+              <div class="form-group">
+                <label for="">Sort Direction: </label>
+                <select name="order" id="order" class="form-control">
+                  <option value="DESC">Descending</option>
+                  <option value="ASC">Ascending</option>
+                </select>
+              </div>
+           </div>
+           <div class="col-md-2">
              <p class="bg-info filter-text">
              </p>
            </div>
            <div class="col-md-3">
-             
-           </div>
-           <div class="col-md-2">
-             <div class="form-group">
-               <label for="">sort direction: </label>
-               <select name="order" id="order" class="form-control">
-                 <option value="ASC">Ascending</option>
-                 <option value="DESC">Descending</option>
-               </select>
+            <div class="checkbox"><label><input type="checkbox">Custom Date Range</label></div><div class="form-group">
+             <div class="row">
+               <div class="col-md-5"><input class="form-control" type="text"></div> <div class="col-md-1">thru</div><div class="col-md-5"> <input type="text" class="form-control"></div>
              </div>
+             </div>             
+            </div>
+           <div class="col-md-2">
+              <div class="pull-right">
+                <button id="add_row" class="btn btn-success btn-lg" data-target="#lightbox" data-toggle="modal" style="margin-top:13px;">Create Record</button>
+              </div>
            </div>
          </div>
          <div class="table-responsive">
@@ -156,7 +186,39 @@
      </div>
 
    </div><!-- /.container -->
-
+  <div id="lightbox" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <button type="button" class="close hidden" data-dismiss="modal" aria-hidden="true">×</button>
+          <div class="modal-content">
+              <div class="modal-body">
+                  <h2>New Record</h2>
+                  <hr>
+                  <form action="#" role="form">
+                    <div class="form-group">
+                      <label for="Revenue Type">Record Type:</label>
+                      <select name="record_type" id="record_type" class="form-control">
+                        <option value="sale">Sale</option>
+                        <option value="delivery">Delivery</option>
+                        <option value="move">Move</option>
+                        <option value="labor">Labor</option>
+                        <option value="storage">Storage</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="customer_name">Customer Name</label>
+                      <input type="text" class="form-control" name="customer_name" placeholder="Enter name">
+                    </div>
+                    <div class="form-group">
+                      <label for="total_paid">Total Paid</label>
+                      <input type="text" class="form-control" name="total_paid" placeholder="Numbers only (e.g. 125)">
+                    </div>
+                    <button class="btn btn-primary" id="createRow" type="submit">Create</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
    <script src="https://code.jquery.com/jquery.js"></script>
    <!-- Include all compiled plugins (below), or include individual files as needed -->

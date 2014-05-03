@@ -16,7 +16,7 @@ if (!isset($order_by)) $order_by = 'id';
 if (!isset($filter)) $filter = '';
 $pager = (intval($page) - 1) * intval($per_page);
 
-$query = $conn->prepare("SELECT * FROM `revenue_report`.`revenue_records` $filter ORDER BY `revenue_records`.$order_by $order LIMIT $pager, $per_page");
+$query = $conn->prepare("SELECT * FROM `revenue_report`.`revenue_records` WHERE `deleted`=0 $filter ORDER BY `revenue_records`.$order_by $order LIMIT $pager, $per_page");
 $query->execute();
 $result = $query->fetchAll();
 foreach ($result as $key => $field) {
