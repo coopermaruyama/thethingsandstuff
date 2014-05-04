@@ -266,7 +266,7 @@ Record.prototype = {
     } else {
       this.$actions.html('<button type="button" class="btn btn-warning editing">Editing</button><br><button type="button" class="btn btn-danger delete">Delete</button>');
       this.$order_date.html('<input class="form-control" type="text" value="'+this.order_date+'" data-name="order_date"></input>');
-      this.$order_type.html('<input class="form-control" type="text" value="'+this.order_type+'" data-name="order_type"></input>');
+      this.$order_type.html(this.order_type);
       this.$customer_name.html('<input class="form-control" type="text" value="'+this.customer_name+'" data-name="customer_name"></input>');
       this.$service_date.html('<input class="form-control" type="text" value="'+this.service_date+'" data-name="service_date"></input>');
       this.$total_paid.html('<input class="form-control" type="text" value="'+this.total_paid+'" data-name="total_paid"></input>');
