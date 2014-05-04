@@ -21,10 +21,20 @@ $query->execute();
 $result = $query->fetchAll();
 foreach ($result as $key => $field) {
     $the_id = intval($field['id']);
+    // Get Items
     $query = $conn->prepare("SELECT * FROM `revenue_report`.`revenue_record_items` WHERE `revenue_record_id`=$the_id");
     $query->execute();
     $items_result = $query->fetchAll();
     $result[$key]['items'] = $items_result;
+
+    // Get Tax
+    $city =$field['shipping_city'];
+    $query = $conn->prepare("SELECT `rate` FROM `revenue_report`.`city_tax` WHERE `city_tax`.`city` LIKE '$city' LIMIT 1");
+    $query->execute();
+    $tax_result = $query->fetch();
+    $tax_rate = floatval($tax_result["rate"])/100;
+    $price = floatval($field["total_paid"]);
+    $result[$key]['tax'] = $price * $tax_rate;
 }
 $headers = array('Content-Type' => 'application/json');
 // echo $result[0]['customer_name'];

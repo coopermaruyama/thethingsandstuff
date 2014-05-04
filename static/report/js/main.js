@@ -19,7 +19,8 @@ var $table = $('#tablecontents'), //Main table container for rows
     records = {},
     totals_paid = 0,
     total_tax = 0,
-    filter = "";
+    filter = "",
+    date_filter = "";
 // Intialize
 $(function() {
   init();
@@ -57,6 +58,26 @@ function initEvents() {
     $form = $(this).closest("form");
     newRecord( $form );
   });
+  // filter date
+  var this_year = moment().format("YYYY")
+      last_year = moment().subtract('years',1).format("YYYY"),
+      the_ranges = {};
+  the_ranges["Q1 "+this_year] = [moment("Jan 1, "+this_year), moment("March 31, "+this_year)];
+  the_ranges["Q2 "+this_year] = [moment("April 1, "+this_year), moment("Jun 30, "+this_year)];
+  the_ranges["Q3 "+this_year] = [moment("July 1, "+this_year), moment("Sep 30, "+this_year)];
+  the_ranges["Q4 "+this_year] = [moment("Oct 1, "+this_year), moment("Dec 31, "+this_year)];
+  the_ranges["Q1 "+last_year] = [moment("Jan 1, "+last_year), moment("March 31, "+last_year)];
+  the_ranges["Q2 "+last_year] = [moment("April 1, "+last_year), moment("Jun 30, "+last_year)];
+  the_ranges["Q3 "+last_year] = [moment("July 1, "+last_year), moment("Sep 30, "+last_year)];
+  the_ranges["Q4 "+last_year] = [moment("Oct 1, "+last_year), moment("Dec 31, "+last_year)];
+  $('input[name=daterange]').daterangepicker({
+    format: 'YYYY-MM-DD',
+    ranges: the_ranges
+  }, function(start, end, label) {
+    date_filter = encodeURIComponent("AND `revenue_records`.`order_date` BETWEEN '"+start.format('YYYY-MM-DD')+" 00:00:00' AND '"+end.format('YYYY-MM-DD')+" 0:00:00'");
+    clearRecords();
+    fetchRecords();
+  });
 }
 function createTotals() {
   $tfoot.html("<tr><th></th><th></th><th></th><th></th><th></th><th><strong>Totals Paid</strong></th><th></th><th><strong>Total Tax</strong></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>");
@@ -64,13 +85,13 @@ function createTotals() {
   totals_paid = 0;
   total_tax = 0;
   $.each(records, function(index,value) {
-    totals_paid += parseInt(value.total_paid);
-    total_tax += parseInt(value.tax);
+    totals_paid += parseFloat(value.total_paid);
+    total_tax += parseFloat(value.tax);
   });
   $tr.append('<td></td><td></td><td></td><td></td><td></td>\
-                 <td><strong>$'+totals_paid+'</strong></td>\
+                 <td><strong>$'+totals_paid.toFixed(2)+'</strong></td>\
                  <td></td>\
-                 <td><strong>$'+total_tax+'</strong></td>\
+                 <td><strong>$'+total_tax.toFixed(2)+'</strong></td>\
                  <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>');
 }
 function setupCookies() {
@@ -98,11 +119,14 @@ function setupPagination() {
 }
 function clearRecords() {
   records = {};
+  totals_paid = 0;
+  total_tax = 0;
   $table.html("");
 }
 function fetchRecords() {
+  $(".table-responsive").append('<div id="loading"><div id="loading-text"><img src="img/ajax-loader-white.gif"> Loading...</div></div>');
   $.ajax({
-    url: '/static/report/fetch.php?order_by='+$.cookie('order_by')+'&order='+$.cookie('order')+'&per_page='+$.cookie('per_page')+"&page="+current_page+'&filter='+filter,
+    url: '/static/report/fetch.php?order_by='+$.cookie('order_by')+'&order='+$.cookie('order')+'&per_page='+$.cookie('per_page')+"&page="+current_page+'&filter='+filter+" "+date_filter,
     type: 'GET',
     dataType: 'text',
     data: {}
@@ -116,6 +140,7 @@ function fetchRecords() {
       records[val.id].update();
     });
     createTotals();
+    $("#loading").remove();
   });
 }
 function updateQueryStringParameter(uri, key, value) {
@@ -170,6 +195,7 @@ var Record = function( data ) { //dataObject is what's returned from the db
   this.customer_name = data.customer_name;
   this.service_date = data.service_date;
   this.total_paid = data.total_paid;
+  this.tax = parseFloat(data.tax).toFixed(2);
   this.shipping_street = data.shipping_street;
   this.shipping_city = data.shipping_city;
   this.shipping_region = data.shipping_region;
@@ -229,7 +255,7 @@ Record.prototype = {
       this.$service_date.html(this.service_date);
       this.$total_paid.html("$"+this.total_paid);
       this.$delivery_address.html(this.shipping_street+'<br><span class="filterable" data-column="shipping_city">'+this.shipping_city+'</span>, <span class="filterable" data-column="shipping_region">'+this.shipping_region+'</span> <span class="filterable" data-column="shipping_postal">'+this.shipping_postal+'</span>');
-      this.$tax.html(this.calculateTax());
+      this.$tax.html("$"+this.tax);
       this.addItems();
       // events
       $("button.locked", this.$actions).hover(function() {
@@ -244,8 +270,8 @@ Record.prototype = {
       this.$customer_name.html('<input class="form-control" type="text" value="'+this.customer_name+'" data-name="customer_name"></input>');
       this.$service_date.html('<input class="form-control" type="text" value="'+this.service_date+'" data-name="service_date"></input>');
       this.$total_paid.html('<input class="form-control" type="text" value="'+this.total_paid+'" data-name="total_paid"></input>');
-      this.$delivery_address.html('<input class="form-control" type="text" value="'+this.shipping_street+'" data-name="shipping_street"><br><input class="form-control" type="text" value="'+this.shipping_city+'" data-name="shipping_city"><br><input class="form-control" type="text" value="'+this.shipping_region+'" data-name="shipping_region"><br><input class="form-control" type="text" value="'+this.shipping_postal+'" data-name="shipping_postal">');
-      this.$tax.html(this.calculateTax());
+      this.$delivery_address.html('<input class="form-control" type="text" value="'+this.shipping_street+'" data-name="shipping_street" placeholder="Street"><br><input class="form-control" type="text" value="'+this.shipping_city+'" data-name="shipping_city" placeholder="City"><br><input class="form-control" type="text" value="'+this.shipping_region+'" data-name="shipping_region" placeholder="State/Region"><br><input class="form-control" type="text" value="'+this.shipping_postal+'" data-name="shipping_postal" placeholder="Postal Code">');
+      this.$tax.html("$"+this.tax);
       this.addItems();
       // events
       $("input", this.$order_date).datepicker();
@@ -317,10 +343,6 @@ Record.prototype = {
         self.update();
       }
     });
-  },
-  calculateTax: function() {
-    // TO DO
-    return "(not set)";
   },
   addItems: function() { 
     self = this;
