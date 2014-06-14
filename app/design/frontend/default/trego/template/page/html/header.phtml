@@ -131,7 +131,7 @@ $toolbar->setCollection($this->getChild('catalog_product_list')->getLoadedProduc
 ?>
 <?php endif ?>
 
-<?php if ($actionName == 'cms_index_index' || $actionName == 'catalogsearch_result_index'|| $actionName == 'catalogsearch_advanced_result'):?>
+<?php if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || $actionName == 'catalogsearch_result_index'|| $actionName == 'catalogsearch_advanced_result'):?>
     <script type="text/javascript">
 							//<![CDATA[
                             jQuery(function($) {

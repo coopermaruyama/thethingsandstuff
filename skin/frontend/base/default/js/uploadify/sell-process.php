@@ -1,4 +1,6 @@
 <?php 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 extract($_POST);
 $body =  "<strong>Item info:</strong> ". $itemInfo . "<br><br>
                         <strong>Timing: </strong>" . $timing . "<br><br>

@@ -78,6 +78,19 @@ function initEvents() {
     clearRecords();
     fetchRecords();
   });
+  // update button
+  // $("button#update-magento").on("click", function(event) {
+  //   event.preventDefault();
+  //   $(this).attr('disabled','disabled').html('<img src="img/ajax-loader-white.gif" alt="" /> Importing...');
+  //   $.ajax({
+  //     url: '/static/report/update.php?token=52eb285a49e57',
+  //     type: 'GET',
+  //     dataType: 'text',
+  //   })
+  //   .done(function() {
+  //     $("#update-magento").removeAttr("disabled").text("Update Magento Orders");
+  //   });
+  // });
 }
 function createTotals() {
   $tfoot.html("<tr><th></th><th></th><th></th><th></th><th></th><th><strong>Totals Paid</strong></th><th></th><th><strong>Total Tax</strong></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>");
@@ -234,7 +247,7 @@ Record.prototype = {
     this.$actions.on( 'click', "button.editing,button.locked",  function() {
       self.toggleLock()
     });
-    this.$row.on( "blur", "input", function() {
+    this.$row.on( "change", "input", function() {
       self.saveColumn($(this));
     });
     this.$actions.on( 'click','button.delete', function() {
@@ -303,7 +316,9 @@ Record.prototype = {
     column_name = $inputElem.data("name");
     value = $inputElem.val();
     if (/date/.test(column_name)) {
-      value += " " + (new Date()).toTimeString().split(" ")[0];
+      console.log(value);
+      value =  moment(value).format("YYYY-MM-DD");// + " 12:00:00";
+      // velue = encodeURIComponent(value);
     };
     $.ajax({
       url: '/static/report/api.php',
@@ -353,8 +368,10 @@ Record.prototype = {
           self['$item'+i].text(self.items[items_index].item);
           self['$item'+i+'_price'].text('$'+self.items[items_index].price);
         } else {
-          self['$item'+i].html('<input class="form-control" type="text" value="'+self.items[items_index].item+'" data-name="item'+i+'"></input>');
-          self['$item'+i+'_price'].html('<input class="form-control" type="text" value="'+self.items[items_index].price+'" data-name="item'+i+'_price"></input>');
+          // self['$item'+i].html('<input class="form-control" type="text" value="'+self.items[items_index].item+'" data-name="item'+i+'"></input>');
+          // self['$item'+i+'_price'].html('<input class="form-control" type="text" value="'+self.items[items_index].price+'" data-name="item'+i+'_price"></input>');
+          self['$item'+i].text(self.items[items_index].item);
+          self['$item'+i+'_price'].text('$'+self.items[items_index].price);
         }
       }
     }

@@ -63,7 +63,7 @@ try {
     } else if ($token == "52eb285a49e57") {
         $oauthClient->setToken($_SESSION['token'], $_SESSION['secret']);
         $resourceUrl = "$apiUrl/products";
-        if ($notes == "") {$notes = "[coming soon]";}
+        if ($notes == "") {$notes = "Dimensions: [Coming]";}
         $productData = json_encode(array(
             'type_id'           => 'simple',
             'attribute_set_id'  => 4,
