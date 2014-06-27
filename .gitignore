@@ -5,7 +5,6 @@
 *.bak
 *.swp
 *~.nib
-app/etc/local.xml
 downloader/.cache
 downloader/cache.cfg
 downloader/connect.cfg
@@ -18,4 +17,3 @@ var/log
 var/report
 media/catalog/product/cache
 *.DS_Store
-media/*
