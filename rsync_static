@@ -1,0 +1,2 @@
+#!/bin/bash
+rsync -r --info=progress2 ./static/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/static/
