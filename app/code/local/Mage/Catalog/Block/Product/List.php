@@ -159,6 +159,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
             $_productCollection = Mage::getResourceModel('catalog/product_collection')->addCategoryFilter($category);
             $_productCollection->addAttributeToSelect('*')
                 ->setOrder('created_at', 'DESC');
+            Mage::getSingleton('cataloginventory/stock')->addInStockFilterToCollection($_productCollection); //filter out of stock items
             $pageSize = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 12;
             if (isset($_GET['p'])) {
                 $page = intVal($_GET['p']);

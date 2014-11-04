@@ -1,0 +1,5 @@
+#!/bin/bash
+rsync -r --info=progress2 ./static/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/static/
+if hash growlnotify 2>/dev/null; then
+	growlnotify Rsync Complete -m "Completed TTAS Rsync"
+fi

@@ -2,3 +2,7 @@
 rsync -r --info=progress2 ./app/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/app/
 rsync -r --info=progress2 ./skin/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/skin/
 rsync -r --info=progress2 ./js/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/js/
+rsync -r --info=progress2 ./static/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/static/
+if hash growlnotify 2>/dev/null; then
+	growlnotify Rsync Complete -m "Completed TTAS Rsync"
+fi

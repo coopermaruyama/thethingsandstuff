@@ -26,7 +26,7 @@ if( !function_exists( 'http_parse_headers' ) ) {
      }
 }
 function generateResourceUrl($page, $apiUrl) {
-	return "$apiUrl/orders?limit=100&page=$page";
+	return "$apiUrl/orders?limit=10&page=$page";
 }
 function moreRecordsExist($page, $oauthClient, $apiUrl) {
 	$resourceUrl = generateResourceUrl($page, $apiUrl);
@@ -34,11 +34,20 @@ function moreRecordsExist($page, $oauthClient, $apiUrl) {
 	$oauthClient->fetch($resourceUrl, null, OAUTH_HTTP_METHOD_GET, $headers);
 	$data = $oauthClient->getLastResponse();
 	$array = json_decode($data, true);
-	return count($array) < 100 ? false : true;
+    if (count($array) == 10) {
+        $next_page_has_records = true;
+    } elseif (count($array) < 10) {
+        $next_page_has_records = false;
+    }
+    $is_last_page = false;
+    if ( (count($array) < 10) && (count($array) > 0) ) {
+        $is_last_page = true;
+    }
+	return count($array) < 10 ? false : true;
 }
 
 $host = "http://thethingsandstuff.com";
-$callbackUrl = $host."/static/report/test.php";
+$callbackUrl = $host."/static/report/update.php";
 $temporaryCredentialsRequestUrl = $host."/oauth/initiate?oauth_callback=" . urlencode($callbackUrl);
 $adminAuthorizationUrl = $host.'/admin/oauth_authorize';
 $accessTokenRequestUrl = $host.'/oauth/token';
@@ -125,7 +134,10 @@ try {
                 foreach ($order_array['order_items'] as $item) {
                     $item_name = $item['name'];
                     $item_price = number_format((float)floatval($item['price']), 2, '.', '');
-                    $query = $conn->prepare("INSERT INTO  `revenue_report`.`revenue_record_items` (`id`,`revenue_record_id`,`item`,`price`)VALUES (NULL,$revenue_record_id,'$item_name','$item_price')");
+                    $query = $conn->prepare("INSERT INTO  `revenue_report`.`revenue_record_items` (`id`,`revenue_record_id`,`item`,`price`)VALUES (NULL,:revenue_record_id,:item_name,:item_price)");
+                    $query->bindParam(":revenue_record_id", $revenue_record_id);
+                    $query->bindParam(":item_name", $item_name);
+                    $query->bindParam(":item_price", $item_price);
                     $query->execute();
                 }   
             }
