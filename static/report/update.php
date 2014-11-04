@@ -38,7 +38,7 @@ function moreRecordsExist($page, $oauthClient, $apiUrl) {
 }
 
 $host = "http://thethingsandstuff.com";
-$callbackUrl = $host."/static/report/test.php";
+$callbackUrl = $host."/static/report/update.php";
 $temporaryCredentialsRequestUrl = $host."/oauth/initiate?oauth_callback=" . urlencode($callbackUrl);
 $adminAuthorizationUrl = $host.'/admin/oauth_authorize';
 $accessTokenRequestUrl = $host.'/oauth/token';

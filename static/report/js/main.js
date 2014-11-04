@@ -51,6 +51,7 @@ function initEvents() {
   $lightbox.on('shown.bs.modal', function (e) {
       $lightbox.find('.close').removeClass('hidden');
   });
+  $lightbox.find("input.datepicker").datepicker();
   // create record
   $createButton.click(function(e) {
     e.stopPropagation();
@@ -188,13 +189,18 @@ function newRecord( $form ) {
     },
   })
   .done(function(data) {
-    // console.log("success");
-    $("#lightbox").modal("hide")
+     // console.log("success");
+     $("#lightbox input").val("");
+    $("#lightbox").modal("hide");
     var parsed_data = JSON.parse(data),
-        record_data = parsed_data["record"],
-        record = new Record( record_data );
+        record_data = parsed_data["record"];
+    record_data.items = {};
+    var record = new Record( record_data );
     record.create(false);
     record.update();
+    window.records[record.row_id] = record;
+    window.pocket = record;
+    console.log(record);
   });
 }
 
@@ -335,7 +341,17 @@ Record.prototype = {
       console.log(data);
       if (data == "success") {
         // console.log("Updated row "+self.row_id+": "+column_name+" to "+value);
-        records[self.row_id][column_name] = value;
+        if (/item[0-9]/.test(column_name)) {
+          var item_position = column_name.match(/item([0-9])/)[1];
+          item_position = parseInt(item_position) - 1;
+          if (/price/.test(column_name)) {
+            records[self.row_id].items[item_position].price = value;
+          } else {
+            records[self.row_id].items[item_position].item = value;
+          }
+        } else {
+          records[self.row_id][column_name] = value;
+        }
       };
     });
   },
@@ -368,11 +384,16 @@ Record.prototype = {
           self['$item'+i].text(self.items[items_index].item);
           self['$item'+i+'_price'].text('$'+self.items[items_index].price);
         } else {
-          // self['$item'+i].html('<input class="form-control" type="text" value="'+self.items[items_index].item+'" data-name="item'+i+'"></input>');
-          // self['$item'+i+'_price'].html('<input class="form-control" type="text" value="'+self.items[items_index].price+'" data-name="item'+i+'_price"></input>');
-          self['$item'+i].text(self.items[items_index].item);
-          self['$item'+i+'_price'].text('$'+self.items[items_index].price);
+          self['$item'+i].html('<input class="form-control" type="text" value="'+self.items[items_index].item+'" data-name="item'+i+'"></input>');
+          self['$item'+i+'_price'].html('<input class="form-control" type="text" value="'+self.items[items_index].price+'" data-name="item'+i+'_price"></input>');
+          // self['$item'+i].text(self.items[items_index].item);
+          // self['$item'+i+'_price'].text('$'+self.items[items_index].price);
         }
+      } else { //item is undefined
+        if (!self.locked) { //and row is unlocked
+          self['$item'+i].html('<input class="form-control" type="text" value="" data-name="item'+i+'"></input>');
+          self['$item'+i+'_price'].html('<input class="form-control" type="text" value="" data-name="item'+i+'_price"></input>');
+        };
       }
     }
   }
