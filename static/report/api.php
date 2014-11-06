@@ -18,7 +18,7 @@ if ($action == "unlock_row" && isset($row_id)) {
     $query->execute();
     echo "success";
 } else if ($action == "update_column" && isset($row_id) && isset($column_name) && isset($new_value)) {
-	if (preg_match("/^item/", $column_name)) { // need to update an item
+	if (preg_match("/^item/", $column_name) && isset($rr_id) && $rr_id != "" ) { // need to update an item
 		if ( preg_match("/^item[0-9]+_price/", $column_name) ) {
 			$item_column_name = "price";
 			$column_name = preg_replace("/_price/", "", $column_name);
@@ -26,7 +26,7 @@ if ($action == "unlock_row" && isset($row_id)) {
 			$item_column_name = "item";
 		}
 		$item_number = preg_replace("/item/", "", $column_name);
-		$item_number = intval($item_number) - 1;
+		// $item_number = intval($item_number) - 1;
 		$the_query = "SELECT * FROM `revenue_report`.`revenue_record_items` WHERE `revenue_record_id` = $row_id AND `item_number` = $item_number";
 		
 		$query = $conn->prepare($the_query);
@@ -38,7 +38,7 @@ if ($action == "unlock_row" && isset($row_id)) {
 			$query = $conn->prepare( $the_query );
 		} else {
 			$item_row_id = $result["id"];
-			$the_query = "UPDATE `revenue_report`.`revenue_record_items` SET `$item_column_name`='$new_value' WHERE id = $item_row_id";
+			$the_query = "UPDATE `revenue_report`.`revenue_record_items` SET `$item_column_name`='$new_value' WHERE id = $rr_id";
 			$query = $conn->prepare( $the_query );
 			// echo $the_query;
 		}

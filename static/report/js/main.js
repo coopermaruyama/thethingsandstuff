@@ -1,471 +1,433 @@
-/****
-**
-*
-*  Main JS file for TTAS Reporting System
-*  Author: Cooper Maruyama (cooper@landersoptimized.com)
-*
-**
-****/
-// config
-var $table = $('#tablecontents'), //Main table container for rows
-    $tfoot = $("#tablefooter"),
-    $createButton = $("button#createRow"),
-    $filters = [
-      $("select#order_by"),
-      $("select#order"),
-      $("select#per_page")
-    ],
-    current_page = getParameterByName("page") == "" ? 1 : parseInt(getParameterByName("page")),
-    records = {},
-    totals_paid = 0,
-    total_tax = 0,
-    filter = "",
-    date_filter = "";
-// Intialize
-$(function() {
-  init();
-  fetchRecords();
-  initEvents();
-});
-// 
-function init() {
-  $("#tablecontents").html('');
-  setupCookies();
-  setupPagination();
-}
-function initEvents() {
-  // filter row
-  $(document).on("click", "span.filterable", function() {
-    filter_column = $(this).data("column");
-    filter_value = $(this).text();
-    filter = encodeURIComponent("AND `revenue_records`.`"+filter_column+"`='"+filter_value+"'");
-    clearRecords();
-    fetchRecords();
-    $("p.filter-text").html('<strong>Filtering <i>'+filter_column+'</i> by <i>'+filter_value+'</i><br><a href="javascript:location.reload()">remove</a></strong>');
-  });
-  // lightbox
-  var $lightbox = $('#lightbox'); 
-  $('[data-target="#lightbox"]').on('click', function(event) {
-      $lightbox.find('.close').addClass('hidden');
-  });
-  $lightbox.on('shown.bs.modal', function (e) {
-      $lightbox.find('.close').removeClass('hidden');
-  });
-  $lightbox.find("input.datepicker").datepicker();
-  // create record
-  $createButton.click(function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    $form = $(this).closest("form");
-    newRecord( $form );
-  });
-  // filter date
-  var this_year = moment().format("YYYY")
-      last_year = moment().subtract('years',1).format("YYYY"),
-      the_ranges = {};
-  the_ranges["Q1 "+this_year] = [moment("Jan 1, "+this_year), moment("March 31, "+this_year)];
-  the_ranges["Q2 "+this_year] = [moment("April 1, "+this_year), moment("Jun 30, "+this_year)];
-  the_ranges["Q3 "+this_year] = [moment("July 1, "+this_year), moment("Sep 30, "+this_year)];
-  the_ranges["Q4 "+this_year] = [moment("Oct 1, "+this_year), moment("Dec 31, "+this_year)];
-  the_ranges["Q1 "+last_year] = [moment("Jan 1, "+last_year), moment("March 31, "+last_year)];
-  the_ranges["Q2 "+last_year] = [moment("April 1, "+last_year), moment("Jun 30, "+last_year)];
-  the_ranges["Q3 "+last_year] = [moment("July 1, "+last_year), moment("Sep 30, "+last_year)];
-  the_ranges["Q4 "+last_year] = [moment("Oct 1, "+last_year), moment("Dec 31, "+last_year)];
-  $('input[name=daterange]').daterangepicker({
-    format: 'YYYY-MM-DD',
-    ranges: the_ranges
-  }, function(start, end, label) {
-    date_filter = encodeURIComponent("AND `revenue_records`.`order_date` BETWEEN '"+start.format('YYYY-MM-DD')+" 00:00:00' AND '"+end.format('YYYY-MM-DD')+" 0:00:00'");
-    clearRecords();
-    fetchRecords();
-  });
-  // update button
-  // $("button#update-magento").on("click", function(event) {
-  //   event.preventDefault();
-  //   $(this).attr('disabled','disabled').html('<img src="img/ajax-loader-white.gif" alt="" /> Importing...');
-  //   $.ajax({
-  //     url: '/static/report/update.php?token=52eb285a49e57',
-  //     type: 'GET',
-  //     dataType: 'text',
-  //   })
-  //   .done(function() {
-  //     $("#update-magento").removeAttr("disabled").text("Update Magento Orders");
-  //   });
-  // });
-}
-function createTotals() {
-  $tfoot.html("<tr><th></th><th></th><th></th><th></th><th></th><th><strong>Totals Paid</strong></th><th></th><th><strong>Total Tax</strong></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>");
-  $tr = $("<tr></tr>").appendTo( $tfoot );
-  totals_paid = 0;
-  total_tax = 0;
-  $.each(records, function(index,value) {
-    totals_paid += parseFloat(value.total_paid);
-    total_tax += parseFloat(value.tax);
-  });
-  $tr.append('<td></td><td></td><td></td><td></td><td></td>\
-                 <td><strong>$'+totals_paid.toFixed(2)+'</strong></td>\
-                 <td></td>\
-                 <td><strong>$'+total_tax.toFixed(2)+'</strong></td>\
-                 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>');
-}
-function setupCookies() {
-  $.each(['per_page','order','order_by'], function(index, val) {
-    if (typeof $.cookie(val) == "undefined") {
-     $.cookie(val, $("select#"+val).val(), { expires: 30 });
-    } else {
-     $("select#"+val).val($.cookie(val));
-    };
-    $("select#"+val).change(function(event) {
-      $.cookie($(this).attr('name'),$(this).val(), { expires: 30 });
-      location.reload();
-    });
-  });
-}
-function setupPagination() {
-  // pager
-  if (getParameterByName("page") == "" || parseInt(getParameterByName("page")) == 1 ) {
-    $("li#prev_page").addClass("disabled");
-    $("li#next_page a").attr('href',updateQueryStringParameter(window.location.href,"page", "2") );
-  } else if (parseInt(getParameterByName("page")) > 1) {
-    $("li#prev_page a").attr('href',updateQueryStringParameter(window.location.href,"page", (parseInt(getParameterByName("page")) - 1) ) );
-    $("li#next_page a").attr('href',updateQueryStringParameter(window.location.href,"page", (parseInt(getParameterByName("page")) + 1) ) );
+// Generated by CoffeeScript 1.8.0
+
+/**
+Main JS file for TTAS Reporting System
+Author: Cooper Maruyama (cooper@landersoptimized.com)
+ */
+
+(function() {
+  var $createButton, $filters, $table, $tfoot, clearRecords, current_page, date_filter, filter, root, total_tax, totals_paid;
+
+  root = typeof exports !== "undefined" && exports !== null ? exports : this;
+
+  root.init = function() {
+    $("#tablecontents").html("");
+    setupCookies();
+    setupPagination();
   };
-}
-function clearRecords() {
-  records = {};
-  totals_paid = 0;
-  total_tax = 0;
-  $table.html("");
-}
-function fetchRecords() {
-  $(".table-responsive").append('<div id="loading"><div id="loading-text"><img src="img/ajax-loader-white.gif"> Loading...</div></div>');
-  $.ajax({
-    url: '/static/report/fetch.php?order_by='+$.cookie('order_by')+'&order='+$.cookie('order')+'&per_page='+$.cookie('per_page')+"&page="+current_page+'&filter='+filter+" "+date_filter,
-    type: 'GET',
-    dataType: 'text',
-    data: {}
-  })
-  .done(function(data) {
-    append = $.cookie("order") == "ASC" ? false : true;
-    parsed_data = JSON.parse(data);
-    $.each(parsed_data, function(index, val) {
-      records[val.id] = new Record(val);
-      records[val.id].create( append );
-      records[val.id].update();
-    });
-    createTotals();
-    $("#loading").remove();
-  });
-}
-function updateQueryStringParameter(uri, key, value) {
-  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-  if (uri.match(re)) {
-    return uri.replace(re, '$1' + key + "=" + value + '$2');
-  }
-  else {
-    return uri + separator + key + "=" + value;
-  }
-}
-function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-function newRecord( $form ) {
-  var record_type = $('select[name=record_type]', $form).val(),
-      customer_name = $('input[name=customer_name]', $form).val(),
-      total_paid = $('input[name=total_paid]', $form).val();
-  $.ajax({
-    url: 'api.php',
-    type: 'POST',
-    dataType: 'text',
-    data: {
-      action: "new_record",
-      record_type: record_type,
-      customer_name: customer_name,
-      total_paid: total_paid
-    },
-  })
-  .done(function(data) {
-     // console.log("success");
-     $("#lightbox input").val("");
-    $("#lightbox").modal("hide");
-    var parsed_data = JSON.parse(data),
-        record_data = parsed_data["record"];
-    record_data.items = {};
-    var record = new Record( record_data );
-    record.create(false);
-    record.update();
-    window.records[record.row_id] = record;
-    window.pocket = record;
-    console.log(record);
-  });
-}
 
-// Create the Record Object
-var Record = function( data ) { //dataObject is what's returned from the db
-  var _this = this;
-  this.row_id = data.id;
-  this.locked = data.locked == "1" ? true : false;
-  this.order_date = data.order_date;
-  this.order_type = data.order_type;
-  this.customer_name = data.customer_name;
-  this.service_date = data.service_date;
-  this.total_paid = data.total_paid;
-  this.tax = parseFloat(data.tax).toFixed(2);
-  this.shipping_street = data.shipping_street;
-  this.shipping_city = data.shipping_city;
-  this.shipping_region = data.shipping_region;
-  this.shipping_postal = data.shipping_postal;
-  this.items = data.items; //object containing items
-  // initializers
-  // this.create();
-  // this.update();
-}
+  root.initEvents = function() {
+    var $lightbox, last_year, the_ranges, this_year;
+    $(document).on("click", "span.filterable", function() {
+      var filter, filter_column, filter_value;
+      filter_column = $(this).data("column");
+      filter_value = $(this).text();
+      filter = encodeURIComponent("AND `revenue_records`.`" + filter_column + "`='" + filter_value + "'");
+      clearRecords();
+      fetchRecords();
+      $("p.filter-text").html("<strong>Filtering <i>" + filter_column + "</i> by <i>" + filter_value + "</i><br><a href=\"javascript:location.reload()\">remove</a></strong>");
+    });
+    $lightbox = $("#lightbox");
+    $("[data-target=\"#lightbox\"]").on("click", function(event) {
+      $lightbox.find(".close").addClass("hidden");
+    });
+    $lightbox.on("shown.bs.modal", function(e) {
+      $lightbox.find(".close").removeClass("hidden");
+    });
+    $lightbox.find("input.datepicker").datepicker();
+    $createButton.click(function(e) {
+      var $form;
+      e.stopPropagation();
+      e.preventDefault();
+      $form = $(this).closest("form");
+      newRecord($form);
+    });
+    this_year = moment().format("YYYY");
+    last_year = moment().subtract("years", 1).format("YYYY");
+    the_ranges = {};
+    the_ranges["Q1 " + this_year] = [moment("Jan 1, " + this_year), moment("March 31, " + this_year)];
+    the_ranges["Q2 " + this_year] = [moment("April 1, " + this_year), moment("Jun 30, " + this_year)];
+    the_ranges["Q3 " + this_year] = [moment("July 1, " + this_year), moment("Sep 30, " + this_year)];
+    the_ranges["Q4 " + this_year] = [moment("Oct 1, " + this_year), moment("Dec 31, " + this_year)];
+    the_ranges["Q1 " + last_year] = [moment("Jan 1, " + last_year), moment("March 31, " + last_year)];
+    the_ranges["Q2 " + last_year] = [moment("April 1, " + last_year), moment("Jun 30, " + last_year)];
+    the_ranges["Q3 " + last_year] = [moment("July 1, " + last_year), moment("Sep 30, " + last_year)];
+    the_ranges["Q4 " + last_year] = [moment("Oct 1, " + last_year), moment("Dec 31, " + last_year)];
+    $("input[name=daterange]").daterangepicker({
+      format: "YYYY-MM-DD",
+      ranges: the_ranges
+    }, function(start, end, label) {
+      var date_filter;
+      date_filter = encodeURIComponent("AND `revenue_records`.`order_date` BETWEEN '" + start.format("YYYY-MM-DD") + " 00:00:00' AND '" + end.format("YYYY-MM-DD") + " 0:00:00'");
+      clearRecords();
+      fetchRecords();
+    });
+  };
 
-Record.prototype = {
-  create: function( should_append ) {
-    var self = this;
-    // create structure
-    this.$row                = should_append ? $('<tr id="row-'+this.row_id+'" data-row-id="'+this.row_id+'"></tr>').appendTo( $table ) : $('<tr id="row-'+this.row_id+'" data-row-id="'+this.row_id+'"></tr>').prependTo( $table );
-    this.$actions            = $('<td class="actions"></td>').appendTo( this.$row );
-    this.$order_date         = $('<td class="order_date"></td>').appendTo( this.$row );
-    this.$order_type         = $('<td class="order_type"></td>').appendTo( this.$row );
-    this.$customer_name           = $('<td class="customer"></td>').appendTo( this.$row );
-    this.$service_date       = $('<td class="service_date"></td>').appendTo( this.$row );
-    this.$total_paid         = $('<td class="total_paid"></td>').appendTo( this.$row );
-    this.$delivery_address   = $('<td class="delivery_address"></td>').appendTo( this.$row );
-    this.$tax                = $('<td class="tax"></td>').appendTo( this.$row );
-    this.$item1              = $('<td class="item1"></td>').appendTo( this.$row );
-    this.$item1_price        = $('<td class="item1_price"></td>').appendTo( this.$row );
-    this.$item2              = $('<td class="item2"></td>').appendTo( this.$row );
-    this.$item2_price        = $('<td class="item2_price"></td>').appendTo( this.$row );
-    this.$item3              = $('<td class="item3"></td>').appendTo( this.$row );
-    this.$item3_price        = $('<td class="item3_price"></td>').appendTo( this.$row );
-    this.$item4              = $('<td class="item4"></td>').appendTo( this.$row );
-    this.$item4_price        = $('<td class="item4_price"></td>').appendTo( this.$row );
-    this.$item5              = $('<td class="item5"></td>').appendTo( this.$row );
-    this.$item5_price        = $('<td class="item5_price"></td>').appendTo( this.$row );
-    this.$cells = [this.$row, this.$actions, this.$order_date, this.$order_type, this.$customer, this.$service_date, this.$total_paid, this.$delivery_address, this.$tax, this.$item1, this.$item1_price, this.$item2, this.$item2_price, this.$item3, this.$item3_price, this.$item4, this.$item4_price, this.$item5, this.$item5_price]
-    // bind events
-    this.$actions.on( 'click', "button.editing,button.locked",  function() {
-      self.toggleLock()
+  root.createTotals = function() {
+    var $tr, total_tax, totals_paid;
+    $tfoot.html("<tr><th></th><th></th><th></th><th></th><th></th><th><strong>Totals Paid</strong></th><th></th><th><strong>Total Tax</strong></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>");
+    $tr = $("<tr></tr>").appendTo($tfoot);
+    totals_paid = 0;
+    total_tax = 0;
+    $.each(records, function(index, value) {
+      totals_paid += parseFloat(value.total_paid);
+      total_tax += parseFloat(value.tax);
     });
-    this.$row.on( "change", "input", function() {
-      self.saveColumn($(this));
-    });
-    this.$actions.on( 'click','button.delete', function() {
-      var confirm = window.confirm("Are you sure?");
-      if (confirm == true) {
-        self.destroy();
+    $tr.append("<td></td><td></td><td></td><td></td><td></td>                 <td><strong>$" + totals_paid.toFixed(2) + "</strong></td>                 <td></td>                 <td><strong>$" + total_tax.toFixed(2) + "</strong></td>                 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>");
+  };
+
+  root.setupCookies = function() {
+    $.each(["per_page", "order", "order_by"], function(index, val) {
+      if (typeof $.cookie(val) === "undefined") {
+        $.cookie(val, $("select#" + val).val(), {
+          expires: 30
+        });
+      } else {
+        $("select#" + val).val($.cookie(val));
       }
+      $("select#" + val).change(function(event) {
+        $.cookie($(this).attr("name"), $(this).val(), {
+          expires: 30
+        });
+        location.reload();
+      });
     });
-  },
-  update: function() {
-    self = this;
-    this.$row.find("> td").html('');
-    if (this.locked) {
-      this.$actions.html('<button type="button" class="btn btn-default locked">Locked</button>');
-      this.$order_date.html(this.order_date);
-      this.$order_type.html(this.order_type);
-      this.$customer_name.html(this.customer_name);
-      this.$service_date.html(this.service_date);
-      this.$total_paid.html("$"+this.total_paid);
-      this.$delivery_address.html(this.shipping_street+'<br><span class="filterable" data-column="shipping_city">'+this.shipping_city+'</span>, <span class="filterable" data-column="shipping_region">'+this.shipping_region+'</span> <span class="filterable" data-column="shipping_postal">'+this.shipping_postal+'</span>');
-      this.$tax.html("$"+this.tax);
-      this.addItems();
-      // events
-      $("button.locked", this.$actions).hover(function() {
-        $(this).toggleClass("btn-default").toggleClass("btn-primary").text("Unlock")
-      }, function() {
-        $(this).toggleClass("btn-default").toggleClass("btn-primary").text("Locked")
-      });
-    } else {
-      this.$actions.html('<button type="button" class="btn btn-warning editing">Editing</button><br><button type="button" class="btn btn-danger delete">Delete</button>');
-      this.$order_date.html('<input class="form-control" type="text" value="'+this.order_date+'" data-name="order_date"></input>');
-      this.$order_type.html(this.order_type);
-      this.$customer_name.html('<input class="form-control" type="text" value="'+this.customer_name+'" data-name="customer_name"></input>');
-      this.$service_date.html('<input class="form-control" type="text" value="'+this.service_date+'" data-name="service_date"></input>');
-      this.$total_paid.html('<input class="form-control" type="text" value="'+this.total_paid+'" data-name="total_paid"></input>');
-      this.$delivery_address.html('<input class="form-control" type="text" value="'+this.shipping_street+'" data-name="shipping_street" placeholder="Street"><br><input class="form-control" type="text" value="'+this.shipping_city+'" data-name="shipping_city" placeholder="City"><br><input class="form-control" type="text" value="'+this.shipping_region+'" data-name="shipping_region" placeholder="State/Region"><br><input class="form-control" type="text" value="'+this.shipping_postal+'" data-name="shipping_postal" placeholder="Postal Code">');
-      this.$tax.html("$"+this.tax);
-      this.addItems();
-      // events
-      $("input", this.$order_date).datepicker();
-      $("input", this.$service_date).datepicker();
-      $("button.editing", this.$actions).hover(function() {
-        $(this).text("Save")
-      }, function() {
-        $(this).text("Editing")
-      });
+  };
+
+  root.setupPagination = function() {
+    if (getParameterByName("page") === "" || parseInt(getParameterByName("page")) === 1) {
+      $("li#prev_page").addClass("disabled");
+      $("li#next_page a").attr("href", updateQueryStringParameter(window.location.href, "page", "2"));
+    } else if (parseInt(getParameterByName("page")) > 1) {
+      $("li#prev_page a").attr("href", updateQueryStringParameter(window.location.href, "page", parseInt(getParameterByName("page")) - 1));
+      $("li#next_page a").attr("href", updateQueryStringParameter(window.location.href, "page", parseInt(getParameterByName("page")) + 1));
     }
-  },
-  destroy: function() {
-    var self = this;
+  };
+
+  clearRecords = function() {
+    window.records = {};
+    window.totals_paid = 0;
+    window.total_tax = 0;
+    $table.html("");
+  };
+
+  root.fetchRecords = function() {
+    $(".table-responsive").append("<div id=\"loading\"><div id=\"loading-text\"><img src=\"img/ajax-loader-white.gif\"> Loading...</div></div>");
     $.ajax({
-      url: 'api.php',
-      type: 'POST',
-      dataType: 'text',
-      data: {
-        action: "destroy",
-        row_id: self.row_id
-      },
-    })
-    .done(function() {
-      self.$row.fadeOut();
+      url: "/static/report/fetch.php?order_by=" + $.cookie("order_by") + "&order=" + $.cookie("order") + "&per_page=" + $.cookie("per_page") + "&page=" + current_page + "&filter=" + filter + " " + date_filter,
+      type: "GET",
+      dataType: "text",
+      data: {}
+    }).done(function(data) {
+      var append, parsed_data;
+      append = ($.cookie("order") === "ASC" ? false : true);
+      parsed_data = JSON.parse(data);
+      $.each(parsed_data, function(index, val) {
+        window.records[val.id] = new Record(val);
+        window.records[val.id].create(append);
+        window.records[val.id].update();
+      });
+      createTotals();
+      $("#loading").remove();
     });
-  },
-  saveColumn: function( $inputElem ) {
-    var self = this;
-    column_name = $inputElem.data("name");
-    value = $inputElem.val();
-    if (/date/.test(column_name)) {
-      console.log(value);
-      value =  moment(value).format("YYYY-MM-DD");// + " 12:00:00";
-      // velue = encodeURIComponent(value);
-    };
+  };
+
+  root.updateQueryStringParameter = function(uri, key, value) {
+    var re, separator;
+    re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    separator = (uri.indexOf("?") !== -1 ? "&" : "?");
+    if (uri.match(re)) {
+      return uri.replace(re, "$1" + key + "=" + value + "$2");
+    } else {
+      return uri + separator + key + "=" + value;
+    }
+  };
+
+  root.getParameterByName = function(name) {
+    var regex, results;
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+    results = regex.exec(location.search);
+    if (results == null) {
+      return "";
+    } else {
+      return decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+  };
+
+  root.newRecord = function($form) {
+    var customer_name, record_type, total_paid;
+    record_type = $("select[name=record_type]", $form).val();
+    customer_name = $("input[name=customer_name]", $form).val();
+    total_paid = $("input[name=total_paid]", $form).val();
     $.ajax({
-      url: '/static/report/api.php',
-      type: 'POST',
-      dataType: 'text',
+      url: "api.php",
+      type: "POST",
+      dataType: "text",
       data: {
-        action: 'update_column',
-        row_id: self.row_id,
-        column_name: column_name,
-        new_value: value
-      },
-    })
-    .done(function(data) {
-      console.log(data);
-      if (data == "success") {
-        // console.log("Updated row "+self.row_id+": "+column_name+" to "+value);
-        if (/item[0-9]/.test(column_name)) {
-          var item_position = column_name.match(/item([0-9])/)[1];
-          item_position = parseInt(item_position) - 1;
-          if (/price/.test(column_name)) {
-            records[self.row_id].items[item_position].price = value;
+        action: "new_record",
+        record_type: record_type,
+        customer_name: customer_name,
+        total_paid: total_paid
+      }
+    }).done(function(data) {
+      var parsed_data, record, record_data;
+      $("#lightbox input").val("");
+      $("#lightbox").modal("hide");
+      parsed_data = JSON.parse(data);
+      record_data = parsed_data["record"];
+      record_data.items = {};
+      record = new Record(record_data);
+      record.create(false);
+      record.update();
+      window.records[record.row_id] = record;
+      window.pocket = record;
+      console.log(record);
+    });
+  };
+
+  root.Record = function(data) {
+    var _this;
+    _this = this;
+    this.row_id = data.id;
+    this.locked = (data.locked === "1" ? true : false);
+    this.order_date = data.order_date;
+    this.order_type = data.order_type;
+    this.customer_name = data.customer_name;
+    this.service_date = data.service_date;
+    this.total_paid = data.total_paid;
+    this.tax = parseFloat(data.tax).toFixed(2);
+    this.shipping_street = data.shipping_street;
+    this.shipping_city = data.shipping_city;
+    this.shipping_region = data.shipping_region;
+    this.shipping_postal = data.shipping_postal;
+    this.items = data.items;
+  };
+
+  Record.prototype = {
+    create: function(should_append) {
+      var self;
+      self = this;
+      this.$row = (should_append ? $("<tr id=\"row-" + this.row_id + "\" data-row-id=\"" + this.row_id + "\"></tr>").appendTo($table) : $("<tr id=\"row-" + this.row_id + "\" data-row-id=\"" + this.row_id + "\"></tr>").prependTo($table));
+      this.$actions = $("<td class=\"actions\"></td>").appendTo(this.$row);
+      this.$order_date = $("<td class=\"order_date\"></td>").appendTo(this.$row);
+      this.$order_type = $("<td class=\"order_type\"></td>").appendTo(this.$row);
+      this.$customer_name = $("<td class=\"customer\"></td>").appendTo(this.$row);
+      this.$service_date = $("<td class=\"service_date\"></td>").appendTo(this.$row);
+      this.$total_paid = $("<td class=\"total_paid\"></td>").appendTo(this.$row);
+      this.$delivery_address = $("<td class=\"delivery_address\"></td>").appendTo(this.$row);
+      this.$tax = $("<td class=\"tax\"></td>").appendTo(this.$row);
+      this.$item1 = $("<td class=\"item1\"></td>").appendTo(this.$row);
+      this.$item1_price = $("<td class=\"item1_price\"></td>").appendTo(this.$row);
+      this.$item2 = $("<td class=\"item2\"></td>").appendTo(this.$row);
+      this.$item2_price = $("<td class=\"item2_price\"></td>").appendTo(this.$row);
+      this.$item3 = $("<td class=\"item3\"></td>").appendTo(this.$row);
+      this.$item3_price = $("<td class=\"item3_price\"></td>").appendTo(this.$row);
+      this.$item4 = $("<td class=\"item4\"></td>").appendTo(this.$row);
+      this.$item4_price = $("<td class=\"item4_price\"></td>").appendTo(this.$row);
+      this.$item5 = $("<td class=\"item5\"></td>").appendTo(this.$row);
+      this.$item5_price = $("<td class=\"item5_price\"></td>").appendTo(this.$row);
+      this.$cells = [this.$row, this.$actions, this.$order_date, this.$order_type, this.$customer, this.$service_date, this.$total_paid, this.$delivery_address, this.$tax, this.$item1, this.$item1_price, this.$item2, this.$item2_price, this.$item3, this.$item3_price, this.$item4, this.$item4_price, this.$item5, this.$item5_price];
+      this.$actions.on("click", "button.editing,button.locked", function() {
+        self.toggleLock();
+      });
+      this.$row.on("change", "input", function() {
+        self.saveColumn($(this));
+      });
+      this.$actions.on("click", "button.delete", function() {
+        var confirm;
+        confirm = window.confirm("Are you sure?");
+        if (confirm === true) {
+          self.destroy();
+        }
+      });
+    },
+    update: function() {
+      var self;
+      self = this;
+      this.$row.find("> td").html("");
+      self.total_paid = 0;
+      $.each(self.items, function(i, item) {
+        self.total_paid += parseFloat(item.price);
+      });
+      this.$total_paid.html("$" + self.total_paid);
+      if (this.locked) {
+        this.$actions.html("<button type=\"button\" class=\"btn btn-default locked\">Locked</button>");
+        this.$order_date.html(this.order_date);
+        this.$order_type.html(this.order_type);
+        this.$customer_name.html(this.customer_name);
+        this.$service_date.html(this.service_date);
+        this.$delivery_address.html(this.shipping_street + "<br><span class=\"filterable\" data-column=\"shipping_city\">" + this.shipping_city + "</span>, <span class=\"filterable\" data-column=\"shipping_region\">" + this.shipping_region + "</span> <span class=\"filterable\" data-column=\"shipping_postal\">" + this.shipping_postal + "</span>");
+        this.$tax.html("$" + this.tax);
+        this.addItems();
+        $("button.locked", this.$actions).hover((function() {
+          $(this).toggleClass("btn-default").toggleClass("btn-primary").text("Unlock");
+        }), function() {
+          $(this).toggleClass("btn-default").toggleClass("btn-primary").text("Locked");
+        });
+      } else {
+        this.$actions.html("<button type=\"button\" class=\"btn btn-warning editing\">Editing</button><br><button type=\"button\" class=\"btn btn-danger delete\">Delete</button>");
+        this.$order_date.html("<input class=\"form-control\" type=\"text\" value=\"" + this.order_date + "\" data-name=\"order_date\"></input>");
+        this.$order_type.html(this.order_type);
+        this.$customer_name.html("<input class=\"form-control\" type=\"text\" value=\"" + this.customer_name + "\" data-name=\"customer_name\"></input>");
+        this.$service_date.html("<input class=\"form-control\" type=\"text\" value=\"" + this.service_date + "\" data-name=\"service_date\"></input>");
+        this.$delivery_address.html("<input class=\"form-control\" type=\"text\" value=\"" + this.shipping_street + "\" data-name=\"shipping_street\" placeholder=\"Street\"><br><input class=\"form-control\" type=\"text\" value=\"" + this.shipping_city + "\" data-name=\"shipping_city\" placeholder=\"City\"><br><input class=\"form-control\" type=\"text\" value=\"" + this.shipping_region + "\" data-name=\"shipping_region\" placeholder=\"State/Region\"><br><input class=\"form-control\" type=\"text\" value=\"" + this.shipping_postal + "\" data-name=\"shipping_postal\" placeholder=\"Postal Code\">");
+        this.$tax.html("$" + this.tax);
+        this.addItems();
+        $("input", this.$order_date).datepicker();
+        $("input", this.$service_date).datepicker();
+        $("button.editing", this.$actions).hover((function() {
+          $(this).text("Save");
+        }), function() {
+          $(this).text("Editing");
+        });
+      }
+    },
+    destroy: function() {
+      var self;
+      self = this;
+      $.ajax({
+        url: "api.php",
+        type: "POST",
+        dataType: "text",
+        data: {
+          action: "destroy",
+          row_id: self.row_id
+        }
+      }).done(function() {
+        self.$row.fadeOut();
+      });
+    },
+    saveColumn: function($inputElem) {
+      var column_name, rev_record_id, self, value;
+      self = this;
+      column_name = $inputElem.data("name");
+      value = $inputElem.val();
+      if (/date/.test(column_name)) {
+        console.log(value);
+        value = moment(value).format("YYYY-MM-DD");
+      }
+      rev_record_id = /^item[0-9]/.test(column_name) ? $inputElem.data("id") : "";
+      $.ajax({
+        url: "/static/report/api.php",
+        type: "POST",
+        dataType: "text",
+        data: {
+          action: "update_column",
+          row_id: self.row_id,
+          column_name: column_name,
+          new_value: value,
+          rr_id: rev_record_id
+        }
+      }).done(function(data) {
+        console.log(data);
+        if (data === "success") {
+          self.fetch(function() {
+            self.update();
+            createTotals();
+          });
+        }
+      });
+    },
+    toggleLock: function() {
+      var action, row_id, self;
+      self = this;
+      row_id = self.row_id;
+      action = (this.locked ? "unlock_row" : "lock_row");
+      $.ajax({
+        url: "/static/report/api.php",
+        type: "POST",
+        dataType: "text",
+        data: {
+          action: action,
+          row_id: row_id
+        }
+      }).done(function(data) {
+        if (data === "success") {
+          self.locked = !self.locked;
+          self.update();
+        }
+      });
+    },
+    addItems: function() {
+      var i, items_index, self;
+      self = this;
+      i = 1;
+      while (i <= 5) {
+        items_index = i - 1;
+        if (typeof self.items[items_index] !== "undefined") {
+          if (self.locked) {
+            self["$item" + i].text(self.items[items_index].item);
+            self[("$item" + i) + "_price"].text("$" + self.items[items_index].price);
           } else {
-            records[self.row_id].items[item_position].item = value;
+            self["$item" + i].html("<input class='form-control' type='text' value='" + self.items[items_index].item + "' data-name='item" + i + "' data-id='" + self.items[items_index].id + "''></input>");
+            self[("$item" + i) + "_price"].html("<input class='form-control' type='text' value='" + self.items[items_index].price + "' data-name='item" + i + "_price' data-id='" + self.items[items_index].id + "''></input>");
           }
         } else {
-          records[self.row_id][column_name] = value;
+          if (!self.locked) {
+            self["$item" + i].html("<input class=\"form-control\" type=\"text\" value=\"\" data-name=\"item" + i + "\"></input>");
+            self["$item" + i + "_price"].html("<input class=\"form-control\" type=\"text\" value=\"\" data-name=\"item" + i + "_price\"></input>");
+          }
         }
-      };
-    });
-  },
-  toggleLock: function() {
-    var self = this;
-    row_id = self.row_id;
-    action = this.locked ? "unlock_row" : "lock_row";
-    $.ajax({
-      url: '/static/report/api.php',
-      type: 'POST',
-      dataType: 'text',
-      data: {
-        action: action,
-        row_id: row_id
-      },
-    })
-    .done(function(data) {
-      if (data == "success") {
-        self.locked = !self.locked;
-        self.update();
+        i++;
       }
-    });
-  },
-  addItems: function() { 
-    self = this;
-    for (var i = 1; i <= 5; i++) {
-      items_index = i - 1;
-      if (typeof self.items[items_index] != "undefined") {
-        if (self.locked) {
-          self['$item'+i].text(self.items[items_index].item);
-          self['$item'+i+'_price'].text('$'+self.items[items_index].price);
-        } else {
-          self['$item'+i].html('<input class="form-control" type="text" value="'+self.items[items_index].item+'" data-name="item'+i+'"></input>');
-          self['$item'+i+'_price'].html('<input class="form-control" type="text" value="'+self.items[items_index].price+'" data-name="item'+i+'_price"></input>');
-          // self['$item'+i].text(self.items[items_index].item);
-          // self['$item'+i+'_price'].text('$'+self.items[items_index].price);
+    },
+    fetch: function(callback) {
+      var self;
+      self = this;
+      $.ajax({
+        url: "/static/report/findOne.php",
+        type: "POST",
+        dataType: "text",
+        data: {
+          record_id: self.row_id
         }
-      } else { //item is undefined
-        if (!self.locked) { //and row is unlocked
-          self['$item'+i].html('<input class="form-control" type="text" value="" data-name="item'+i+'"></input>');
-          self['$item'+i+'_price'].html('<input class="form-control" type="text" value="" data-name="item'+i+'_price"></input>');
-        };
-      }
+      }).done(function(response) {
+        var data;
+        data = JSON.parse(response);
+        self.row_id = data.id;
+        self.locked = (data.locked === "1" ? true : false);
+        self.order_date = data.order_date;
+        self.order_type = data.order_type;
+        self.customer_name = data.customer_name;
+        self.service_date = data.service_date;
+        self.total_paid = data.total_paid;
+        self.tax = parseFloat(data.tax).toFixed(2);
+        self.shipping_street = data.shipping_street;
+        self.shipping_city = data.shipping_city;
+        self.shipping_region = data.shipping_region;
+        self.shipping_postal = data.shipping_postal;
+        self.items = data.items;
+        callback && callback();
+      });
     }
-  }
-}
+  };
 
+  $table = $("#tablecontents");
 
+  $tfoot = $("#tablefooter");
 
+  $createButton = $("button#createRow");
 
+  $filters = [$("select#order_by"), $("select#order"), $("select#per_page")];
 
+  current_page = (getParameterByName("page") === "" ? 1 : parseInt(getParameterByName("page")));
 
+  this.records = {};
 
+  totals_paid = 0;
 
+  total_tax = 0;
 
+  filter = "";
 
+  date_filter = "";
 
+  $(function() {
+    init();
+    fetchRecords();
+    initEvents();
+  });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-    
-
-
-
-// $("#tablecontents").delegate("button.editing", 'click', function(e) {
-  
-//   // update the data
-//   $row = $(this).closest("tr");
-//   $row.find("input.save").each(function() {
-//     column_name = $(this).attr("name");
-//     new_value = $(this).val();
-//     $.ajax({
-//       url: '/static/report/api.php',
-//       type: 'POST',
-//       dataType: 'text',
-//       data: {
-//         action: 'update_column',
-//         row_id: row_id,
-//         column_name: column_name,
-//         new_value: new_value
-//       },
-//     })
-//     .done(function(data) {
-//       if (data == "success") {
-//         $row.find("input").each(function() {
-//           value = $(this).val();
-//           $(this).replaceWith(value);
-//         })
-//       };
-//     });
-//   });
-// });
-
-// datepicker
-
-
+}).call(this);
