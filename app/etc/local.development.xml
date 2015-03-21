@@ -27,6 +27,32 @@
 -->
 <config>
     <global>
+        <models>
+            <core_resource>
+                <entities>
+                    <config_data>
+                        <default>
+                            <web>
+                                <unsecure>
+                                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                                </unsecure>
+                                <secure>
+                                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                                </secure>
+                            </web>
+                        </default>
+                    </config_data>
+                </entities>
+            </core_resource>
+        </models>
+        <web>
+            <unsecure>
+                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+            </unsecure>
+            <secure>
+                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+            </secure>
+        </web>
         <install>
             <date><![CDATA[Wed, 16 Oct 2013 02:50:00 +0000]]></date>
         </install>
@@ -43,8 +69,8 @@
                     <host><![CDATA[205.186.146.64]]></host>
                     <username><![CDATA[root]]></username>
                     <password><![CDATA[3120MacT!]]></password>
-                    <dbname><![CDATA[magento]]></dbname>
-                    <initStatements><![CDATA[INSERT INTO `magento`.`core_config_data` (`config_id`, `scope`, `scope_id`, `path`, `value`) VALUES (\'6\', \'default\', \'0\', \'web/unsecure/base_url\', \'http://127.0.0.1:8888/\'), (\'7\', \'default\', \'0\', \'web/secure/base_url\', \'http://127.0.0.1:8888/\');]]></initStatements>
+                    <dbname><![CDATA[magento_development]]></dbname>
+                    <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
                     <pdoType><![CDATA[]]></pdoType>
@@ -62,5 +88,72 @@
                 </args>
             </adminhtml>
         </routers>
+        <web>
+            <unsecure>
+                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+            </unsecure>
+            <secure>
+                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+            </secure>
+        </web>
     </admin>
+    <default>
+        <web>
+            <url>
+                <use_store>0</use_store>
+                <redirect_to_base>1</redirect_to_base>
+            </url>
+            <unsecure>
+                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+            </unsecure>
+            <secure>
+                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+            </secure>
+        </web>
+        <stores>
+            <general>
+                <web>
+                    <unsecure>
+                        <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                    </unsecure>
+                    <secure>
+                        <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                    </secure>
+                </web>
+            </general>
+        </stores>
+    </default>
+    <frontend>
+        <default>
+            <web>
+                <unsecure>
+                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                </unsecure>
+                <secure>
+                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                </secure>
+            </web>
+        </default>
+    </frontend>
+    <stores>
+        <default>
+            <web>
+                <unsecure>
+                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                    <use_in_frontend>0</use_in_frontend>
+                </unsecure>
+                <secure>
+                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                </secure>
+                <frontend>
+                    <unsecure>
+                        <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                    </unsecure>
+                    <secure>
+                        <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                    </secure>
+                </frontend>
+            </web>
+        </default>
+    </stores>
 </config>

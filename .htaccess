@@ -211,4 +211,10 @@
 ###
 SetEnvIf Server_Addr 205.186.146.64  MAGE_APPLICATION_ENV=production
 SetEnvIf Host localhost  MAGE_APPLICATION_ENV=development
-#SetEnvIf Host localhost MAGE_IS_DEVELOPER_MODE=true
+SetEnvIf Host localhost MAGE_IS_DEVELOPER_MODE=true
+SetEnvIf Host dev.thethingsandstuff.com  MAGE_APPLICATION_ENV=development
+SetEnvIf Host dev.thethingsandstuff.com MAGE_IS_DEVELOPER_MODE=true
+
+
+php_flag display_errors On
+php_flag error_reporting E_ALL
