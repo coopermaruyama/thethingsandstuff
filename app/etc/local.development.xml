@@ -44,7 +44,7 @@
                     <username><![CDATA[root]]></username>
                     <password><![CDATA[3120MacT!]]></password>
                     <dbname><![CDATA[magento]]></dbname>
-                    <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
+                    <initStatements><![CDATA[INSERT INTO `magento`.`core_config_data` (`config_id`, `scope`, `scope_id`, `path`, `value`) VALUES (\'6\', \'default\', \'0\', \'web/unsecure/base_url\', \'http://127.0.0.1:8888/\'), (\'7\', \'default\', \'0\', \'web/secure/base_url\', \'http://127.0.0.1:8888/\');]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
                     <pdoType><![CDATA[]]></pdoType>

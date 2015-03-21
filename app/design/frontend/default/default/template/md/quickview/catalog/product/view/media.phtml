@@ -37,10 +37,10 @@ jQuery(document).ready(function() {
 			generateNextPrev: true,
 			generatePagination: false,
 			paginationClass: 'pagination',
-			animationComplete: function() {
+			animationComplete: function(current) {
 				jQuery('.slides_control').css('width','310px');//hack to prevent overflow from covering add to cart
 
-
+				jQuery('#wrap').css('position','relative');
 			}
 		});		
 	});
@@ -71,6 +71,9 @@ jQuery("#product_img_slider .pagination li img").load(function() {
 		position:relative;
 		border:1px solid #dfdfdf;
 
+	}
+	#product_img_slider #wrap {
+		position: relative !important;
 	}
 	@media only screen and (max-width: 960px)  {
 		#product_img_slider .slides_container {

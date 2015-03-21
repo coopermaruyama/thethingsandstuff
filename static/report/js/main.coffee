@@ -15,18 +15,19 @@ root.init = ->
 	setupPagination()
 	return
 root.initEvents = ->
-	
+
 	# filter row
 	$(document).on "click", "span.filterable", ->
 		filter_column = $(this).data("column")
 		filter_value = $(this).text()
-		filter = encodeURIComponent("AND `revenue_records`.`" + filter_column + "`='" + filter_value + "'")
+		$.cookie filter_column, filter_value # save in cookie so filter is still active on refresh
+		window.filter = encodeURIComponent("AND `revenue_records`.`" + filter_column + "`='" + filter_value + "'")
 		clearRecords()
 		fetchRecords()
 		$("p.filter-text").html "<strong>Filtering <i>" + filter_column + "</i> by <i>" + filter_value + "</i><br><a href=\"javascript:location.reload()\">remove</a></strong>"
 		return
 
-	
+
 	# lightbox
 	$lightbox = $("#lightbox")
 	$("[data-target=\"#lightbox\"]").on "click", (event) ->
@@ -38,7 +39,7 @@ root.initEvents = ->
 		return
 
 	$lightbox.find("input.datepicker").datepicker()
-	
+
 	# create record
 	$createButton.click (e) ->
 		e.stopPropagation()
@@ -47,12 +48,17 @@ root.initEvents = ->
 		newRecord $form
 		return
 
-	
+
 	# filter date
 	this_year = moment().format("YYYY")
 	last_year = moment().subtract("years", 1).format("YYYY")
 	the_ranges = {}
 
+
+	the_ranges["Last 30 Days"] = [
+		moment().subtract(1,"month")
+		moment()
+	]
 	the_ranges["Q1 " + this_year] = [
 		moment("Jan 1, " + this_year)
 		moment("March 31, " + this_year)
@@ -88,12 +94,21 @@ root.initEvents = ->
 	$("input[name=daterange]").daterangepicker
 		format: "YYYY-MM-DD"
 		ranges: the_ranges
+		startDate: moment().subtract(1,"month").format("YYYY-MM-DD")
+		endDate: moment().format("YYYY-MM-DD")
 	, (start, end, label) ->
-		date_filter = encodeURIComponent("AND `revenue_records`.`order_date` BETWEEN '" + start.format("YYYY-MM-DD") + " 00:00:00' AND '" + end.format("YYYY-MM-DD") + " 0:00:00'")
+		date_range = start.format("YYYY-MM-DD") + " 00:00:00' AND '" + end.format("YYYY-MM-DD") + " 0:00:00'";
+		date_filter = encodeURIComponent("AND `revenue_records`.`order_date` BETWEEN '" + date_range );
+		$.cookie("date_range", date_filter);
 		clearRecords()
 		fetchRecords()
 		return
-
+	# fill in daterange picker manually (for visual reasons, not necessary for it to function)
+	cookie_daterange = $.cookie 'date_range'
+	if cookie_daterange?
+		cookie_daterange_start = cookie_daterange.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g)[0]
+		cookie_daterange_end = cookie_daterange.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g)[1]
+		$daterangepicker.val "#{cookie_daterange_start} - #{cookie_daterange_end}"
 	return
 
 # update button
@@ -122,6 +137,7 @@ root.createTotals = ->
 	$tr.append "<td></td><td></td><td></td><td></td><td></td>                 <td><strong>$" + totals_paid.toFixed(2) + "</strong></td>                 <td></td>                 <td><strong>$" + total_tax.toFixed(2) + "</strong></td>                 <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>"
 	return
 root.setupCookies = ->
+	#setup dropdowns
 	$.each [
 		"per_page"
 		"order"
@@ -137,14 +153,16 @@ root.setupCookies = ->
 			$.cookie $(this).attr("name"), $(this).val(),
 				expires: 30
 
-			location.reload()
+			clearRecords()
+			fetchRecords()
 			return
 
 		return
 
 	return
+
 root.setupPagination = ->
-	
+
 	# pager
 	if getParameterByName("page") is "" or parseInt(getParameterByName("page")) is 1
 		$("li#prev_page").addClass "disabled"
@@ -152,7 +170,8 @@ root.setupPagination = ->
 	else if parseInt(getParameterByName("page")) > 1
 		$("li#prev_page a").attr "href", updateQueryStringParameter(window.location.href, "page", (parseInt(getParameterByName("page")) - 1))
 		$("li#next_page a").attr "href", updateQueryStringParameter(window.location.href, "page", (parseInt(getParameterByName("page")) + 1))
-	return
+
+
 clearRecords = ->
 	window.records = {}
 	window.totals_paid = 0
@@ -161,8 +180,15 @@ clearRecords = ->
 	return
 root.fetchRecords = ->
 	$(".table-responsive").append "<div id=\"loading\"><div id=\"loading-text\"><img src=\"img/ajax-loader-white.gif\"> Loading...</div></div>"
+	# date stuff
+	window.filter = if window.filter? then window.filter else ""
+	decoded_daterange = decodeURIComponent($.cookie('date_range'))
+	decoded_filter = decodeURIComponent window.filter
+	encoded_filter = if $.cookie("date_range")? then "#{decoded_filter} #{decoded_daterange}" else window.filter
+	# alert decoded_filter
+	# alert decoded_daterange
 	$.ajax(
-		url: "/static/report/fetch.php?order_by=" + $.cookie("order_by") + "&order=" + $.cookie("order") + "&per_page=" + $.cookie("per_page") + "&page=" + current_page + "&filter=" + filter + " " + date_filter
+		url: "/static/report/fetch.php?order_by=" + $.cookie("order_by") + "&order=" + $.cookie("order") + "&per_page=" + $.cookie("per_page") + "&page=" + current_page + "&filter=" + encoded_filter
 		type: "GET"
 		dataType: "text"
 		data: {}
@@ -177,6 +203,14 @@ root.fetchRecords = ->
 
 		createTotals()
 		$("#loading").remove()
+
+		# disable next page link if needed
+		records_count = parsed_data.length
+		is_last_page = false
+		if records_count > 0
+			is_last_page = true if records_count < parseInt( $.cookie("per_page") )
+			if is_last_page
+				$("li#next_page").addClass "disabled"
 		return
 
 	return
@@ -206,7 +240,7 @@ root.newRecord = ($form) ->
 			customer_name: customer_name
 			total_paid: total_paid
 	).done (data) ->
-		
+
 		# console.log("success");
 		$("#lightbox input").val ""
 		$("#lightbox").modal "hide"
@@ -247,7 +281,7 @@ root.Record = (data) -> #dataObject is what's returned from the db
 Record:: =
 	create: (should_append) ->
 		self = this
-		
+
 		# create structure
 		@$row = (if should_append then $("<tr id=\"row-" + @row_id + "\" data-row-id=\"" + @row_id + "\"></tr>").appendTo($table) else $("<tr id=\"row-" + @row_id + "\" data-row-id=\"" + @row_id + "\"></tr>").prependTo($table))
 		@$actions = $("<td class=\"actions\"></td>").appendTo(@$row)
@@ -289,7 +323,7 @@ Record:: =
 			this.$item5
 			this.$item5_price
 		]
-		
+
 		# bind events
 		@$actions.on "click", "button.editing,button.locked", ->
 			self.toggleLock()
@@ -309,7 +343,7 @@ Record:: =
 	update: ->
 		self = this
 		@$row.find("> td").html ""
-		
+
 		# setup total paid
 		self.total_paid = 0
 		$.each self.items, (i, item) ->
@@ -326,7 +360,7 @@ Record:: =
 			@$delivery_address.html @shipping_street + "<br><span class=\"filterable\" data-column=\"shipping_city\">" + @shipping_city + "</span>, <span class=\"filterable\" data-column=\"shipping_region\">" + @shipping_region + "</span> <span class=\"filterable\" data-column=\"shipping_postal\">" + @shipping_postal + "</span>"
 			@$tax.html "$" + @tax
 			@addItems()
-			
+
 			# events
 			$("button.locked", @$actions).hover (->
 				$(this).toggleClass("btn-default").toggleClass("btn-primary").text "Unlock"
@@ -341,12 +375,12 @@ Record:: =
 			@$order_type.html @order_type
 			@$customer_name.html "<input class=\"form-control\" type=\"text\" value=\"" + @customer_name + "\" data-name=\"customer_name\"></input>"
 			@$service_date.html "<input class=\"form-control\" type=\"text\" value=\"" + @service_date + "\" data-name=\"service_date\"></input>"
-			
+
 			# this.$total_paid.html('<input class="form-control" type="text" value="'+this.total_paid+'" data-name="total_paid"></input>');
 			@$delivery_address.html "<input class=\"form-control\" type=\"text\" value=\"" + @shipping_street + "\" data-name=\"shipping_street\" placeholder=\"Street\"><br><input class=\"form-control\" type=\"text\" value=\"" + @shipping_city + "\" data-name=\"shipping_city\" placeholder=\"City\"><br><input class=\"form-control\" type=\"text\" value=\"" + @shipping_region + "\" data-name=\"shipping_region\" placeholder=\"State/Region\"><br><input class=\"form-control\" type=\"text\" value=\"" + @shipping_postal + "\" data-name=\"shipping_postal\" placeholder=\"Postal Code\">"
 			@$tax.html "$" + @tax
 			@addItems()
-			
+
 			# events
 			$("input", @$order_date).datepicker()
 			$("input", @$service_date).datepicker()
@@ -396,7 +430,7 @@ Record:: =
 		).done (data) ->
 			console.log data
 			if data is "success"
-				
+
 				# console.log("Updated row "+self.row_id+": "+column_name+" to "+value);
 				# if (/item[0-9]/.test(column_name)) {
 				#   var item_position = column_name.match(/item([0-9])/)[1];
@@ -451,7 +485,7 @@ Record:: =
 				else
 					self["$item#{i}"].html "<input class='form-control' type='text' value='#{self.items[items_index].item}' data-name='item#{i}' data-id='#{self.items[items_index].id}''></input>"
 					self["$item#{i}" + "_price"].html "<input class='form-control' type='text' value='#{self.items[items_index].price}' data-name='item#{i}_price' data-id='#{self.items[items_index].id}''></input>"
-			
+
 			# self['$item'+i].text(self.items[items_index].item);
 			# self['$item'+i+'_price'].text('$'+self.items[items_index].price);
 			else #item is undefined
@@ -489,17 +523,14 @@ Record:: =
 
 		return
 
-
 # # # # # # # # # # # # # # # # # # # # /
-# 
+#
 #  Initializers
 #
 # # # # # # # # # # # # # # # # /
-
-# code
-
 $table = $("#tablecontents")
 $tfoot = $("#tablefooter")
+$daterangepicker = ($ "#input-daterange")
 $createButton = $("button#createRow")
 $filters = [
 	$("select#order_by")
@@ -512,6 +543,7 @@ totals_paid = 0
 total_tax = 0
 filter = ""
 date_filter = ""
+
 
 $ ->
 	init()

@@ -33,6 +33,9 @@ foreach ($result as $key => $field) {
     $query->execute();
     $tax_result = $query->fetch();
     $tax_rate = floatval($tax_result["rate"])/100;
+    if ($tax_rate == 0) {
+        $tax_rate = 9/100;
+    }
     $price = floatval($field["total_paid"]);
     $result[$key]['tax'] = $price * $tax_rate;
 }
