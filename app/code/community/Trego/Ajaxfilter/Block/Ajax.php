@@ -13,11 +13,14 @@ class Trego_Ajaxfilter_Block_Ajax extends Mage_Core_Block_Template{
 		$this->overlayOpacity = $this->config['ajax_conf']['overlay_opacity'];
 		$this->loadingText = $this->config['ajax_conf']['loading_text'];
 		$this->loadingTextColor = $this->config['ajax_conf']['loading_text_color'];
-		$this->loadingImage = $this->config['ajax_conf']['loading_image'];
+
+		$this->loadingImage = (isset($this->config) && isset($config['ajax_conf'])) ? $config['ajax_config']['loading_image'] : '';
+
+
 		if($this->loadingImage == '' || $this->loadingImage == null){
 			$this->loadingImage = $this->url.'media/wysiwyg/trego/ajaxfilter/default/ajax-loader.gif';
 		}else{
-			$this->loadingImage = $this->url.'media/wysiwyg/trego/ajaxfilter/default/'.$loadingImage;
+			$this->loadingImage = $this->url.'media/wysiwyg/trego/ajaxfilter/default/'.(isset($loadingImage) && $loadingImage );
 		}	
 	}
 	
