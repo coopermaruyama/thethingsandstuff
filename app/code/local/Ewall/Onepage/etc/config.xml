@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<modules>
+		<Ewall_Onepage>
+			<version>1.0.0</version>
+		</Ewall_Onepage>
+	</modules>
+	<frontend>
+		<routers>
+				<onepage>
+					<use>standard</use>
+					<args>
+						<module>Ewall_Onepage</module>
+						<frontName>onepage</frontName>
+					</args>
+            </onepage>
+        </routers>
+		<layout>
+			<updates>
+				<onepage>
+					<file>onepage.xml</file>
+				</onepage>
+			</updates>
+		</layout>
+	</frontend>
+	<default>
+		<tab1>
+			<onepage_config>
+				<active>1</active>
+			</onepage_config>
+		</tab1>	
+	</default>
+</config>

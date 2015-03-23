@@ -1,0 +1,34 @@
+.cms-index-noroute .main {
+    background: url(../images/error.png) center no-repeat;
+}
+.cms-index-noroute .main .col-main {
+    padding: 27% 22% 0;
+}
+.cms-index-noroute .main .col-main button{
+    float: right;
+}
+@media only screen and (min-width: 1025px) and (max-width: 1099px) {
+    .cms-index-noroute .main .col-main {
+        padding: 30% 19% 0;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .cms-index-noroute .main .col-main {
+        padding: 32% 17% 0;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .cms-index-noroute .main {
+        background: url(../images/error2.png) center no-repeat;
+        min-height: 290px;
+    }
+    .cms-index-noroute .main .col-main button {
+        float: none;
+    }
+    .cms-index-noroute .main .col-main {
+        margin: 220px auto 0 auto;
+        padding: 0;
+        width: 230px;
+    }
+}

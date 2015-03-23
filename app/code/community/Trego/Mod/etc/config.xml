@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Trego_Mod>
+            <version>1.0.0</version>
+        </Trego_Mod>
+    </modules>
+    <global>
+        <helpers>
+            <trego_mod>
+                <class>Trego_Mod_Helper</class>
+            </trego_mod>
+        </helpers>
+    </global>
+</config>

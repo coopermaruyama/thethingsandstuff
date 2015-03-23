@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Trego_Stores>
+            <version>1.0.0</version>
+        </Trego_Stores>
+    </modules>
+    <global>
+        <events>
+            <controller_action_predispatch_routename_controller_method>
+                <observers>
+                    <module>
+                        <class>module/observer</class>
+                        <method>checkCaptcha</method>
+                    </module>
+                </observers>
+            </controller_action_predispatch_routename_controller_method>
+        </events>
+        <helpers>
+            <stores>
+                <class>Trego_Stores_Helper</class>
+            </stores>
+        </helpers>
+        <models>
+            <stores>
+                <class>Trego_Stores_Model</class>
+            </stores>   
+        </models>
+    </global>
+    <default>
+        <captcha>
+            <frontend>
+                <areas>
+                    <contact_form>
+                        <label>Contact Form</label>
+                    </contact_form>
+                </areas>
+            </frontend>
+        </captcha>
+        <customer>
+            <captcha>
+                <always_for>
+                    <contact_form>1</contact_form>
+                </always_for>
+            </captcha>
+        </customer>
+        <stores>
+            <general>
+                <trego_store_enabled>1</trego_store_enabled>
+                <trego_store_apikey>AIzaSyCaH2tdZkIU8u8CjrZWLunNDKrCbckeuqE</trego_store_apikey>
+                <trego_store_address>Trego Store</trego_store_address>
+                <trego_store_zoom>18</trego_store_zoom>
+                <trego_store_center_lat>-34.398</trego_store_center_lat>
+                <trego_store_center_lng>150.884</trego_store_center_lng>
+            </general>
+            <details>
+                <trego_store_phone>8 (900) 415-7812</trego_store_phone>
+                <additional_phone>8 (890) 147-1479</additional_phone>
+                <trego_store_mobile>+484 70-106-70-87</trego_store_mobile>
+                <additional_mobile>+484 70-025-48-35</additional_mobile>
+                <trego_store_fax>8 (750) 148-1629</trego_store_fax>
+                <additional_fax></additional_fax>
+                <trego_store_email>Trego@gmail.com</trego_store_email>
+                <additional_email>Trego_support.gmail.com</additional_email>
+                <trego_store_skype>Trego_store</trego_store_skype>
+                <additional_skype>Trego_support</additional_skype>
+            </details>
+        </stores>
+        <errorpage>
+            <general>
+                <enabled>1</enabled>
+                <type>0</type>
+            </general>
+        </errorpage>
+    </default>
+</config>

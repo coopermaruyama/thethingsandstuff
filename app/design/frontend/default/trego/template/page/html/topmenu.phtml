@@ -1,0 +1,28 @@
+<?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+$enabled = Mage::getStoreConfig("slidermenu/menu/menu_enabled", $code);
+$type = Mage::getStoreConfig("slidermenu/menu/menu_type", $code);
+if($enabled){
+    if($type == 0){
+        echo $this->getChildHtml('catalog.topnav1');
+    }else if($type == 1){
+        echo $this->getChildHtml('catalog.topnav2');
+    }else if($type == 2){
+        echo $this->getChildHtml('catalog.topnav3');
+    }
+}
+else {
+?>
+<?php $_menu = $this->getHtml('level-top') ?>
+<?php if($_menu): ?>
+<div class="nav-container">
+    <a id="mobnav"><?php echo $this->__('Menu'); ?></a>
+    <ul id="nav">
+        <?php echo $_menu ?>
+    </ul>
+</div>
+<?php endif ?>
+<?php
+}
+?>

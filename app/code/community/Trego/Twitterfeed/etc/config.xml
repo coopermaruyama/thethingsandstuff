@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Trego_Twitterfeed>
+            <version>1.0.0</version>
+        </Trego_Twitterfeed>
+    </modules>
+    <global>
+        <helpers>
+            <twitterfeed>
+                <class>Trego_Twitterfeed_Helper</class>
+            </twitterfeed>
+        </helpers>
+    </global>
+    <default>
+        <twitterfeed>
+            <general>
+                <trego_twitter_widgetkey>362597660089274368</trego_twitter_widgetkey>
+                <trego_twitter_show_counts>2</trego_twitter_show_counts>
+            </general>
+        </twitterfeed>
+    </default>
+</config>

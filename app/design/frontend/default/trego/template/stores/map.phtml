@@ -1,0 +1,44 @@
+<?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+$_enable = Mage::getStoreConfig('stores/general/default_enabled', $code);
+if($_enable==1){
+$_email = Mage::getStoreConfig('stores/general/default_email', $code);
+$_phone = Mage::getStoreConfig('stores/general/default_phone', $code);
+$_fax = Mage::getStoreConfig('stores/general/default_fax', $code);
+$_city = Mage::getStoreConfig('stores/general/default_city', $code);
+$_zip = Mage::getStoreConfig('stores/general/default_zip', $code);
+$_defaultLocation = Mage::getStoreConfig('stores/general/default_location', $code);
+$_defaultAddress = Mage::getStoreConfig('stores/general/default_address', $code);
+
+?>
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS);?>map/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS);?>map/jquery.gmap.js"></script>
+<link rel="stylesheet" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN);?>frontend/default/default/css/map/map.css" />
+<script type="text/javascript" charset="utf-8">
+$(function()
+{
+   $('#map_addresses').gMap({
+        address: "<?php echo $_defaultLocation; ?>",
+        zoom: 5,
+		markers:[
+			
+			{
+				address: "<?php echo $_defaultAddress.','.$_city.','.$_defaultLocation ?>",
+				html: "<p><?php echo '<strong>Address : </strong>'.$_defaultAddress.','.$_city ?></p><p><?php echo '<strong>Zipcode:</strong>'.$_zip; ?></p><p><?php echo '<strong>Email : </strong>'.$_email; ?></p><p><?php echo '<strong>Contact Number : </strong>'.$_phone; ?></p>",
+				popup: true
+			},
+			
+		]
+    });
+
+});
+</script>
+
+<div id="map_addresses" class="map">
+	
+</div>
+<div class="clear"></div>
+<?php } ?>

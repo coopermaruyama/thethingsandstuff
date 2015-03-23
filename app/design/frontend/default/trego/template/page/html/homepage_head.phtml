@@ -1,0 +1,38 @@
+<?php
+	$store = Mage::app()->getStore();
+	$code  = $store->getCode();
+    $_enable = Mage::getStoreConfig('slidermenu/slider/slider_enabled', $code);
+    if($_enable == 1){
+        $_type = Mage::getStoreConfig('slidermenu/slider/slider_type', $code);
+        if($_type == 0){
+?>
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('jquery_bxslider/jquery.bxslider.custom.css');?>" media="all">
+            <script type="text/javascript" src="<?php echo $this->getSkinUrl('jquery_bxslider/jquery.bxslider.custom.js');?>"></script>
+<?php
+        } else if($_type == 1){
+?>
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('jquery_bxslider/jquery.bxslider.custom2.css');?>" media="all">
+            <script type="text/javascript" src="<?php echo $this->getSkinUrl('jquery_bxslider/jquery.bxslider.custom.js');?>"></script>
+<?php
+        } else if($_type == 2){
+?>
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('jquery_bxslider/jquery.bxslider.custom3.css');?>" media="all">
+            <script type="text/javascript" src="<?php echo $this->getSkinUrl('jquery_bxslider/jquery.bxslider.custom.js');?>"></script>
+<?php
+        } else if($_type == 3){
+?>
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('VerticalShowcaseSlider/style.css');?>" media="all">
+            <script type="text/javascript" src="<?php echo $this->getSkinUrl('VerticalShowcaseSlider/modernizr.custom.79639.js');?>"></script>
+<?php
+        } else if($_type == 4){
+?>
+            <!-- REVOLUTION BANNER CSS SETTINGS -->
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/rs-fullscreen.css');?>" media="screen" />
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('rs-plugin/css/settings.css');?>" media="screen" />
+
+
+             <!-- jQuery Revolution Slider  -->
+            <script type="text/javascript" src="<?php echo $this->getSkinUrl('rs-plugin/js/jquery.themepunch.revolution.min.js');?>"></script>
+<?php
+        }
+    }

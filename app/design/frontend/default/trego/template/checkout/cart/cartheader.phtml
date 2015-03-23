@@ -1,0 +1,87 @@
+<div class="mini-cart-layer">
+    <?php if ($this->getIsNeedToDisplaySideBar()):?>
+        <div class="top-cart">
+            <?php
+                $store = Mage::app()->getStore();
+                $code  = $store->getCode();
+                $display_subtotal_price = Mage::getStoreConfig("tax/cart_display/subtotal", $code);
+            ?>
+            <?php $_cartQty = $this->getSummaryCount(); ?>
+            <?php $_items = $this->getRecentItems() ?>
+            <?php
+                $_subtotal_exc_tax = 0;
+                $_subtotal_inc_tax = 0;
+            ?>
+            <?php foreach($_items as $_item): ?>
+            <?php
+
+                if ($display_subtotal_price==1 || $display_subtotal_price==3){
+                    if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount())
+                        $_subtotal_exc_tax+=($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition())*$_item->getQty();
+                    else
+                        $_subtotal_exc_tax+=($_item->getCalculationPrice())*$_item->getQty();
+                }
+                if ($display_subtotal_price==2 || $display_subtotal_price==3){
+                    $_incl = $this->helper('checkout')->getPriceInclTax($_item);
+                    if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount())
+                        $_subtotal_inc_tax += ($_incl+$_item->getWeeeTaxAppliedAmount())*$_item->getQty();
+                    else
+                        $_subtotal_inc_tax += ($_incl-$_item->getWeeeTaxDisposition())*$_item->getQty();
+                }
+            ?>
+            <?php endforeach; ?>
+            <?php if ($display_subtotal_price==1 || $display_subtotal_price==3): ?>
+                <?php $_subtotal = Mage::app()->getStore()->formatPrice($_subtotal_exc_tax);?>
+            <?php elseif ($display_subtotal_price==2): ?>
+                <?php $_subtotal = Mage::app()->getStore()->formatPrice($_subtotal_inc_tax);?>
+            <?php endif; ?>
+            <?php if ($_cartQty > 0): ?>
+                <?php $_myCart = $this->__('%s item(s)', $_cartQty).$this->__('<span class="for-desktop">&nbsp;- %s</span>', $_subtotal) ?>
+            <?php else: ?>
+                <?php $_myCart = $this->__('0 item(s)').$this->__('<span class="for-desktop">&nbsp;- %s</span>', $_subtotal) ?>
+            <?php endif ?>
+            
+            <?php if ($this->getIsLinkMode() || !$this->getIsNeedToDisplaySideBar()):?>
+                <div class="block-title no-items">
+                    <ul class="links cart-link">
+                        <li ><a href="<?php echo $this->getUrl('checkout/cart'); ?>" rel="nofollow"><?php echo $_myCart ?></a></li>
+                    </ul>
+                </div>
+            <?php else:?>
+                <div class="block-title<?php if(!$_cartQty) { echo (' no-items'); } ?>">
+                    <span id="cartHeader"><?php echo $_myCart ?></span>
+                </div>
+                <div id="topCartContent" class="block-content" style="display:none">
+                    <div class="inner-wrapper"><?php /*extra div to smooth slideUp and slideDown*/ ?>
+                        <?php $_items = $this->getItems() ?>
+                        <?php if(count($_items)): ?>
+                            <p class="block-subtitle">
+                                <?php echo $this->__('My Things & Stuff') ?>
+                            </p>
+                            <ol id="mini-cart" class="mini-products-list">
+                                <?php foreach($_items as $_item): ?>
+                                    <?php echo $this->getItemHtml($_item) ?>
+                                <?php endforeach; ?>
+                            </ol>
+                            <script type="text/javascript">decorateList('mini-cart', 'none-recursive')</script>
+                        <?php else: ?>
+                            <p class="block-subtitle">
+                                    <?php echo $this->__('Recently added item(s)') ?>
+                            </p>
+                            <p class="cart-empty">
+                                <?php echo $this->__('You have no items in your shopping cart.') ?>
+                            </p>
+                        <?php endif ?>
+                        <?php if($_cartQty && $this->isPossibleOnepageCheckout()): ?>
+                            <div class="actions">
+                                <!-- Client requested removal of this link [Envyweb] -->
+                                <!-- <a href="<?php echo $this->getUrl('checkout/cart'); ?>" rel="nofollow"><?php echo $this->__('Shopping Cart') ?></a> -->
+                                <button class="button" type="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>
+                            </div>
+                        <?php endif ?>
+                    </div>
+                </div>
+            <?php endif;?>
+        </div>
+    <?php endif;?>
+</div>

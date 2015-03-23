@@ -1,0 +1,48 @@
+<?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+    $_enabled = Mage::getStoreConfig('socialicons/general/enabled', $code);
+    $_facebook_visible = Mage::getStoreConfig('socialicons/options/facebook_visible', $code);
+    $_facebook_url = Mage::getStoreConfig('socialicons/options/facebook_url', $code);
+    $_facebook_sortorder = Mage::getStoreConfig('socialicons/options/facebook_sortorder', $code);
+    $_twitter_visible = Mage::getStoreConfig('socialicons/options/twitter_visible', $code);
+    $_twitter_url = Mage::getStoreConfig('socialicons/options/twitter_url', $code);
+    $_twitter_sortorder = Mage::getStoreConfig('socialicons/options/twitter_sortorder', $code);
+    $_linkedin_visible = Mage::getStoreConfig('socialicons/options/linkedin_visible', $code);
+    $_linkedin_url = Mage::getStoreConfig('socialicons/options/linkedin_url', $code);
+    $_linkedin_sortorder = Mage::getStoreConfig('socialicons/options/linkedin_sortorder', $code);
+    $_flickr_visible = Mage::getStoreConfig('socialicons/options/flickr_visible', $code);
+    $_flickr_url = Mage::getStoreConfig('socialicons/options/flickr_url', $code);
+    $_flickr_sortorder = Mage::getStoreConfig('socialicons/options/flickr_sortorder', $code);
+    $_googleplus_visible = Mage::getStoreConfig('socialicons/options/googleplus_visible', $code);
+    $_googleplus_url = Mage::getStoreConfig('socialicons/options/googleplus_url', $code);
+    $_googleplus_sortorder = Mage::getStoreConfig('socialicons/options/googleplus_sortorder', $code);
+    $_links = array(
+        array('visible'=>$_facebook_visible,'url'=>$_facebook_url,'class'=>'facebook-icon','title'=>'Facebook','sortorder'=>$_facebook_sortorder),
+        array('visible'=>$_twitter_visible,'url'=>$_twitter_url,'class'=>'twitter-icon','title'=>'Twitter','sortorder'=>$_twitter_sortorder),
+        array('visible'=>$_linkedin_visible,'url'=>$_linkedin_url,'class'=>'linkedin-icon','title'=>'Linkedin','sortorder'=>$_linkedin_sortorder),
+        array('visible'=>$_flickr_visible,'url'=>$_flickr_url,'class'=>'flickr-icon','title'=>'Flickr','sortorder'=>$_flickr_sortorder),
+        array('visible'=>$_googleplus_visible,'url'=>$_googleplus_url,'class'=>'googleplus-icon','title'=>'Googleplus','sortorder'=>$_googleplus_sortorder)
+    );
+    if (!function_exists('sortorder')) {
+    function sortorder($item1,$item2)
+    {
+        if ($item1['sortorder'] == $item2['sortorder']) return 0;
+        return ($item1['sortorder'] < $item2['sortorder']) ? -1 : 1;
+    }
+    }
+    usort($_links,'sortorder');
+    if($_enabled){
+?>
+<div class="social-icons">
+<?php
+   foreach($_links as $_link){
+       if($_link['visible']==1){
+           echo '<a href="'.$_link['url'].'" title="'.$_link['title'].'" class="'.$_link['class'].'">'.$_link['title'].'</a>';
+       }
+   }
+?>
+</div>
+<?php
+    }
+?>

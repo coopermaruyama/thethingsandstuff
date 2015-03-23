@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <tregotheme translate="label" module="trego_mod">
+            <label>Trego (1.5.0)</label>
+            <sort_order>101</sort_order>
+        </tregotheme>
+        <tregoextensions translate="label" module="trego_mod">
+            <label>Trego Extensions</label>
+            <sort_order>102</sort_order>
+        </tregoextensions>
+    </tabs>
+</config>

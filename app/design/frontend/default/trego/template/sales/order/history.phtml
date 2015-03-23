@@ -1,0 +1,66 @@
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_orders = $this->getOrders(); ?>
+<div class="page-title">
+    <h1><?php echo $this->__('My Orders') ?></h1>
+</div>
+<?php if($_orders->getSize()): ?>
+<table class="data-table" id="my-orders-table">
+    <col width="1" />
+    <col width="1" />
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr class="for-desktop">
+            <th><?php echo $this->__('Order #') ?></th>
+            <th><?php echo $this->__('Date') ?></th>
+            <th><?php echo $this->__('Ship To') ?></th>
+            <th><span class="nobr"><?php echo $this->__('Order Total') ?></span></th>
+            <th><?php echo $this->__('Status') ?></th>
+            <th class="last">&nbsp;</th>
+        </tr>
+        <tr class="for-mobile"><th colspan="6" class="last"><?php echo $this->__('My Orders') ?></th></tr>
+    </thead>
+    <tbody>
+        <?php foreach ($_orders as $_order): ?>
+            <tr class="for-mobile">
+                <td colspan="6">
+                    <p><span><?php echo $this->__('Order No') ?>: </span><span><?php echo $_order->getRealOrderId() ?></span></p>
+                    <p><span><?php echo $this->__('Date') ?>: </span><span class="nobr"><?php echo $this->formatDate($_order->getCreatedAtStoreDate()) ?></span></p>
+                    <p><span><?php echo $this->__('Ship To') ?>: </span><span><?php echo $_order->getShippingAddress() ? $this->htmlEscape($_order->getShippingAddress()->getName()) : '&nbsp;' ?></span></p>
+                    <p><span class="nobr"><?php echo $this->__('Order Total') ?>: </span><span><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></span></p>
+                    <p><?php echo $this->__('Status') ?>: <span><em><?php echo $_order->getStatusLabel() ?></em></span></p>
+                    <p>
+                        <span class="nobr">
+                        <a href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $this->__('View Order') ?></a>
+                        <?php if ($this->helper('sales/reorder')->canReorder($_order)) : ?>
+                        <span class="separator">|</span> <a href="<?php echo $this->getReorderUrl($_order) ?>" class="link-reorder"><?php echo $this->__('Reorder') ?></a>
+                        <?php endif ?>
+                        </span>
+                    </p>
+                </td>
+            </tr>
+            <tr class="for-desktop">
+                <td><?php echo $_order->getRealOrderId() ?></td>
+                <td><span class="nobr"><?php echo $this->formatDate($_order->getCreatedAtStoreDate()) ?></span></td>
+                <td><?php echo $_order->getShippingAddress() ? $this->htmlEscape($_order->getShippingAddress()->getName()) : '&nbsp;' ?></td>
+                <td><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
+                <td><em><?php echo $_order->getStatusLabel() ?></em></td>
+                <td class="a-center">
+                    <span class="nobr">
+                    <a href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $this->__('View Order') ?></a>
+                    <?php if ($this->helper('sales/reorder')->canReorder($_order)) : ?>
+                        <span class="separator">|</span> <a href="<?php echo $this->getReorderUrl($_order) ?>" class="link-reorder"><?php echo $this->__('Reorder') ?></a>
+                    <?php endif ?>
+                    </span>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<script type="text/javascript">decorateTable('my-orders-table');</script>
+<?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <p><?php echo $this->__('You have placed no orders.'); ?></p>
+<?php endif ?>

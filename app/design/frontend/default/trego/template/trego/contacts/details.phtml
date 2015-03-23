@@ -1,0 +1,86 @@
+<?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+    $_enable = Mage::getStoreConfig('stores/general/trego_store_enabled', $code);
+    if($_enable){
+        $_email1 = Mage::getStoreConfig('stores/details/trego_store_email', $code);
+        $_email2 = Mage::getStoreConfig('stores/details/additional_email', $code);
+        $_phone1 = Mage::getStoreConfig('stores/details/trego_store_phone', $code);
+        $_phone2 = Mage::getStoreConfig('stores/details/additional_phone', $code);
+        $_mobile1 = Mage::getStoreConfig('stores/details/trego_store_mobile', $code);
+        $_mobile2 = Mage::getStoreConfig('stores/details/additional_mobile', $code);
+        $_fax1 = Mage::getStoreConfig('stores/details/trego_store_fax', $code);
+        $_fax2 = Mage::getStoreConfig('stores/details/additional_fax', $code);
+        $_skype1 = Mage::getStoreConfig('stores/details/trego_store_skype', $code);
+        $_skype2 = Mage::getStoreConfig('stores/details/additional_skype', $code);
+?>
+<div class="block block-contactdetails">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Contact Details') ?></span></strong>
+    </div>
+    <div class="block-content">
+        <div class="row">
+            <div class="row-header">
+                <?php echo $this->__('Phone:') ?>
+            </div>
+            <div class="row-info">
+                <p><?php echo $_phone1 ?></p>
+                <?php if($_phone2): ?>
+                <p><?php echo $_phone2 ?></p>
+                <?php endif; ?>
+            </div>
+            <div class="clear"></div>
+        </div>
+       <!--  <div class="row">
+            <div class="row-header">
+                <?php echo $this->__('Mobile:') ?>
+            </div>
+            <div class="row-info">
+                <p><?php echo $_mobile1 ?></p>
+                <?php if($_mobile2): ?>
+                <p><?php echo $_mobile2 ?></p>
+                <?php endif; ?>
+            </div>
+            <div class="clear"></div>
+        </div> -->
+        <!-- <div class="row">
+            <div class="row-header">
+                <?php echo $this->__('Fax:') ?>
+            </div>
+            <div class="row-info">
+                <p><?php echo $_fax1 ?></p>
+                <?php if($_fax2): ?>
+                <p><?php echo $_fax2 ?></p>
+                <?php endif; ?>
+            </div>
+            <div class="clear"></div>
+        </div> -->
+        <div class="row">
+            <div class="row-header">
+                <?php echo $this->__('E-mail:') ?>
+            </div>
+            <div class="row-info">
+                <p><?php echo $_email1 ?></p>
+                <?php if($_email2): ?>
+                <p><?php echo $_email2 ?></p>
+                <?php endif; ?>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!-- <div class="row">
+            <div class="row-header">
+                <?php echo $this->__('Skype:') ?>
+            </div>
+            <div class="row-info">
+                <p><?php echo $_skype1 ?></p>
+                <?php if($_skype2): ?>
+                <p><?php echo $_skype2 ?></p>
+                <?php endif; ?>
+            </div>
+            <div class="clear"></div>
+        </div> -->
+    </div>
+</div>
+<?php
+    }
+?>
