@@ -19,4 +19,5 @@ var/resource_config.json
 media/catalog/product/cache
 *.DS_Store
 .htaccess
-
+media/js
+media/css
