@@ -21,3 +21,4 @@ media/catalog/product/cache
 .htaccess
 media/js
 media/css
+npm-debug.log
