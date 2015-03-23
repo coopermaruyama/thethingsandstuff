@@ -34,23 +34,28 @@
                         <default>
                             <web>
                                 <unsecure>
-                                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                                    <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
                                 </unsecure>
                                 <secure>
-                                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                                    <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
                                 </secure>
                             </web>
                         </default>
                     </config_data>
                 </entities>
             </core_resource>
+            <zend>
+                <session>
+                    <save_path>/tmp/</save_path>
+                </session>
+            </zend>
         </models>
         <web>
             <unsecure>
-                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
             </unsecure>
             <secure>
-                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
             </secure>
         </web>
         <install>
@@ -90,34 +95,34 @@
         </routers>
         <web>
             <unsecure>
-                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
             </unsecure>
             <secure>
-                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
             </secure>
         </web>
     </admin>
     <default>
         <web>
             <url>
-                <use_store>0</use_store>
+                <use_store>1</use_store>
                 <redirect_to_base>1</redirect_to_base>
             </url>
             <unsecure>
-                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
             </unsecure>
             <secure>
-                <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
             </secure>
         </web>
         <stores>
             <general>
                 <web>
                     <unsecure>
-                        <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                        <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
                     </unsecure>
                     <secure>
-                        <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                        <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
                     </secure>
                 </web>
             </general>
@@ -127,10 +132,10 @@
         <default>
             <web>
                 <unsecure>
-                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                    <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
                 </unsecure>
                 <secure>
-                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                    <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
                 </secure>
             </web>
         </default>
@@ -139,18 +144,18 @@
         <default>
             <web>
                 <unsecure>
-                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
-                    <use_in_frontend>0</use_in_frontend>
+                    <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
+                    <use_in_frontend>1</use_in_frontend>
                 </unsecure>
                 <secure>
-                    <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                    <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
                 </secure>
                 <frontend>
                     <unsecure>
-                        <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                        <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
                     </unsecure>
                     <secure>
-                        <base_url><![CDATA[http://dev.thethingsandstuff.com:8888/]]></base_url>
+                        <base_url><![CDATA[http://ttas.dev:8888/]]></base_url>
                     </secure>
                 </frontend>
             </web>
