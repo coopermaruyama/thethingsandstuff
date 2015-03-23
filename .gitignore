@@ -15,7 +15,7 @@ var/package
 var/importexport
 var/log
 var/report
-var/*
+var/resource_config.json
 media/catalog/product/cache
 *.DS_Store
 .htaccess
