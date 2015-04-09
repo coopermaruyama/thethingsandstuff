@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Ewall_Onepage>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Ewall_Onepage>
+	</modules>
+</config>

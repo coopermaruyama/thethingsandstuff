@@ -1,0 +1,31 @@
+<?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+    $_widgetid = Mage::getStoreConfig('twitterfeed/general/trego_twitter_widgetkey', $code);
+    $_showcounts = Mage::getStoreConfig('twitterfeed/general/trego_twitter_show_counts', $code);
+    if($_widgetid){
+?>
+<script type="text/javascript">
+function handleTweets(tweets){
+    var x = tweets.length;
+    var n = 0;
+    var element = document.getElementById('feed_container');
+    var html = '<ul>';
+    while(n < x) {
+      html += '<li>' + tweets[n] + '</li>';
+      n++;
+    }
+    html += '</ul>';
+    element.innerHTML = html;
+}
+
+jQuery(document).ready(function(){
+    var widgetid = '<?php echo $_widgetid ?>';
+    var showcounts = <?php echo $_showcounts ?>;
+    twitterFetcher.fetch(widgetid, 'feed_container', showcounts, true, false, true, '', false);
+});
+</script>
+<?php
+    }  
+?>
+<div id="feed_container"></div>

@@ -1,0 +1,378 @@
+<?php $category = Mage::registry('current_category');
+?>
+<div class="header-container">
+    <div class="header">
+        <div class="header-bground" id="header-bground">
+            <div id="header-toggle" class="open-state"></div>
+            <div class="header-sidebar" id="header-sidebar">
+                <div class="box-scroll">
+                    <?php if ($this->getIsHomePage()):?>
+                        <h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" /></a></h1>
+                    <?php else:?>
+
+                        <a href="<?php echo $this->getUrl('') ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" /></a>
+                        <script>
+                            jQuery(function() {
+                                jQuery("a.logo").hover(function() {
+                                    jQuery("img",this).addClass("glow");
+                                },function() {
+                                    jQuery("img",this).removeClass("glow");
+                                });
+                            });
+                        </script>
+                    <?php endif?>
+                    <?php echo $this->getChildHtml('socialIcons'); ?>
+                    <div class="clearer"></div>
+                    <?php echo $this->getChildHtml('topSearch'); ?>
+                    <div class="clearer"></div>
+                    <?php echo $this->getChildHtml('topMenu'); ?>
+
+                    <!-- Landers Optimized: Commented out to remove the links for specials (Featured, New, etc). Replace w/ product filter */ -->
+
+                    <!-- <div class="clear"></div>
+                    <?php echo $this->getChildHtml('topSpecialMenu'); ?> -->
+
+                    <div id="side-filters">
+                       <!--  <?php
+                        if(Mage::app()->getRequest()->getModuleName() != Trego_Blog_Helper_Data::DEFAULT_ROOT && Mage::registry('current_category')){
+                            $block = new Trego_Ajaxfilter_Block_Catalog_Layer_Filter_Price();
+                            echo $block->getHtml();
+
+                        }
+                        ?> -->
+                        <div class="clear"></div>
+                        <?php $actionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
+                        // if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI'])):
+                        if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI']) ):
+                            ?>
+                        <h3>Sort by Price</h3>
+                        <div id="price-sorter">
+                            <div class="price-sort highest" data-value="desc">Highest</div>
+                            <div class="price-sort lowest" data-value="asc">Lowest</div>
+                        </div>
+                    <?php endif ?>
+                    <?php $actionName = Mage::app()->getFrontController()->getAction()->getFullActionName();
+                        // if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI'])):
+                    if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() && !preg_match("/\/catalogsearch\/(advanced\/)?result/", $_SERVER['REQUEST_URI']) ):
+                        ?>
+
+                    <h3>Price</h3>
+                    <div id="price-filter">
+                        <div class="price-option" data-value="11" id="pVal11">$</div>
+                        <div class="price-option" data-value="12" id="pVal12">$$</div>
+                        <div class="price-option" data-value="13" id="pVal13">$$$</div>
+                        <div class="price-option" data-value="14" id="pVal14">$$$$</div>
+                    </div>
+                    <h3>Condition</h3>
+                    <div id="condition-filter">
+                        <div class="condition-option" data-value="6" id="cVal6">&#9733;</div>
+                        <div class="condition-option" data-value="5" id="cVal5">&#9733;&#9733;</div>
+                        <div class="condition-option" data-value="4" id="cVal4">&#9733;&#9733;&#9733;</div>
+                        <div class="condition-option" data-value="3" id="cVal3">&#9733;&#9733;&#9733;&#9733;</div>
+                    </div>
+
+                    <script>
+                     jQuery.noConflict();
+                     jQuery(function($) {
+   								// BEGIN CONDITION FILTER PLUGIN [EnvyWeb]
+                                urlVal = decodeURIComponent( getURLParameter("condition"));
+                                urlArray = urlVal.split(",");
+								$.each( urlArray, function(i,v) { //decode URI, convert to array, then iterate
+									$("#cVal"+v).addClass("active").data("active","true");
+								});
+								$('.condition-option').click(function() {
+									activeVal = $(this).data("active") == "true" ? "" : "true";
+									$(this).data("active" , activeVal);
+
+									$(this).toggleClass('active');
+									conditionArray = [];
+									$('.condition-option').each(function() {
+										if ( $(this).data("active") == "true" ) {
+											conditionArray.push( $(this).attr("data-value") );
+										}
+									});
+									conditionVal = conditionArray.join(",");
+									conditionUrl = updateQueryStringParameter( window.location.href, "condition", encodeURIComponent(conditionVal) );
+
+									sliderAjax(conditionUrl);
+								});
+								//END CONDITION FILTER PLUGIN [EnvyWeb]
+								// BEGIN PRICE FILTER PLUGIN [EnvyWeb]
+								ptUrlVal = decodeURIComponent( getURLParameter("pt"));
+								ptUrlArray = ptUrlVal.split(",");
+								$.each( ptUrlArray, function(i,v) { //decode URI, convert to array, then iterate
+									$("#pVal"+v).addClass("active").data("active","true");
+								});
+								$('.price-option').click(function() {
+									pActiveVal = $(this).data("active") == "true" ? "" : "true";
+									$(this).data("active" , pActiveVal);
+
+									$(this).toggleClass('active');
+									priceArray = [];
+									$('.price-option').each(function() {
+										if ( $(this).data("active") == "true" ) {
+											priceArray.push( $(this).attr("data-value") );
+										}
+									});
+									priceVal = priceArray.join(",");
+									priceUrl = updateQueryStringParameter( window.location.href, "pt", encodeURIComponent(priceVal) );
+
+									sliderAjax(priceUrl);
+								});
+								//END PRICE FILTER PLUGIN [EnvyWeb]
+							});
+
+
+</script>
+<?php
+$toolbar = $this->getChild('catalog_product_list')->getToolbarBlock();
+$toolbar->setCollection($this->getChild('catalog_product_list')->getLoadedProductCollection());
+
+?>
+<?php endif ?>
+
+<?php if ($actionName == 'catalog_category_view' || $actionName == 'cms_index_index' || $this->getIsHomePage() || $actionName == 'catalogsearch_result_index'|| $actionName == 'catalogsearch_advanced_result'):?>
+    <script type="text/javascript">
+							//<![CDATA[
+                            jQuery(function($) {
+                                // Sort by Price Button
+                                $("#price-sorter .price-sort").click(function(e) {
+                                    if($(this).hasClass("active")) {return;}
+                                    dir = $(this).data("value");
+                                    url_with_direction = updateQueryStringParameter(window.location.href,"dir",dir);
+                                    url_with_order = updateQueryStringParameter(url_with_direction,"order","price");
+                                    sliderAjax(url_with_order);
+                                    $("#price-sorter .price-sort").removeClass("active");
+                                    $(this).addClass("active");
+                                });
+                                $("#price-sorter .price-sort").each(function() {
+                                    (getURLParameter("order") == "price" && getURLParameter("dir") == $(this).data("value")) && $(this).addClass("active");
+                                });
+                                if (window.location.pathname == "/") {
+                                    $("#price-sorter .price-sort.highest").addClass("active");
+                                };
+
+                            });
+var data = "";
+var active = false;
+jQuery(function($){
+    if($('body').find('#resultLoading').attr('id') != 'resultLoading'){
+        $('.main').append('<div id="resultLoading" style="display:none"><div><img src="http://thethingsandstuff.com/media/wysiwyg/trego/ajaxfilter/default/ajax-loader.gif"><div>Filtering...</div></div><div class="bg"></div></div>');}
+        var height = $('.main').outerHeight();
+        var width = $('.main').outerWidth();
+        $('.ui-slider-handle').css('cursor','pointer');
+
+        $('#resultLoading').css({
+           'width':'100%',
+           'height':'100%',
+           'position':'fixed',
+           'z-index':'10000000',
+           'top':'0',
+           'left':'0'
+       });
+        $('#resultLoading .bg').css({
+           'background':'#000000',
+           'opacity':'0.5',
+           'width':'100%',
+           'height':'100%',
+           'position':'absolute',
+           'top':'0'
+       });
+        $('#resultLoading>div:first').css({
+           'width': '100%',
+           'text-align': 'center',
+           'position': 'absolute',
+           'left': '0',
+           'top': '50%',
+           'font-size':'16px',
+           'z-index':'10',
+           'color':'#ffffff'
+
+       });
+
+
+								// Created bug due to removing toolbar html [EnvyWeb]
+								//         // $('.toolbar a').on('click', function(e){if(!$(this).hasClass('sbToggle') && !$(this).hasClass('sbSelector') && !$(this).parent().parent().hasClass('sbOptions')){var url=$(this).attr('href');sliderAjax(url);e.preventDefault()}});
+								// $('.toolbar select').removeAttr('onchange');
+								// $('.toolbar select').on('change', function(e){var url=$(this).val();sliderAjax(url);e.preventDefault()});
+								//
+
+							});
+
+/*DONOT EDIT THIS CODE*/
+function sliderAjax(url) {
+ jQuery(function($) {
+    $('#resultLoading .bg').height('100%');
+    $('#resultLoading').fadeIn(300);
+    window.location.href = url;
+});
+}
+
+
+function callback(){
+
+}
+						//]]>
+                 </script>
+             <?php endif ?>
+         </div>
+         <div class="clear"></div>
+         <div class="header-bottom-links">
+            <!--  <a href="/all.html?newest">Newest Items</a>
+             // -->
+             <a href="/all.html">All Items</a>
+         </div>
+         <div class="clear"></div>
+         <div class="yelp">
+            <a target="_blank" href="https://www.facebook.com/theThingsAndStuff">
+                <img src="/skin/frontend/default/trego/images/socialicons/fb.png" alt="">
+            </a>
+            <a target="_blank" href="https://www.pinterest.com/thethingsstuff/">
+                <img src="/skin/frontend/default/trego/images/socialicons/pin.png" alt="">
+            </a>
+            <a target="_blank" href="http://www.yelp.com/biz/the-things-and-stuff-santa-monica-2">
+                <img class="yelpLG" src="/skin/frontend/default/trego/images/yelpW.png" />
+            </a>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+</div>
+<a href="javascript:void(0)" class="filterproducts-link">&nbsp;</a>
+</div>
+<div class="header-topbar">
+    <div class="quick-access">
+        <?php echo $this->getChildHtml('store_language') ?>
+        <?php echo $this->getChildHtml('custom_currency_selector') ?>
+        <?php echo $this->getChildHtml('cart_cartheader') ?>
+        <ul class="nav-secondary">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contacts/">Contact</a></li>
+        </ul>
+    </div>
+    <nav id="nav-top">
+        <ul class="top-nav">
+            <li><a href="/">Buy</a></li>
+            <li><a href="/sell">Sell</a></li>
+            <li><a href="/moving">Moving</a></li>
+            <li><a href="/delivery">Delivery</a></li>
+            <li><a href="/storage">Storage</a></li>
+        </ul>
+        <select name="" id="">
+            <option value="" selected="selected">Go to...</option>
+            <option value="/">Buy</option>
+            <option value="/sell">Sell</option>
+            <li><a href="/moving">Moving</a></li>
+            <li><a href="/delivery">Delivery</a></li>
+            <li><a href="/storage">Storage</a></li>
+            <option value="/about/">About</option>
+            <option value="/contacts/">Contact</option>
+        </select>
+    </nav>
+    <!-- Removed Page Title Envy Websites -->
+    <!-- <h1 class="page-title"></h1> -->
+    <?php echo $this->getChildHtml('topContainer'); ?>
+    <div class="clearer"></div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery('.header-topbar h1.page-title').html(jQuery('.main .page-title h1').html());
+                /*
+                if(jQuery(window).width()>1007){
+                    jQuery('.box-scroll').niceScroll({zindex : 51, objfixed: true});
+                }
+                */
+                // jQuery('html').niceScroll({zindex : 9999});
+                var ajax_loaded1 = false;
+                var ajax_loaded2 = false;
+                var ajax_loaded3 = false;
+
+                jQuery('.a_latest').click(function(){
+                    if(!jQuery(this).hasClass('active')){
+                        jQuery('div.filterproducts').children('div').hide();
+                        jQuery('.filterproducts').css('left', ((jQuery(window).width()-760)/2)+"px");
+                        jQuery('div.filterproducts').children('div').removeClass('active');
+                        jQuery('div#new_products').addClass('active');
+                        jQuery('div#new_products').fadeIn();
+                        jQuery('div.filterproducts').fadeIn();
+                        jQuery('.special_menu li a').removeClass('active');
+                        jQuery('.a_latest').addClass('active');
+                        if(!ajax_loaded1){
+                            jQuery.ajax({
+                                url: "<?php echo $this->getUrl('filterproducts/index/newproduct') ?>",
+                                context: document.body
+                            }).done(function(msg) {
+                                jQuery('div#new_products').html(msg);
+                                ajax_loaded1 = true;
+                                if(jQuery(window).height() < 925 ){
+                                    jQuery('.filterproducts div.category-products').css('height', '394px');
+                                    jQuery('.filterproducts').css('top', ((jQuery(window).height()-479)/2)+"px");
+                                } else {
+                                    jQuery('.filterproducts div.category-products').css('height', '788px');
+                                    jQuery('.filterproducts').css('top', ((jQuery(window).height()-873)/2)+"px");
+                                }
+                            });
+                        }
+                    }
+                });
+jQuery('.filterproducts-link').click(function(){ jQuery('.a_latest').click(); });
+jQuery('.filterproducts a.close').click(function(){
+    jQuery('div.filterproducts').children('div').fadeOut();
+    jQuery('div.filterproducts').fadeOut();
+    jQuery('.special_menu li a').removeClass('active');
+});
+var scrollHeight = 788;
+
+if(jQuery(window).height() < 925){
+    jQuery('.filterproducts div.category-products').css('height', '394px');
+    jQuery('.filterproducts').css('top', ((jQuery(window).height()-479)/2)+"px");
+    scrollHeight = 394;
+} else {
+    jQuery('.filterproducts div.category-products').css('height', '788px');
+    scrollHeight = 788
+    jQuery('.filterproducts').css('top', ((jQuery(window).height()-873)/2)+"px");
+}
+jQuery(window).resize(function(){
+    jQuery('.filterproducts').css('left', ((jQuery(window).width()-760)/2)+"px");
+    if(jQuery(window).height() < 925 ){
+        jQuery('.filterproducts div.category-products').css('height', '394px');
+        scrollHeight = 394;
+        jQuery('.filterproducts').css('top', ((jQuery(window).height()-479)/2)+"px");
+    } else {
+        jQuery('.filterproducts div.category-products').css('height', '788px');
+        scrollHeight = 788
+        jQuery('.filterproducts').css('top', ((jQuery(window).height()-873)/2)+"px");
+    }
+    if(jQuery(window).width() < 768){
+        jQuery('.filterproducts a.close').click();
+    }
+    /** for SAMSUNG GALAXY TABLET */
+    if(jQuery(window).width()>=768 && jQuery(window).width()<=1024){
+        jQuery('.header-container').css('width', jQuery(window).width()+"px");
+    } else {
+        jQuery('.header-container').css('width', '');
+    }
+    /** for SAMSUNG GALAXY TABLET */
+});
+jQuery('.filterproducts a.page-next').click(function(){
+    jQuery(".filterproducts div.active div.category-products").animate({scrollTop: jQuery(".filterproducts div.active div.category-products").scrollTop()+scrollHeight}, 600, "easeOutCubic");
+    return false;
+});
+jQuery('.filterproducts a.page-prev').click(function(){
+    jQuery(".filterproducts div.active div.category-products").animate({scrollTop: jQuery(".filterproducts div.active div.category-products").scrollTop()-scrollHeight}, 600, "easeOutCubic");
+    return false;
+});
+// jQuery("html").click(function(){
+//     if(jQuery(window).width()<=1024){
+//         jQuery("#nav li span.plus").each(function(){
+//             jQuery(this).removeClass('expanded');
+//             jQuery(this).parent().removeClass('expanded');
+//             jQuery(this).parent().children('ul').slideUp('fast');
+//         });
+//     }
+// });
+
+});
+</script>
+</div>
+</div>

@@ -1,0 +1,42 @@
+
+<?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+$enable = Mage::getStoreConfig('filterproducts/featured/active',$code);
+?>
+<?php if($enable == 1) { ?>
+<div id="featured_products" style="display: none;">
+<div class="maintitle">
+    <div class="titlemain"><?php echo Mage::getStoreConfig('filterproducts/featured/title',$code); ?></div>
+</div>
+<img class="ajax-loader" src="<?php echo $this->getSkinUrl('images/loading.gif'); ?>"/>
+<div class="category-products">
+</div>
+</div>
+<?php }  ?>
+<?php 
+$enable = Mage::getStoreConfig('filterproducts/new/active',$code);
+?>
+<?php if($enable == 1) { ?>
+<div id="new_products" style="display: none;">
+<div class="maintitle">
+    <div class="titlemain"><?php echo Mage::getStoreConfig('filterproducts/new/title',$code); ?></div>
+</div>
+<img class="ajax-loader" src="<?php echo $this->getSkinUrl('images/loading.gif'); ?>"/>
+<div class="category-products">
+</div>
+</div>
+<?php }  ?>
+<?php  
+$enable = Mage::getStoreConfig('filterproducts/special/active',$code);
+?>
+<?php if($enable == 1) { ?>
+<div id="special_product" style="display: none;">
+<div class="maintitle">
+    <div class="titlemain"><?php echo Mage::getStoreConfig('filterproducts/special/title',$code); ?></div>
+</div>
+<img class="ajax-loader" src="<?php echo $this->getSkinUrl('images/loading.gif'); ?>"/>
+<div class="category-products">
+</div>
+</div>
+<?php }  ?>

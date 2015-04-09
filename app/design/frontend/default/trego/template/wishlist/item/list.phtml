@@ -1,0 +1,47 @@
+<?php
+    $columns = $this->getColumns();
+?>
+<table class="data-table" id="wishlist-table">
+    <thead>
+        <tr class="for-mobile">
+            <th colspan="<?php echo count($columns) ?>"><?php echo $this->__('My Wishlist') ?></th>
+        </tr>
+        <tr class="for-desktop">
+            <?php foreach ($columns as $column): ?>
+                <th><?php echo $column->getTitle();?></th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (count($this->getItems())): ?>
+            <?php foreach ($this->getItems() as $item): ?>
+                <tr class="for-desktop" id="item_<?php echo $item->getId();?>">
+                    <?php foreach ($columns as $column): ?>
+                        <td><?php $column->setItem($item); echo $column->toHtml($item);?></td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr class="for-mobile" id="item_<?php echo $item->getId();?>_2">
+                    <td colspan="<?php echo count($columns)?>">
+                    <?php foreach ($columns as $column): ?>
+                        <div><?php $column->setItem($item); echo $column->toHtml($item);?></div>
+                    <?php endforeach; ?>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+        <?php else: ?>
+            <td colspan="<?php echo count($columns);?>" class="wishlist-empty"><?php echo $this->__('This Wishlist has no Items');?></td>
+        <?php endif; ?>
+    </tbody>
+</table>
+<?php foreach ($columns as $column): ?>
+    <?php echo $column->getAdditionalHtml();?>
+<?php endforeach; ?>
+<script type="text/javascript">
+//<![CDATA[
+    decorateTable('wishlist-table');
+
+<?php foreach ($columns as $column): ?>
+    <?php echo $column->getJs();?>
+<?php endforeach; ?>
+//]]>
+</script>

@@ -1,0 +1,152 @@
+<?php
+//Get store id
+$storeId    = Mage::app()->getStore()->getId();
+$show_levels = 2;
+//Get category model
+$_category = Mage::getModel('catalog/category')->setStoreId($storeId);
+$_cat = $_category->load(Mage::app()->getStore()->getRootCategoryId());
+
+?>
+
+<div class="nav-container">
+    <a id="mobnav"><?php echo $this->__('Menu'); ?></a>
+<?php
+function hasMenuChildren($_cat){
+    $return_val = false;
+    if($_cat->hasChildren()){
+        $_children = $_cat->getChildren();
+        $children_ids = explode(",", $_children);
+        foreach ($children_ids as $child_id){
+            $_child = Mage::getModel('catalog/category')->setStoreId($storeId)->load($child_id);
+            if($_child->getIncludeInMenu()){
+                $return_val = true;
+            }
+        }
+    }
+    return $return_val;
+}
+function cmpCatPosition($a, $b) {
+    if ($a->position == $b->position)
+        return 0;
+    return ($a->position > $b->position) ? 1 : -1;
+}
+function showChildrenCategories($_category, $level, $level_limit){
+    $storeId = Mage::app()->getStore()->getId();
+    $html = '';
+    if($level < 3){
+        if($level == 0){
+            $html .= '<ul id="nav" class="menutype2">';
+        } else {
+            $html .= '<ul class="level'.$level.'">';
+        }
+        $_children = $_category->getChildren();
+        $children_ids = explode(",", $_children);
+        $categoryChildren = array();   
+        if ($children_ids) {
+            foreach ($children_ids as $categoryId){
+                $category = Mage::getModel('catalog/category')->load($categoryId);
+                $categoryChildren[] = $category;
+            }
+        }
+
+        usort($categoryChildren, 'cmpCatPosition');
+
+        foreach ($categoryChildren as $_child){
+            if($_child->getIncludeInMenu()){
+                $html .= '<li class="level'.$level.'">';
+                $html .= '<a href ="'.$_child->getUrl().'"><span>';
+                $html .= $_child->getName();
+                $html .= '</span>';
+                if($level==2)
+                    $html .= '<div class="desc">';
+                if( $level == 2 && $_child->getDescription() ){
+                    $desc = '';
+                    if(strlen($_child->getDescription())>45){
+                        $desc = substr($_child->getDescription(),0,45).'...';
+                    }else{
+                        $desc = $_child->getDescription();
+                    }
+                    $html .= $desc;
+                }
+                if($level==2)
+                    $html .= '</div>';
+                if( $level == 2 ){
+                    if( $_child->getThumbnail() ){
+                        $html .= '<img src="'.Mage::getBaseUrl('media').'catalog/category/'.$_child->getThumbnail().'"/>';
+                    } else {
+                        $html .= '<img src="'.Mage::getDesign()->getSkinUrl('images/np_cart_thumb.gif').'"/>';
+                    }
+                }
+                $html .= '<em class="clear"></em></a>';
+                if( hasMenuChildren($_child) && $level < $level_limit ){
+                    if($level == 0 || $level == 1){
+                        $html .= '<span class="plus"></span>';
+                    }
+                    $html .= showChildrenCategories($_child, $level+1, $level_limit);
+                }
+                $html .= '</li>';
+            }
+        }
+        $html .= '</ul>';
+    }
+    return $html;
+}
+echo showChildrenCategories($_cat, 0, $show_levels);
+?>
+</div><?php //content ?>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery('.header-bground').append('<div class="tablet-overlay"></div>');
+    jQuery("#nav li span.plus").click(function(event){
+        event.stopPropagation();
+        jQuery(".form-language .select-language .sbOptions").slideUp('fast');
+        jQuery(".form-language .select-language .sbToggle").removeClass('sbToggleOpen');
+        if(jQuery(this).hasClass('expanded')){
+            jQuery(this).removeClass('expanded');
+            jQuery(this).parent().removeClass('expanded');
+            if(jQuery(this).parent().hasClass('level0'))
+            {
+                jQuery('.header-bground').removeClass('menu-expanded');
+            }
+            if(jQuery(window).width()>1024)
+                jQuery(this).parent().children('ul').slideUp('fast');
+            else if(jQuery(window).width()<768){
+                jQuery(this).parent().children('ul').slideUp('fast');
+            }
+            else{
+                jQuery(this).parent().children('ul').hide();
+                jQuery('.tablet-overlay').hide();
+            }
+        } else {
+            jQuery(this).parent().parent().children('li.expanded').children('ul').hide();
+            jQuery(this).parent().parent().children('li.expanded').children('ul.expended').removeClass('expanded');
+            jQuery(this).parent().parent().children('li.expanded').children('span.expanded').removeClass('expanded');
+            jQuery(this).parent().parent().children('li').children('ul').children('li.expanded').children('ul').hide();
+            jQuery(this).parent().parent().children('li').children('ul').children('li.expanded').children('span.expanded').removeClass('expanded');
+            jQuery(this).parent().parent().children('li').children('ul').children('li.expanded').removeClass('expanded');
+            jQuery(this).parent().parent().children('li.expanded').removeClass('expanded');
+            jQuery('.tablet-overlay').hide();
+            jQuery(this).addClass('expanded');
+            jQuery(this).parent().addClass('expanded');
+            if(jQuery(this).parent().hasClass('level0'))
+            {
+                jQuery('.header-bground').addClass('menu-expanded');
+            }
+            if(jQuery(window).width()>1024)
+                jQuery(this).parent().children('ul').slideDown('fast');
+            else if(jQuery(window).width()<768){
+                jQuery(this).parent().children('ul').slideDown('fast');
+            }
+            else{
+                jQuery(this).parent().children('ul').fadeIn();
+                if(jQuery('li.level1.expanded').length > 0)
+                {
+                    var count = jQuery('li.level1.expanded').children('ul').children().length;
+                    jQuery('.tablet-overlay').css('height', ((Math.ceil(count/2))*81+22)+'px');
+                    jQuery('.tablet-overlay').fadeIn();
+                }
+            }
+        }
+    });
+});
+</script>

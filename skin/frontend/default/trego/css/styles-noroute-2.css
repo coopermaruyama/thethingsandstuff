@@ -1,0 +1,96 @@
+html {
+    background: #f1f1f1 url(../images/error3.jpg) center no-repeat;
+    height: 100%;
+}
+.page {
+    background: none !important;
+}
+.header .header-topbar {
+    display: none !important;
+}
+.footer {
+    display: none !important;
+}
+.error-area {
+    display:block;
+    margin: 0 auto;
+    background: url(../images/error4.png) no-repeat;
+    width: 570px;
+    height: 570px;
+    position: relative;
+}
+.error-area .form-search {
+    position: absolute;
+    left: 30%;
+    bottom: 17%;
+}
+.error-area .form-search label {
+    text-align: left;
+    text-indent: -999em;
+    overflow: hidden;
+    display: none;
+}
+.error-area .form-search input.input-text{
+    float: left;
+    margin: 0;
+    padding: 13px 10px;
+    border: 1px solid #d6d6d6;
+    width: 138px;
+    font-family: Verdana;
+    font-size: 17px;
+    color: #74736a;
+    background-color: #e8e7e2;
+}
+.error-area .form-search button.button {
+    width: 53px;
+    height: 49px;
+    background: url(../images/error-search.png) no-repeat;
+    float: left;
+    margin: 0;
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .error-area {
+        display:block;
+        margin: 0 auto;
+        background: url(../images/error4.png) no-repeat;
+        width: 570px;
+        height: 570px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    html {
+        background: #f1f1f1 url(../images/error4.jpg) center no-repeat;
+        height: 100%;
+    }
+    .error-area {
+        display:block;
+        margin: 10px auto 0;
+        background: url(../images/error5.png) no-repeat;
+        width: 295px;
+        height: 295px;
+    }
+    .error-area .form-search {
+        left: 27%;
+    }
+    .error-area .form-search input.input-text{
+        padding: 5px 10px;
+        border: 1px solid #d6d6d6;
+        width: 85px;
+        font-size: 15px;
+        background: url(../images/error-search-bg.png);
+    }
+    .error-area .form-search button.button {
+        width: 30px;
+        height: 30px;
+        background: url(../images/error-search1.png) no-repeat;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    html {
+        background: #f1f1f1 url(../images/error5.jpg) center no-repeat;
+        height: 100%;
+    }
+}
+

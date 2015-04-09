@@ -1,0 +1,129 @@
+.akordeon
+{
+    width: 100%;
+    font-family: 'Raleway_Medium';
+    font-size: 15px;
+    margin-top: 20px;
+    border-bottom: 1px solid #d9d9d9;
+}
+.akordeon-item
+{
+    position: relative;
+}
+.akordeon-item .akordeon-item-head
+{
+    height: 40px;
+}
+.akordeon-item .akordeon-item-body
+{
+    border-bottom: none;
+    overflow: hidden;
+}
+.akordeon-icon
+{
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    margin: 8px 0 0;
+    float: right;
+    cursor: pointer;
+    text-align: center;
+    overflow: hidden;
+}
+.akordeon-icon:hover {
+    background: #cccccc;
+}
+.akordeon-heading
+{
+    float: left;
+    padding-top: 8px;
+    font-family: 'Raleway_Medium';
+    font-size: 15px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.akordeon-icon span
+{
+    background: url(../images/expand-icon.png) no-repeat;
+    width: 15px;
+    height: 15px;
+    display: block;
+    margin: 5px;
+}
+.akordeon-item.expanded .akordeon-icon span
+{
+    background-position: 0 -15px;
+}
+.akordeon-item-head-container
+{
+    width: 100%;
+}
+
+.box-up-sell .akordeon-item.expanded .akordeon-item-body
+{
+    min-height: 350px;
+}
+.akordeon-item.collapsed
+{
+}
+
+.akordeon-item.expanded .akordeon-heading
+{
+    
+}
+
+.akordeon-item.expanded .akordeon-item-head
+{
+
+}
+.akordeon-item-content
+{
+    padding: 10px 0;
+    min-height: 120px;
+    font-family: Verdana;
+    font-size: 13px;
+}
+.block.block-category-nav .akordeon-item-content
+{
+    min-height: 0;
+}
+.box-up-sell .akordeon-item-content {
+    padding: 20px 0 10px;
+    min-height: 250px;
+}
+.block.block-layered-nav .akordeon-item-content
+{
+    min-height: 0;
+}
+.block.block-layered-nav .akordeon-item-content div.price {
+    padding: 0 10px;
+}
+.akordeon-border-bottom
+{
+    border-bottom: solid 1px #d9d9d9;
+}
+.akordeon-border-top
+{
+    border-top: solid 1px black;
+}
+.akordeon-item.expanded .akordeon-item-body.akordeon-border-bottom
+{
+    border-bottom: solid 1px #d9d9d9 !important;
+}
+.akordeon-item.akordeon-item-first .akordeon-item-head
+{
+
+}
+
+.akordeon-item.akordeon-item-last.collapsed .akordeon-item-head
+{
+    border-bottom: none;
+}
+.akordeon-item.akordeon-item-last.expanded .akordeon-item-head
+{
+    border-bottom: solid 1px #d9d9d9;
+}
+.akordeon-item.akordeon-item-last.expanded .akordeon-item-body
+{
+    
+}

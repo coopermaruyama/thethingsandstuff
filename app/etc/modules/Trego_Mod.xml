@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Trego_Mod>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Trego_Mod>
+    </modules>
+</config>

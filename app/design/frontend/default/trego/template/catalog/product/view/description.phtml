@@ -1,0 +1,15 @@
+<?php $_description = $this->getProduct()->getDescription(); ?>
+<?php if ($_description): ?>
+<div class="akordeon-item-head">
+    <div class="akordeon-item-head-container">
+        <div class="akordeon-heading">
+            <?php echo $this->__('Details') ?>
+        </div>
+    </div>
+</div>
+<div class="akordeon-item-body">
+    <div class="akordeon-item-content">
+        <?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description') ?>
+    </div>
+</div>
+<?php endif; ?>

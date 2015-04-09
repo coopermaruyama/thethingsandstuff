@@ -1,0 +1,216 @@
+<root>
+   <blocks>
+      <cms_block>
+         <title>Homepage Slider 1</title>
+         <identifier>home_slider_1</identifier>
+         <content><![CDATA[<ul class="bxslider">
+<li><img src="{{media url="wysiwyg/trego/homepage_slider/slider3/slide1.jpg"}}" alt="" />
+<div>
+<h3>New Collection.</h3>
+<p>Duis semper tristique congue. Integer ultrices ipsum id justo ultrices sed blandit felis ultricies. Pellentesque id orci sed ligula elementum tempor ut non nulla. Aenean lectus nulla, rutrum in tincidunt non, vestibulum a arcu ...</p>
+</div>
+</li>
+<li><img src="{{media url="wysiwyg//trego/homepage_slider/slider2/slide3.jpg"}}" alt="" />
+<div>
+<h3>Summer Mood.</h3>
+<p>Pellentesque id orci sed ligula elementum tempor ut non nulla. Integer ultrices ipsum id justo ultrices sed blandit felis ultricies. Duis semper tristique congue. Aenean lectus nulla, rutrum in tincidunt non, vestibulum a arcu ...</p>
+</div>
+</li>
+<li><img src="{{media url="wysiwyg//trego/homepage_slider/slider1/slide2.jpg"}}" alt="" />
+<div>
+<h3>New Collection.</h3>
+<p>Duis semper tristique congue. Integer ultrices ipsum id justo ultrices sed blandit felis ultricies. Pellentesque id orci sed ligula elementum tempor ut non nulla. Aenean lectus nulla, rutrum in tincidunt non, vestibulum a arcu ...</p>
+</div>
+</li>
+</ul>]]></content>
+         <is_active>1</is_active>
+         <stores><item>0</item></stores>
+      </cms_block>
+      <cms_block>
+         <title>Homepage Slider 2</title>
+         <identifier>home_slider_2</identifier>
+         <content><![CDATA[<ul class="bxslider">
+<li><img src="{{media url="wysiwyg/trego/homepage_slider/slider2/slide1.jpg"}}" alt="" />
+<div>
+<h3>Winter <span>MooD</span></h3>
+<p>Praesent malesuada purus elit.</p>
+<p>Phasellus dapibus iaculis nulla facilisi.</p>
+</div>
+</li>
+<li><img src="{{media url="wysiwyg//trego/homepage_slider/slider3/slide1.jpg"}}" alt="" />
+<div>
+<h3>What's <span>NEW</span></h3>
+<p>Maecenas erat venenatis dignissim, sapien.</p>
+<p>Quisque sed diam libero. Sed scelerisque nisi.</p>
+</div>
+</li>
+<li><img src="{{media url="wysiwyg//trego/homepage_slider/slider2/slide2.jpg"}}" alt="" />
+<div>
+<h3><span>SALE</span></h3>
+<p>Praesent malesuada purus elit.</p>
+<p>Phasellus dapibus iaculis nulla facilisi.</p>
+<p>Phasellus dapibus iaculis nulla facilisi.</p>
+</div>
+</li>
+</ul>]]></content>
+         <is_active>1</is_active>
+         <stores><item>0</item></stores>
+      </cms_block>
+      <cms_block>
+         <title>Homepage Slider 3</title>
+         <identifier>home_slider_3</identifier>
+         <content><![CDATA[<ul class="bxslider">
+<li><img src="{{media url="wysiwyg/trego/homepage_slider/slider3/slide1.jpg"}}" alt="" />
+<div>
+<h3>Just<br />Arrived.</h3>
+<p>Integer ultrices ipsum id justo ultrices sed blandit felis ultricies. Duis semper tristique congue. Pellentesque id orci sed ligula elementum tempor ut non nulla. Aenean lectus nulla, rutrum in tincidunt non ...</p>
+</div>
+</li>
+<li><img src="{{media url="wysiwyg//trego/homepage_slider/slider3/slide2.jpg"}}" alt="" />
+<div>
+<h3>Winter<br />Collection.</h3>
+<p>Integer ultrices ipsum id justo ultrices sed blandit felis ultricies. Duis semper tristique congue. Pellentesque id orci sed ligula elementum tempor ut non nulla. Aenean lectus nulla, rutrum in tincidunt non ...</p>
+</div>
+</li>
+<li><img src="{{media url="wysiwyg//trego/homepage_slider/slider2/slide3.jpg"}}" alt="" />
+<div>
+<h3>Pure<br />Dark.</h3>
+<p>Integer ultrices ipsum id justo ultrices sed blandit felis ultricies. Duis semper tristique congue. Pellentesque id orci sed ligula elementum tempor ut non nulla. Aenean lectus nulla, rutrum in tincidunt non ...</p>
+</div>
+</li>
+</ul>]]></content>
+         <is_active>1</is_active>
+         <stores><item>0</item></stores>
+      </cms_block>
+      <cms_block>
+         <title>Homepage Slider 4</title>
+         <identifier>home_slider_4</identifier>
+         <content><![CDATA[<div id="ps-container" class="ps-container"><!-- /ps-header -->
+<div class="ps-contentwrapper">
+<div class="ps-content">
+<h2>Bracelet</h2>
+<label>Ted Ross!</label>
+<h1>&lsquo;Young &amp; <br />Fabulous&rsquo;</h1>
+<span class="ps-price">$480</span>
+<p>Quisque tincidunt feugiat urna, et iacul<br /> is quam facilisis nec. Maecenas nec leo<br /> ipsum. Ut volutpat commodo risus, a<br /> dictum enim hendrerit. Fusce rhonc<br />diam at metus egestas.</p>
+<a title="Add to Cart" href="#">Add to Cart</a></div>
+<div class="ps-content">
+<h2>Bracelet</h2>
+<label>Ted Ross!</label>
+<h1>&lsquo;Young &amp; <br />Fabulous&rsquo;</h1>
+<span class="ps-price">$480</span>
+<p>Quisque tincidunt feugiat urna, et iacul<br /> is quam facilisis nec. Maecenas nec leo<br /> ipsum. Ut volutpat commodo risus, a<br /> dictum enim hendrerit. Fusce rhonc<br />diam at metus egestas.</p>
+<a title="Add to Cart" href="#">Add to Cart</a></div>
+<div class="ps-content">
+<h2>Bracelet</h2>
+<label>Ted Ross!</label>
+<h1>&lsquo;Young &amp; <br />Fabulous&rsquo;</h1>
+<span class="ps-price">$480</span>
+<p>Quisque tincidunt feugiat urna, et iacul<br /> is quam facilisis nec. Maecenas nec leo<br /> ipsum. Ut volutpat commodo risus, a<br /> dictum enim hendrerit. Fusce rhonc<br />diam at metus egestas.</p>
+<a title="Add to Cart" href="#">Add to Cart</a></div>
+<div class="ps-content">
+<h2>Bracelet</h2>
+<label>Ted Ross!</label>
+<h1>&lsquo;Young &amp; <br />Fabulous&rsquo;</h1>
+<span class="ps-price">$480</span>
+<p>Quisque tincidunt feugiat urna, et iacul<br /> is quam facilisis nec. Maecenas nec leo<br /> ipsum. Ut volutpat commodo risus, a<br /> dictum enim hendrerit. Fusce rhonc<br />diam at metus egestas.</p>
+<a title="Add to Cart" href="#">Add to Cart</a></div>
+<div class="ps-content">
+<h2>Bracelet</h2>
+<label>Ted Ross!</label>
+<h1>&lsquo;Young &amp; <br />Fabulous&rsquo;</h1>
+<span class="ps-price">$480</span>
+<p>Quisque tincidunt feugiat urna, et iacul<br /> is quam facilisis nec. Maecenas nec leo<br /> ipsum. Ut volutpat commodo risus, a<br /> dictum enim hendrerit. Fusce rhonc<br />diam at metus egestas.</p>
+<a title="Add to Cart" href="#">Add to Cart</a></div>
+</div>
+<!-- /ps-contentwrapper -->
+<div class="ps-slidewrapper">
+<div class="ps-slides">
+<div style="background-image: url('{{media url="wysiwyg/trego/homepage_slider/slider4/1.jpg"}}');">&nbsp;</div>
+<div style="background-image: url('{{media url="wysiwyg/trego/homepage_slider/slider4/2.jpg"}}');">&nbsp;</div>
+<div style="background-image: url('{{media url="wysiwyg/trego/homepage_slider/slider4/3.jpg"}}');">&nbsp;</div>
+<div style="background-image: url('{{media url="wysiwyg/trego/homepage_slider/slider4/4.jpg"}}');">&nbsp;</div>
+<div style="background-image: url('{{media url="wysiwyg/trego/homepage_slider/slider4/5.jpg"}}');">&nbsp;</div>
+</div>
+<div class="nav-control"><a class="ps-prev" href="#">&nbsp;</a> <a class="ps-next" href="#">&nbsp;</a></div>
+</div>
+</div>]]></content>
+         <is_active>1</is_active>
+         <stores><item>0</item></stores>
+      </cms_block>
+      <cms_block>
+         <title>Homepage Slider 5</title>
+         <identifier>home_slider_5</identifier>
+         <content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="7" data-masterspeed="300"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/dummy.png"}}" alt="lightsplash22" data-lazyload="{{media url="wysiwyg/trego/homepage_slider/slider5/lightsplash22.jpg"}}" />
+<div class="tp-caption lft" data-x="170" data-y="150" data-speed="100" data-start="800" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/sale_s.png"}}" alt="SALE" /></div>
+<div class="tp-caption lft" data-x="350" data-y="125" data-speed="100" data-start="1000" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/sale_a.png"}}" alt="SALE" /></div>
+<div class="tp-caption lft" data-x="600" data-y="125" data-speed="100" data-start="1200" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/sale_l.png"}}" alt="SALE" /></div>
+<div class="tp-caption lft" data-x="800" data-y="130" data-speed="100" data-start="1400" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/sale_e.png"}}" alt="SALE" /></div>
+<div class="tp-caption lft" data-x="350" data-y="90" data-speed="100" data-start="1600" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/sale_season.png"}}" alt="SALE" /></div>
+<div class="tp-caption large_text sft" data-x="280" data-y="420" data-speed="300" data-start="2000" data-easing="easeOutExpo">$10</div>
+<div class="tp-caption medium_text sfl" data-x="250" data-y="455" data-speed="300" data-start="2000" data-easing="easeOutExpo">&amp; UNDER</div>
+<div class="tp-caption small_text sfb" data-x="270" data-y="492" data-speed="300" data-start="2000" data-easing="easeOutExpo"><a class="trego_15" href="#">SHOP NOW</a></div>
+<div class="tp-caption sft" data-x="450" data-y="420" data-speed="300" data-start="2000" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/split_line.png"}}" alt="" /></div>
+<div class="tp-caption large_text sft" data-x="530" data-y="420" data-speed="300" data-start="2000" data-easing="easeOutExpo">$20</div>
+<div class="tp-caption medium_text sfl" data-x="500" data-y="455" data-speed="300" data-start="2000" data-easing="easeOutExpo">&amp; UNDER</div>
+<div class="tp-caption small_text sfb" data-x="520" data-y="492" data-speed="300" data-start="2000" data-easing="easeOutExpo"><a class="trego_15" href="#">SHOP NOW</a></div>
+<div class="tp-caption sft" data-x="700" data-y="420" data-speed="300" data-start="2000" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/split_line.png"}}" alt="" /></div>
+<div class="tp-caption large_text sft" data-x="780" data-y="420" data-speed="300" data-start="2000" data-easing="easeOutExpo">$30</div>
+<div class="tp-caption medium_text sfl" data-x="750" data-y="455" data-speed="300" data-start="2000" data-easing="easeOutExpo">&amp; UNDER</div>
+<div class="tp-caption small_text sfb" data-x="770" data-y="492" data-speed="300" data-start="2000" data-easing="easeOutExpo"><a class="trego_15" href="#">SHOP NOW</a></div>
+</li>
+<li data-transition="slidehorizontal" data-slotamount="7" data-masterspeed="500"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/dummy.png"}}" alt="lightsplash23" data-lazyload="{{media url="wysiwyg/trego/homepage_slider/slider5/lightsplash23.jpg"}}" />
+<div class="caption very_big_white lfl" data-x="170" data-y="270" data-speed="300" data-start="500" data-easing="easeOutExpo">COMPLETE YOUR STYLE!</div>
+<div class="tp-caption big_black lfl" data-x="170" data-y="350" data-speed="300" data-start="800" data-easing="easeOutExpo">This season, it's fall about you.</div>
+<div class="caption lft ltb" data-x="900" data-y="0" data-speed="600" data-start="1100" data-easing="easeOutExpo" data-end="3100" data-endspeed="600" data-endeasing="easeInSine"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/bag.png"}}" alt="Bag" /></div>
+<div class="caption bold_red_text sfl stb" data-x="960" data-y="410" data-speed="300" data-start="1400" data-easing="easeOutExpo" data-end="3300" data-endspeed="300" data-endeasing="easeInSine">$434.00</div>
+<div class="caption modern_medium_fat sfb stb" data-x="870" data-y="450" data-speed="300" data-start="1700" data-easing="easeOutExpo" data-end="3200" data-endspeed="300" data-endeasing="easeInSine">KORS JET SET SAFFIANO<br />TOP ZIP TOTE</div>
+<div class="caption lft ltb" data-x="885" data-y="100" data-speed="600" data-start="3600" data-easing="easeOutExpo" data-end="5600" data-endspeed="600" data-endeasing="easeInSine"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/belt.png"}}" alt="Belt" /></div>
+<div class="caption bold_red_text sfl stb" data-x="975" data-y="360" data-speed="300" data-start="3900" data-easing="easeOutExpo" data-end="5800" data-endspeed="300" data-endeasing="easeInSine">$312.00</div>
+<div class="caption modern_medium_fat sfb stb" data-x="863" data-y="400" data-speed="300" data-start="4200" data-easing="easeOutExpo" data-end="5700" data-endspeed="300" data-endeasing="easeInSine">STUDDED CUTOUT WAIST BELT</div>
+<div class="caption lft ltb" data-x="910" data-y="0" data-speed="600" data-start="6100" data-easing="easeOutExpo" data-end="8100" data-endspeed="600" data-endeasing="easeInSine"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/scraf.png"}}" alt="Belt" /></div>
+<div class="caption bold_red_text sfl stb" data-x="980" data-y="370" data-speed="300" data-start="6400" data-easing="easeOutExpo" data-end="8300" data-endspeed="300" data-endeasing="easeInSine">$56.00</div>
+<div class="caption modern_medium_fat sfb stb" data-x="860" data-y="410" data-speed="300" data-start="6700" data-easing="easeOutExpo" data-end="8200" data-endspeed="300" data-endeasing="easeInSine">COZY PLAID FRINGLED SCRAF</div>
+<div class="caption lft ltb" data-x="867" data-y="0" data-speed="600" data-start="8600" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/ring.png"}}" alt="Ring" /></div>
+<div class="caption bold_red_text sfl stb" data-x="980" data-y="370" data-speed="300" data-start="8900" data-easing="easeOutExpo">$17.00</div>
+<div class="caption modern_medium_fat sfb stb" data-x="880" data-y="410" data-speed="300" data-start="9200" data-easing="easeOutExpo">Southwest Bound Natural<br />Stone Cuff</div>
+</li>
+<li data-transition="turnoff" data-slotamount="1" data-masterspeed="600"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/dummy.png"}}" alt="lightsplash24" data-lazyload="{{media url="wysiwyg/trego/homepage_slider/slider5/lightsplash24.jpg"}}" />
+<div class="tp-caption randomrotate" data-x="150" data-y="200" data-speed="600" data-start="800" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/over200.png"}}" alt="Over200" /></div>
+<div class="tp-caption randomrotate" data-x="150" data-y="100" data-speed="600" data-start="1100" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/trego/homepage_slider/slider5/new.png"}}" alt="NEW" /></div>
+<div class="tp-caption modern_small_text_dark randomrotate" data-x="170" data-y="300" data-speed="600" data-start="1400" data-easing="easeOutExpo">New year. New trends. New you. Donec scelerisque<br />sit amet. Morbi ornare laoreet elit, eu tincidunt ante<br />ere eget. Donec scelerisque...</div>
+<div class="tp-caption modern_small_text_dark randomrotate" data-x="170" data-y="400" data-speed="600" data-start="1700" data-easing="easeOutExpo"><button class="button"><span><span>NEW ARRIVALS</span></span></button></div>
+</li>
+</ul>]]></content>
+         <is_active>1</is_active>
+         <stores><item>0</item></stores>
+      </cms_block>
+      <cms_block>
+         <title>Contact Info</title>
+         <identifier>contact_info</identifier>
+         <content><![CDATA[<p>Oxford Street 48/188,</p>
+<p>London 02587, United Kingdom</p>
+<p>&nbsp;</p>
+<p><span style="text-decoration: underline;">Phone:</span> 8 (900) 415-7812</p>
+<p><span style="text-decoration: underline;">Fax:</span> 8 (750) 148-1629</p>
+<p>&nbsp;</p>
+<p><span style="text-decoration: underline;">E-mail:</span> Trego@gmail.com</p>]]></content>
+         <is_active>1</is_active>
+         <stores><item>0</item></stores>
+      </cms_block>
+      <cms_block>
+         <title>Category Callouts</title>
+         <identifier>category_right_block</identifier>
+         <content><![CDATA[<div id="callouts"><img src="{{media url="wysiwyg/trego/callouts/col_right_callout.jpg"}}" alt="" /> <img src="{{media url="wysiwyg/trego/callouts/col_right_callout_1.jpg"}}" alt="" /></div>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+         // Remove.. causing bug [EnvyWeb]
+        //jQuery("#callouts").slidesjs({width:262, height:309, play: {active: false,auto:true}, navigation:{active:false},pagination:{active:true}});
+    });
+</script>]]></content>
+         <is_active>1</is_active>
+         <stores><item>0</item></stores>
+      </cms_block>
+   </blocks>
+</root>

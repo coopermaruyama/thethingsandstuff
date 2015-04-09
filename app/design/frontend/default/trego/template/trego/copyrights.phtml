@@ -1,0 +1,8 @@
+
+<div class="copyrights">
+    <?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+        echo Mage::getStoreConfig("trego_settings/footer/copyrights", $code);
+    ?>
+</div>

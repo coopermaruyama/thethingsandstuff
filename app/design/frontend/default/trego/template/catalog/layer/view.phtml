@@ -1,0 +1,55 @@
+<?php
+/**
+ * Category layered navigation
+ *
+ * @see Mage_Catalog_Block_Layer_View
+ */
+?>
+<?php
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+//Get store id
+$storeId    = Mage::app()->getStore()->getId();
+$layered_nav = Mage::getStoreConfig("trego_settings/category/layered_nav", $code);
+?>
+<?php if($this->canShowBlock() && $layered_nav): ?>
+<div class="block block-layered-nav">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Shop By') ?></span></strong>
+    </div>
+    <div class="block-content">
+        <?php echo $this->getStateHtml() ?>
+        <?php if ($this->getLayer()->getState()->getFilters()): ?>
+            <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
+        <?php endif; ?>
+        <?php if($this->canShowOptions()): ?>
+            <div class="akordeon narrow-by-list">
+                <?php $_filters = $this->getFilters() ?>
+                <?php foreach ($_filters as $_filter): ?>
+                <?php if($_filter->getItemsCount()): ?>
+                <div class="akordeon-item">
+                    <div class="akordeon-item-head">
+                        <div class="akordeon-item-head-container">
+                            <div class="akordeon-heading">
+                                <?php echo $this->__($_filter->getName()).'&nbsp;Filter' ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="akordeon-item-body">
+                        <div class="akordeon-item-content">
+                            <?php echo $_filter->getHtml() ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            <script type="text/javascript">
+                jQuery(document).ready(function(){
+                    jQuery('.akordeon.narrow-by-list').akordeon({ buttons: true, toggle: true, expandedAll:true });
+                });
+            </script>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>

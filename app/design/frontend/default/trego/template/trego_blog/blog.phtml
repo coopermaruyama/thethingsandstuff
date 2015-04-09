@@ -1,0 +1,40 @@
+ 
+<?php $posts = $this->getPosts(); ?>
+<div id="messages_product_view">
+    <?php Mage::app()->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('customer/session')->getMessages(true)); ?> 
+    <?php echo Mage::app()->getLayout()->getMessagesBlock()->getGroupedHtml(); ?> 
+</div>
+
+<?php foreach ($posts as $post): ?>
+    <div class="postWrapper">
+        <?php
+            if($banner_content = $post->getBannerContent()){
+        ?>
+
+        <div class="postBanner">
+            <div class="postDate for-mobile"><div><?php echo date('j', strtotime($post->getCreatedTime())); ?><br/><?php echo date('M', strtotime($post->getCreatedTime())); ?></div></div>
+            <?php echo $banner_content; ?>
+        </div>
+        <?php
+            }
+        ?>
+        <div class="postDetails">
+            <div class="postDate for-desktop"><div><?php echo date('j', strtotime($post->getCreatedTime())); ?><br/><?php echo date('M', strtotime($post->getCreatedTime())); ?></div></div>
+            <div class="postBy"><?php echo $post->getUser(); ?></div>
+            <div class="postTags"><?php echo $this->getTagsHtml($post) ?></div>
+            <?php if ($this->getCommentsEnabled()): ?>
+            <div class="postComments">
+                <a href="<?php echo $post->getAddress(); ?>#commentBox" ><?php echo $post->getCommentCount(); ?>&nbsp;<?php echo $this->__('Comments'); ?></a>
+            </div>
+            <?php endif; ?>
+        </div>
+        <div class="postTitle">
+            <h2><a href="<?php echo $post->getAddress(); ?>" ><?php echo $post->getTitle(); ?></a></h2>
+        </div>
+        <div class="postContent">
+           <?php echo $post->getPostContent(); ?>
+        </div>
+    </div>
+<?php endforeach; ?> 
+ <?php echo $this->getChildHtml('trego_blog_comments_toolbar'); ?>
+<?php //$this->getPages(); ?>

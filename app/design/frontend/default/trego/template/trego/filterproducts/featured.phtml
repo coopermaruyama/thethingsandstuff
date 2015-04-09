@@ -1,0 +1,13 @@
+<?php 
+$store = Mage::app()->getStore();
+$code  = $store->getCode();
+$enable = Mage::getStoreConfig('filterproducts/featured/active',$code);
+?>
+<?php if($enable == 1) { ?>
+<div class="maintitle">
+    <div class="titlemain"><?php echo Mage::getStoreConfig('filterproducts/featured/title',$code); ?></div>
+</div>
+<?php echo $this->getLayout()->createBlock('filterproducts/featured_home_list')->setTemplate('trego/filterproducts/list.phtml')->toHtml(); ?>
+<?php }  ?>
+
+

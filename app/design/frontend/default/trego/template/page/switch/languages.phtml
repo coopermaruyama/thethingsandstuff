@@ -1,0 +1,108 @@
+<?php
+/**
+ * Language switcher template
+ *
+ * @see Mage_Page_Block_Switch
+ */
+?>
+<?php if(count($this->getStores())>1): ?>
+<div class="form-language">
+    <label for="select-language"><?php echo $this->__('Your Language:') ?></label>
+    <div id="select-language" class="select-language sbHolder">
+        <a href="javascript:void(0)" class="sbToggle"></a>
+        <a href="javascript:void(0)" class="sbSelector"><?php echo Mage::app()->getStore()->getName(); ?></a>
+        <ul class="sbOptions" id="sbOption_language">
+    <?php foreach ($this->getStores() as $_lang): ?>
+            <?php $_selected = ($_lang->getId() == $this->getCurrentStoreId()) ? 1 : 0 ?>
+            <li>
+                <a href="<?php echo $_lang->getCurrentUrl() ?>" class=""><img src="<?php echo $this->getSkinUrl('images/flags/' . $this->htmlEscape($_lang->getCode()) . '.png') ?>" width="16" height="11" class="flag"/><?php echo $this->htmlEscape($_lang->getName()) ?></a>
+            </li>
+    <?php endforeach; ?>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            jQuery(".form-language .select-language .sbToggle").click(function(event){
+                if(jQuery(".form-language .select-language .sbOptions").css('display') == "none"){
+                    jQuery(".form-language .select-language .sbOptions").slideDown('fast');
+                    jQuery(".form-language .select-language .sbToggle").addClass('sbToggleOpen');
+                    event.stopPropagation();
+                }
+                else{
+                    jQuery(".form-language .select-language .sbOptions").slideUp('fast');
+                    jQuery(".form-language .select-language .sbToggle").removeClass('sbToggleOpen');
+                    jQuery("#nav li span.plus").each(function(){
+                        jQuery(this).removeClass('expanded');
+                        jQuery(this).parent().removeClass('expanded');
+                        jQuery(this).parent().children('ul').slideUp('fast');
+                    });
+                }
+            });
+            jQuery(".form-language .select-language .sbSelector").click(function(event){
+                if(jQuery(".form-language .select-language .sbOptions").css('display') == "none"){
+                    jQuery(".form-language .select-language .sbOptions").slideDown('fast');
+                    jQuery(".form-language .select-language .sbToggle").addClass('sbToggleOpen');
+                    event.stopPropagation();
+                }
+                else{
+                    jQuery(".form-language .select-language .sbOptions").slideUp('fast');
+                    jQuery(".form-language .select-language .sbToggle").removeClass('sbToggleOpen');
+                    jQuery("#nav li span.plus").each(function(){
+                        jQuery(this).removeClass('expanded');
+                        jQuery(this).parent().removeClass('expanded');
+                        jQuery(this).parent().children('ul').slideUp('fast');
+                    });
+                }
+            });
+            jQuery(".sbSelector").click(function(event){
+                var cur_obj = jQuery(this).parent().children(".sbOptions").attr('id');
+                jQuery(".sbOptions").each(function(){
+                    if(jQuery(this).attr('id') != cur_obj && jQuery(this).attr('id') != 'sbOption_language'){
+                        var sb_id = jQuery(this).attr('id').substring(10);
+                        jQuery(this).parent().parent().children("select").each(function(){
+                            if(jQuery(this).attr('sb') == sb_id){
+                                jQuery(this).selectbox('close');
+                            }
+                        });
+                    }
+                    if(jQuery(this).attr('id') != cur_obj && jQuery(this).attr('id') == 'sbOption_language'){
+                        jQuery(this).slideUp('fast');
+                        jQuery(".form-language .select-language .sbToggle").removeClass('sbToggleOpen');
+                    }
+                });
+                jQuery("#nav li span.plus").each(function(){
+                    jQuery(this).removeClass('expanded');
+                    jQuery(this).parent().removeClass('expanded');
+                    jQuery(this).parent().children('ul').slideUp('fast');
+                });
+            });
+            jQuery(".sbToggle").click(function(event){
+                var cur_obj = jQuery(this).parent().children(".sbOptions").attr('id');
+                jQuery(".sbOptions").each(function(){
+                    if(jQuery(this).attr('id') != cur_obj && jQuery(this).attr('id') != 'sbOption_language'){
+                        var sb_id = jQuery(this).attr('id').substring(10);
+                        jQuery(this).parent().parent().children("select").each(function(){
+                            if(jQuery(this).attr('sb') == sb_id){
+                                jQuery(this).selectbox('close');
+                            }
+                        });
+                    }
+                    if(jQuery(this).attr('id') != cur_obj && jQuery(this).attr('id') == 'sbOption_language'){
+                        jQuery(this).slideUp('fast');
+                        jQuery(".form-language .select-language .sbToggle").removeClass('sbToggleOpen');
+                    }
+                });
+                jQuery("#nav li span.plus").each(function(){
+                    jQuery(this).removeClass('expanded');
+                    jQuery(this).parent().removeClass('expanded');
+                    jQuery(this).parent().children('ul').slideUp('fast');
+                });
+            });
+            jQuery("html").click(function(){
+                jQuery(".form-language .select-language .sbOptions").slideUp('fast');
+                jQuery(".form-language .select-language .sbToggle").removeClass('sbToggleOpen');
+            });
+        });
+    </script>
+</div>
+<?php endif; ?>

@@ -1,0 +1,16 @@
+<? if (Mage::getStoreConfig('blog/blog/userte')): ?>
+    <script src="<?php echo $this->getSkinUrl('') ?>trego_blog/js/tiny_mce/tiny_mce.js"></script>
+    <script src="<?php echo $this->getSkinUrl('') ?>trego_blog/js/init_rte.js"></script>
+
+    <script>
+        // Init rte
+        Trego_BlogIntId = setInterval(
+        function(){
+            if(typeof tinyMCE != 'undefined' && $('anchor-content')){
+                initRTE();
+                clearInterval(Trego_BlogIntId);
+            }
+        }
+        ,500)
+    </script>
+<? endif; ?>

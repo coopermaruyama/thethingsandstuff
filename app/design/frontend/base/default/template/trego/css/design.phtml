@@ -1,0 +1,100 @@
+/**
+ * WARNING: Do not change this file. Your changes will be lost.
+ * <?php echo date("Y-m-d H:i:s"); ?>
+ */
+
+<?php
+	$theme = Mage::helper('trego');
+	$d = $theme->getCfgSectionDesign(Mage::registry('cssgen_store'));
+?>
+
+body {
+	color: <?php echo $d['colors']['color']; ?>;
+    <?php if($d['font']['basic_font_family']):?>
+    font-family: <?php echo $d['font']['basic_font_family']; ?>;
+    <?php endif; ?>
+    <?php if($d['font']['basic_font_size']):?>
+    font-size: <?php echo $d['font']['basic_font_size']; ?>;
+    <?php endif; ?>
+}
+a { 
+    color: <?php echo $d['colors']['link_color']; ?>; 
+    <?php if($d['font']['link_font_family']):?>
+    font-family: <?php echo $d['font']['link_font_family']; ?>;
+    <?php endif; ?>
+    <?php if($d['font']['link_font_size']):?>
+    font-size: <?php echo $d['font']['link_font_size']; ?>;
+    <?php endif; ?>
+}
+a:hover { color: <?php echo $d['colors']['link_hover_color']; ?>; }
+button.button span { 
+    background: <?php echo $d['colors']['button_bg_color']; ?>; 
+    color: <?php echo $d['colors']['button_color']; ?>; 
+    <?php if($d['font']['button_font_family']):?>
+    font-family: <?php echo $d['font']['button_font_family']; ?>;
+    <?php endif; ?>
+    <?php if($d['font']['button_font_size']):?>
+    font-size: <?php echo $d['font']['button_font_size']; ?>;
+    <?php endif; ?>
+}
+button.button:hover span { background: <?php echo $d['colors']['button_hover_bg_color']; ?>; color: <?php echo $d['colors']['button_hover_color']; ?>; }
+button.button:active span { background: <?php echo $d['colors']['button_active_bg_color']; ?>; color: <?php echo $d['colors']['button_active_color']; ?>; }
+.sale-product-icon { background: <?php echo $d['colors']['label_sale_bg_color']; ?>; color: <?php echo $d['colors']['label_sale_color']; ?>; }
+.new-product-icon { background: <?php echo $d['colors']['label_new_bg_color']; ?>; color: <?php echo $d['colors']['label_new_color']; ?>; }
+#opc-review .data-table tfoot td.last strong .price, #opc-review td.last .price, .cart .totals tfoot td .price, .cart-table td.sub-total, .top-cart .qty-price .price, .block .regular-price, .block .regular-price .price, .price-box .price, .special-price .price { 
+    color: <?php echo $d['colors']['price_color']; ?>; 
+    <?php if($d['font']['price_font_family']):?>
+    font-family: <?php echo $d['font']['price_font_family']; ?>;
+    <?php endif; ?>
+    <?php if($d['font']['price_font_size']):?>
+    font-size: <?php echo $d['font']['price_font_size']; ?>;
+    <?php endif; ?>
+}
+.block .block-title strong {
+    <?php if($d['font']['blocktitle_font_family']):?>
+    font-family: <?php echo $d['font']['blocktitle_font_family']; ?>;
+    <?php endif; ?>
+    <?php if($d['font']['blocktitle_font_size']):?>
+    font-size: <?php echo $d['font']['blocktitle_font_size']; ?>;
+    <?php endif; ?>
+}
+<?php
+    $texture_path = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . Mage::helper('trego')->getTexturePath();
+    if($d['page']['texture'] != 0){
+        $background_image = "background-image: url(".$texture_path.$d['page']['texture'].".png);";
+?>
+.page, .header, .header .header-topbar, .header h1.page-title { background: transparent; }
+.page { <?php echo $background_image; ?> background-color: <?php echo $d['page']['bg_color']; ?>; }
+.header .header-topbar { background: transparent; }
+.header-container { position: relative; }
+.main-container { padding-top: 0; }
+.header .header-bground { background-color: transparent; }
+<?php
+    } else {
+?>
+.page, .header, .header .header-topbar, .header h1.page-title { background-color: <?php echo $d['page']['bg_color']; ?>; }
+.header .header-bground { background-color: <?php echo $d['page']['bg_color']; ?>; }
+<?php
+    }
+?>
+.header .form-search input.input-text { color: <?php echo $d['header']['search_color']; ?>; border-color: <?php echo $d['header']['search_border_color']; ?>; }
+.header .form-search input.input-text:hover { color: <?php echo $d['header']['search_hover_color']; ?>; border-color: <?php echo $d['header']['search_border_hover_color']; ?>; }
+.header h1.page-title {
+    <?php if($d['font']['pagetitle_font_family']):?>
+    font-family: <?php echo $d['font']['pagetitle_font_family']; ?>;
+    <?php endif; ?>
+    <?php if($d['font']['pagetitle_font_size']):?>
+    font-size: <?php echo $d['font']['pagetitle_font_size']; ?>;
+    <?php endif; ?>
+}
+.footer { color: <?php echo $d['footer']['color']; ?>; }
+.footer a { color: <?php echo $d['footer']['link_color']; ?>; }
+.footer a:hover { color: <?php echo $d['footer']['link_hover_color']; ?>; }
+.footer button.button span { background: <?php echo $d['footer']['button_bg_color']; ?>; color: <?php echo $d['footer']['button_color']; ?>; }
+.footer button.button:hover span { background: <?php echo $d['footer']['button_hover_bg_color']; ?>; color: <?php echo $d['footer']['button_hover_color']; ?>; }
+.footer .col3-set { color: <?php echo $d['footer_top']['color']; ?>; }
+.footer .col3-set a { color: <?php echo $d['footer_top']['link_color']; ?>; }
+.footer .col3-set a:hover { color: <?php echo $d['footer_top']['link_hover_color']; ?>; }
+.footer .footer-menu { color: <?php echo $d['footer_bottom']['color']; ?>; }
+.footer .footer-menu a { color: <?php echo $d['footer_bottom']['link_color']; ?>; }
+.footer .footer-menu a:hover { color: <?php echo $d['footer_bottom']['link_hover_color']; ?>; }
