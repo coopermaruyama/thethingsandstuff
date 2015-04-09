@@ -1,0 +1,173 @@
+/**
+ * Styles Stash
+ *
+ * A sandbox for developing new styles or experimenting
+ * with styles. 
+ */
+
+
+/*==================================================
+    Mobile-first styling for product expander
+ ==================================================*/
+
+@media (max-width: 768px) {
+  .product-essential {
+  display: table;
+}
+.product-essential .product-img-box {
+    float: none;
+    width: 90%;
+    display: table-header-group;
+    margin-top: 13px;
+    position: relative;
+    top: 21px;
+}
+.product-essential .product-img-box #product_img_slider {
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  margin: 0 auto;
+  /* overflow: auto; */
+  text-align: center;
+}
+.product-essential .product-img-box #product_img_slider .slides_container {
+  width: auto !important;
+  height: auto !important;
+  display: block;
+  margin: 0 auto;
+  /* overflow: auto; */
+  text-align: center;
+  float: none;
+  text-align: center;
+  border: none;
+}
+.product-essential #product_img_slider .pagination {
+    position: static;
+    display: block;
+    width: 100% !important;
+    margin: 0 auto;
+    margin-top: 21px;
+    text-align: justify;
+    text-justify: distribute-all-lines;
+    -ms-text-justify: distribute-all-lines;
+}
+
+.product-essential div#product_img_slider::after {
+    content: ' ';
+    display: table;
+    height: 1px;
+    width: 1px;
+    clear: both;
+}
+
+    .product-shop {
+        float: none;
+        width: 90%;
+        display: table-row-group;
+    }
+
+
+.product-essential .product-img-box #product_img_slider .slides_container #wrap {
+    display: block;
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 0 auto;
+}
+
+.product-essential .product-img-box #product_img_slider .slides_container .slides_control {
+    left: auto !important;
+    height: auto !important;
+    margin: 0 auto;
+    width: auto !important;
+    text-align: center;
+}
+
+#product_img_slider .slides_container #wrap img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    margin: 0 auto;
+}
+
+#product_img_slider .slides_container img {
+    max-width: none !important;
+    max-height: none !important;
+    padding: 3px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.product-essential #product_img_slider .pagination:after {
+}
+
+.product-view {
+    padding-top: 80px;
+}
+
+.product-essential #product_img_slider .pagination li {
+    /* margin: auto; */
+    display: inline-block;
+    /* margin-right: -.25em; */
+    /* position: relative; */
+    /* top: 1.25em; */
+    margin: 0 auto !important;
+    vertical-align: top;
+    float: none;
+}
+
+.product-essential #product_img_slider .before {
+    display: block;
+    margin-right: -1.25em;
+    content: ' ';
+}
+
+.product-essential #product_img_slider .pagination:before {
+    /* content: ' '; */
+    display: block;
+    margin-top: -1.25em;
+}
+
+.product-essential #product_img_slider .pagination:after {
+    content: ' ';
+    display: inline-block;
+    width: 100%;
+}
+
+.og-expander {
+    height: auto !important;
+    overflow: visible;
+    display: block;
+    position: relative;
+}
+
+.og-expander:after {
+    content: ' ';
+    display: table;
+    clear: both;
+}
+
+li.item.og-expanded {
+    height: auto !important;
+    display: block !important;
+    width: 100% !important;
+    overflow: auto;
+}
+
+li.item.og-expanded:after {
+    content: ' ';
+    display: table;
+    clear: both;
+}
+
+.og-expanded .product-image-area {
+    height: auto;
+    display: block;
+    min-height: 100%;
+    overflow: auto;
+    margin: 0 auto;
+}
+
+li.item.og-expanded>.price-box {
+    margin: 0 auto !important;
+}
+}

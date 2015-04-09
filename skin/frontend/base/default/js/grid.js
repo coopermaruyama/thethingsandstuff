@@ -283,20 +283,21 @@ var Grid = (function() {
 			// check if item already opened
 			current === $item.index() ? hidePreview() : showPreview( $item );
 
-			$(document).mouseup(function (e) {
-				var container = $item.find('.og-expander');
-				
-			    if (!container.is(e.target) // if the target of the click isn't the container...
-			        && (container.has(e.target).length === 0) // ... nor a descendant of the container
-			        && !$('li.item').is(e.target)
-			        && ($('li.item').has(e.target).length ==0) 
-			        || $("span.og-close").is(e.target) ) 
-			    {
-			    	hidePreview();
+			if ( ! $(document).isBound('mouseup','grid') ) {
+				$(document).on('mouseup.grid', function (e) {
+					var container = $item.find('.og-expander');
+					
+				    if (!container.is(e.target) // if the target of the click isn't the container...
+				        && (container.has(e.target).length === 0) // ... nor a descendant of the container
+				        && !$('li.item').is(e.target)
+				        && ($('li.item').has(e.target).length ==0) 
+				        || $("span.og-close").is(e.target) ) 
+				    {
+				    	hidePreview();
 
-			    }
-			});
-
+				    }
+				});
+			}
 			return false;
 		});
 	}

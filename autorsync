@@ -1,4 +1,4 @@
 #!/bin/bash
-rsync -r --info=progress2 ./app/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/app/
-rsync -r --info=progress2 ./skin/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/skin/
-rsync -r --info=progress2 ./js/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/js/
+rsync -r -n --info=progress2 --exclude-from=.rsync_ignore ./app/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/app/
+rsync -r -n --info=progress2 --exclude-from=.rsync_ignore ./skin/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/skin/
+rsync -r -n --info=progress2 --exclude-from=.rsync_ignore ./js/* root@205.186.146.64:/var/www/thethingsandstuff.com/html/js/

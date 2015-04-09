@@ -37,10 +37,10 @@ jQuery(document).ready(function() {
 			generateNextPrev: true,
 			generatePagination: false,
 			paginationClass: 'pagination',
-			animationComplete: function() {
+			animationComplete: function(current) {
 				jQuery('.slides_control').css('width','310px');//hack to prevent overflow from covering add to cart
 
-
+				jQuery('#wrap').css('position','relative');
 			}
 		});		
 	});
@@ -71,6 +71,9 @@ jQuery("#product_img_slider .pagination li img").load(function() {
 		position:relative;
 		border:1px solid #dfdfdf;
 
+	}
+	#product_img_slider #wrap {
+		position: relative !important;
 	}
 	@media only screen and (max-width: 960px)  {
 		#product_img_slider .slides_container {
@@ -169,6 +172,59 @@ jQuery("#product_img_slider .pagination li img").load(function() {
 	.slides_container .label {
 		
 	}
+	@media (max-width: 760px) {
+	  #product_img_slider ul.pagination {
+	    margin-left: 1px;
+	    float: left;
+	    position: static;
+	    max-width: 100% !important;
+	    margin-top: 23px;
+	  
+	    width: 100% !important;
+	}
+	  #product_img_slider ul.pagination:after {
+	    width: 100%;
+	    content: ' ';
+	    display: inline-block;
+	  }
+	  .product-essential {
+	    display: table !important;
+	  }
+	  .og-expanded .product-view .product-img-box {
+	    display: table-header-group !important;
+	    float: none;
+	    width: 100%;
+	    overflow: auto;
+	  }
+	  .og-expanded #product_addtocart_form .product-shop {
+	    display: table-footer-group !important;
+	    float: none !important;
+	    position: relative;
+	  }
+	  #product_img_slider .pagination li {
+	    float: none !important;
+	    display: inline-block;
+	  }
+	  div#product_img_slider {
+	    width: 100% !important;
+	    position: relative;
+	  }
+	  #product_img_slider .slides_container {
+	    max-width: 50% !important;
+	  }
+	  #product_img_slider span.label {
+	    left: 5px;
+	    bottom: -13px;
+	    position: absolute !important;
+	    top: auto !important;
+	  }
+	  .mousetrap {
+	    width: 217px !important;
+	   height: 217px !important;
+	  }
+	}
+
+
 </style>
 <div id="product_img_slider">
 	<?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>

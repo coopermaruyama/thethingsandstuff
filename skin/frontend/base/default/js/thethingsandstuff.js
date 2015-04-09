@@ -36,7 +36,18 @@ function updateQueryStringParameter(uri, key, value) {
 		return uri + separator + key + "=" + value;
 	}
 }
+// custom isboud plugin
+(function($) {
+$.fn.isBound = function(type, namespace) {
+    var data = $._data(this[0], 'events')[type];
 
+    if (data === undefined || data.length === 0) {
+        return false;
+    }
+
+    return (-1 !== $.inArray(namespace,   $.map(data, function(_ev) {return _ev.namespace})  ));
+};
+})(jQuery);
 
 jQuery.noConflict();
 (function( $ ) {

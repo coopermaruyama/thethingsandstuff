@@ -6,7 +6,7 @@ Author: Cooper Maruyama (cooper@landersoptimized.com)
  */
 
 (function() {
-  var $createButton, $filters, $table, $tfoot, clearRecords, current_page, date_filter, filter, root, total_tax, totals_paid;
+  var $createButton, $daterangepicker, $filters, $table, $tfoot, clearRecords, current_page, date_filter, filter, root, total_tax, totals_paid;
 
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
@@ -17,12 +17,13 @@ Author: Cooper Maruyama (cooper@landersoptimized.com)
   };
 
   root.initEvents = function() {
-    var $lightbox, last_year, the_ranges, this_year;
+    var $lightbox, cookie_daterange, cookie_daterange_end, cookie_daterange_start, last_year, the_ranges, this_year;
     $(document).on("click", "span.filterable", function() {
-      var filter, filter_column, filter_value;
+      var filter_column, filter_value;
       filter_column = $(this).data("column");
       filter_value = $(this).text();
-      filter = encodeURIComponent("AND `revenue_records`.`" + filter_column + "`='" + filter_value + "'");
+      $.cookie(filter_column, filter_value);
+      window.filter = encodeURIComponent("AND `revenue_records`.`" + filter_column + "`='" + filter_value + "'");
       clearRecords();
       fetchRecords();
       $("p.filter-text").html("<strong>Filtering <i>" + filter_column + "</i> by <i>" + filter_value + "</i><br><a href=\"javascript:location.reload()\">remove</a></strong>");
@@ -45,6 +46,7 @@ Author: Cooper Maruyama (cooper@landersoptimized.com)
     this_year = moment().format("YYYY");
     last_year = moment().subtract("years", 1).format("YYYY");
     the_ranges = {};
+    the_ranges["Last 30 Days"] = [moment().subtract(1, "month"), moment()];
     the_ranges["Q1 " + this_year] = [moment("Jan 1, " + this_year), moment("March 31, " + this_year)];
     the_ranges["Q2 " + this_year] = [moment("April 1, " + this_year), moment("Jun 30, " + this_year)];
     the_ranges["Q3 " + this_year] = [moment("July 1, " + this_year), moment("Sep 30, " + this_year)];
@@ -55,13 +57,23 @@ Author: Cooper Maruyama (cooper@landersoptimized.com)
     the_ranges["Q4 " + last_year] = [moment("Oct 1, " + last_year), moment("Dec 31, " + last_year)];
     $("input[name=daterange]").daterangepicker({
       format: "YYYY-MM-DD",
-      ranges: the_ranges
+      ranges: the_ranges,
+      startDate: moment().subtract(1, "month").format("YYYY-MM-DD"),
+      endDate: moment().format("YYYY-MM-DD")
     }, function(start, end, label) {
-      var date_filter;
-      date_filter = encodeURIComponent("AND `revenue_records`.`order_date` BETWEEN '" + start.format("YYYY-MM-DD") + " 00:00:00' AND '" + end.format("YYYY-MM-DD") + " 0:00:00'");
+      var date_filter, date_range;
+      date_range = start.format("YYYY-MM-DD") + " 00:00:00' AND '" + end.format("YYYY-MM-DD") + " 0:00:00'";
+      date_filter = encodeURIComponent("AND `revenue_records`.`order_date` BETWEEN '" + date_range);
+      $.cookie("date_range", date_filter);
       clearRecords();
       fetchRecords();
     });
+    cookie_daterange = $.cookie('date_range');
+    if (cookie_daterange != null) {
+      cookie_daterange_start = cookie_daterange.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g)[0];
+      cookie_daterange_end = cookie_daterange.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/g)[1];
+      $daterangepicker.val("" + cookie_daterange_start + " - " + cookie_daterange_end);
+    }
   };
 
   root.createTotals = function() {
@@ -90,7 +102,8 @@ Author: Cooper Maruyama (cooper@landersoptimized.com)
         $.cookie($(this).attr("name"), $(this).val(), {
           expires: 30
         });
-        location.reload();
+        clearRecords();
+        fetchRecords();
       });
     });
   };
@@ -98,10 +111,10 @@ Author: Cooper Maruyama (cooper@landersoptimized.com)
   root.setupPagination = function() {
     if (getParameterByName("page") === "" || parseInt(getParameterByName("page")) === 1) {
       $("li#prev_page").addClass("disabled");
-      $("li#next_page a").attr("href", updateQueryStringParameter(window.location.href, "page", "2"));
+      return $("li#next_page a").attr("href", updateQueryStringParameter(window.location.href, "page", "2"));
     } else if (parseInt(getParameterByName("page")) > 1) {
       $("li#prev_page a").attr("href", updateQueryStringParameter(window.location.href, "page", parseInt(getParameterByName("page")) - 1));
-      $("li#next_page a").attr("href", updateQueryStringParameter(window.location.href, "page", parseInt(getParameterByName("page")) + 1));
+      return $("li#next_page a").attr("href", updateQueryStringParameter(window.location.href, "page", parseInt(getParameterByName("page")) + 1));
     }
   };
 
@@ -113,14 +126,19 @@ Author: Cooper Maruyama (cooper@landersoptimized.com)
   };
 
   root.fetchRecords = function() {
+    var decoded_daterange, decoded_filter, encoded_filter;
     $(".table-responsive").append("<div id=\"loading\"><div id=\"loading-text\"><img src=\"img/ajax-loader-white.gif\"> Loading...</div></div>");
+    window.filter = window.filter != null ? window.filter : "";
+    decoded_daterange = decodeURIComponent($.cookie('date_range'));
+    decoded_filter = decodeURIComponent(window.filter);
+    encoded_filter = $.cookie("date_range") != null ? "" + decoded_filter + " " + decoded_daterange : window.filter;
     $.ajax({
-      url: "/static/report/fetch.php?order_by=" + $.cookie("order_by") + "&order=" + $.cookie("order") + "&per_page=" + $.cookie("per_page") + "&page=" + current_page + "&filter=" + filter + " " + date_filter,
+      url: "/static/report/fetch.php?order_by=" + $.cookie("order_by") + "&order=" + $.cookie("order") + "&per_page=" + $.cookie("per_page") + "&page=" + current_page + "&filter=" + encoded_filter,
       type: "GET",
       dataType: "text",
       data: {}
     }).done(function(data) {
-      var append, parsed_data;
+      var append, is_last_page, parsed_data, records_count;
       append = ($.cookie("order") === "ASC" ? false : true);
       parsed_data = JSON.parse(data);
       $.each(parsed_data, function(index, val) {
@@ -130,6 +148,16 @@ Author: Cooper Maruyama (cooper@landersoptimized.com)
       });
       createTotals();
       $("#loading").remove();
+      records_count = parsed_data.length;
+      is_last_page = false;
+      if (records_count > 0) {
+        if (records_count < parseInt($.cookie("per_page"))) {
+          is_last_page = true;
+        }
+        if (is_last_page) {
+          $("li#next_page").addClass("disabled");
+        }
+      }
     });
   };
 
@@ -407,6 +435,8 @@ Author: Cooper Maruyama (cooper@landersoptimized.com)
   $table = $("#tablecontents");
 
   $tfoot = $("#tablefooter");
+
+  $daterangepicker = $("#input-daterange");
 
   $createButton = $("button#createRow");
 

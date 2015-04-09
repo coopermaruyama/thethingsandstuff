@@ -15,5 +15,10 @@ var/package
 var/importexport
 var/log
 var/report
+var/resource_config.json
 media/catalog/product/cache
 *.DS_Store
+.htaccess
+media/js
+media/css
+npm-debug.log
