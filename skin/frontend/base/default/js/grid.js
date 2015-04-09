@@ -8,7 +8,7 @@
 * Licensed under the MIT license.
 */
 jQuery.noConflict();
-jQuery(function($) {	
+jQuery(function($) {
 	var $event = $.event,
 	$special,
 	resizeTimeout;
@@ -249,7 +249,7 @@ var Grid = (function() {
 	}
 
 	function initEvents() {
-		
+
 		// when clicking an item, show the preview with the item´s info and large image.
 		// close the item if already expanded.
 		// also close if clicking on the item´s cross
@@ -258,7 +258,7 @@ var Grid = (function() {
 		// on window resize get the window´s size again
 		// reset some values..
 		$window.on( 'debouncedresize', function() {
-			
+
 			scrollExtra = 0;
 			previewPos = -1;
 			// save item´s offset
@@ -286,12 +286,12 @@ var Grid = (function() {
 			if ( ! $(document).isBound('mouseup','grid') ) {
 				$(document).on('mouseup.grid', function (e) {
 					var container = $item.find('.og-expander');
-					
+
 				    if (!container.is(e.target) // if the target of the click isn't the container...
 				        && (container.has(e.target).length === 0) // ... nor a descendant of the container
 				        && !$('li.item').is(e.target)
-				        && ($('li.item').has(e.target).length ==0) 
-				        || $("span.og-close").is(e.target) ) 
+				        && ($('li.item').has(e.target).length ==0)
+				        || $("span.og-close").is(e.target) )
 				    {
 				    	hidePreview();
 
@@ -328,11 +328,11 @@ var Grid = (function() {
 			// same row
 			else {
 				preview.update( $item );
-				
+
 				console.log($item);
 				return false;
 			}
-			
+
 		}
 
 		// update previewPos
@@ -391,7 +391,7 @@ var Grid = (function() {
 			$cPrev = this.$closePreview;
 			window.hia = this;
 			this.$previewEl = $( '<div class="og-expander"></div>' ).html('<img src="/media/md/quickview/loadingAnimation.gif" style="left: 48%;top: 200px;position: relative;">').load( this.getUrl(), function() {
-				
+
 				$(this).append($cPrev);
 				//fix overflow height if necessary [EnvyWeb]
 				expanderHeight = $(this).height();
@@ -403,8 +403,8 @@ var Grid = (function() {
 					$(this).height( expanderHeight + overflowHeight );
 				};
 			});
-			
-			
+
+
 			// append preview element to the item
 			this.$item.append( this.getEl() );
 			// set the transitions for the preview and the item
@@ -417,13 +417,13 @@ var Grid = (function() {
 			if( $item ) {
 				this.$item = $item;
 			}
-			
+
 			// if already expanded remove class "og-expanded" from current item and add it to new item
 			if( current !== -1 ) {
 				var $currentItem = $items.eq( current );
 				$currentItem.removeClass( 'og-expanded' );
 				$('.og-expander').html('<img src="/media/md/quickview/loadingAnimation.gif" style="left: 48%;top: 200px;position: relative;">').load( this.getUrl(), function() {
-					
+
 					//fix overflow height if necessary [EnvyWeb]
 					expanderHeight = $(this).height();
 					prodViewHeight = $(this).find(".quickview-main").height();
@@ -433,7 +433,7 @@ var Grid = (function() {
 						$(this).closest("li.item").height( liHeight + overflowHeight );
 						$(this).height( expanderHeight + overflowHeight );
 					};
-															  
+
 				} );// $currentItem.find('.og-expander').html('Loading').load( $('#md_quickview_handler').attr('href') );
 				this.$item.addClass( 'og-expanded' );
 				// position the preview correctly
@@ -458,7 +458,7 @@ var Grid = (function() {
 			// this.$href.attr( 'href', eldata.href );
 
 			var self = this;
-			
+
 			// remove the current image in the preview
 			// if( typeof self.$largeImg != 'undefined' ) {
 			// 	self.$largeImg.remove();
@@ -476,13 +476,13 @@ var Grid = (function() {
 			// 			self.$largeImg = $img.fadeIn( 350 );
 			// 			self.$fullimage.append( self.$largeImg );
 			// 		}
-			// 	} ).attr( 'src', eldata.largesrc );	
+			// 	} ).attr( 'src', eldata.largesrc );
 			// }
 
 		},
 		open : function() {
 
-			setTimeout( $.proxy( function() {	
+			setTimeout( $.proxy( function() {
 				// set the height for the preview and the item
 				this.setHeights();
 				// scroll to position the preview in the right place
@@ -516,7 +516,7 @@ var Grid = (function() {
 				}
 
 			}, this ), 25 );
-			
+
 			return false;
 
 		},
@@ -563,7 +563,7 @@ var Grid = (function() {
 			var position = this.$item.data( 'offsetTop' ),
 			previewOffsetT = this.$previewEl.offset().top - scrollExtra,
 			scrollVal = this.height + this.$item.data( 'height' ) + marginExpanded <= winsize.height ? position : this.height < winsize.height ? previewOffsetT - ( winsize.height - this.height ) : previewOffsetT;
-			
+
 			$body.animate( { scrollTop : scrollVal }, settings.speed );
 
 		},
@@ -576,7 +576,7 @@ var Grid = (function() {
 		}
 	}
 
-	return { 
+	return {
 		init : init,
 		addItems : addItems
 	};

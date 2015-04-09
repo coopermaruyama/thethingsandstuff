@@ -22,3 +22,5 @@ media/catalog/product/cache
 media/js
 media/css
 npm-debug.log
+var
+app/etc/local.xml

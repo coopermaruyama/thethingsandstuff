@@ -1,8 +1,8 @@
 <?php
-$store = Mage::app()->getStore('website');
+$store = Mage::app()->getStore();
 $code  = $store->getCode();
 //Get store id
-$storeId    = Mage::app()->getWebsiteId();
+$storeId    = Mage::app()->getStore()->getId();
 $show_columns = Mage::getStoreConfig("slidermenu/menu/show_column", $code);
 //Get category model
 $_category = Mage::getModel('catalog/category')->setStoreId($storeId);
@@ -45,7 +45,7 @@ function showChildrenCategories($_category, $level, $level_limit, $columns){
     $_children = $_category->getChildren();
     $children_ids = explode(",", $_children);
     $i = 0;
-    $categoryChildren = array();   
+    $categoryChildren = array();
     if ($children_ids) {
         foreach ($children_ids as $categoryId){
             $category = Mage::getModel('catalog/category')->load($categoryId);

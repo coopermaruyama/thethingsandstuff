@@ -1,4 +1,13 @@
 <?php
+<<<<<<< HEAD
+ini_set('display_errors',true);
+error_reporting(E_ALL);
+
+
+ $to = 'cm@convertify.io'; $subject = 'Test email using PHP'; $message = 'This is a test email message'; $headers = 'From: webmaster@example.com' . "\r\n" . 'Reply-To: webmaster@example.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion(); mail($to, $subject, $message, $headers, '-fwebmaster@example.com');
+
+?> 
+=======
 ###################################### C O P Y R I G H T S ####################################
 # THIS SCRIPT IS DISTRIBUTED BY WEBUNE.COM UNDER LICENSE UNDER THE GPL RULES
 # PLEASE DO NOT REMOVE THIS MESSAGE IN SUPPORT OF OUR HARD WORK TO CONTINUE TO PROVIDE FREE SUPPORT
@@ -134,3 +143,4 @@ Script Courtesy of
 <a href="http://www.webune.com">Webune PHP/Mysql Hosting</a></div>
 </body>
 </html>
+>>>>>>> sandbox
