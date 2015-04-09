@@ -16,7 +16,7 @@
 			'z-index':'10000000',
 			'top':'0',
 			'left':'0'
-		});	
+		});
 		$('#resultLoading .bg').css({
 			'background':'<?php echo $this->overlayColor; ?>',
 			'opacity':'<?php echo $this->overlayOpacity ?>',
@@ -34,21 +34,21 @@
 			'font-size':'16px',
 			'z-index':'10',
 			'color':'<?php echo $this->loadingTextColor ?>'
-			
+
 		});
-		
+
 		<?php if($this->ajaxLayered): ?>
-        $('.block-layered-nav a').on('click', function(e){sliderAjax($(this).attr('href'));e.preventDefault();});    
+        $('.block-layered-nav a').on('click', function(e){sliderAjax($(this).attr('href'));e.preventDefault();});
         <?php endif; ?>
-        
+
         // Created bug due to removing toolbar html [EnvyWeb]
         // <?php if($this->ajaxToolbar): ?>
         // $('.toolbar a').on('click', function(e){if(!$(this).hasClass('sbToggle') && !$(this).hasClass('sbSelector') && !$(this).parent().parent().hasClass('sbOptions')){var url=$(this).attr('href');sliderAjax(url);e.preventDefault()}});
         // $('.toolbar select').removeAttr('onchange');
         // $('.toolbar select').on('change', function(e){var url=$(this).val();sliderAjax(url);e.preventDefault()});
         // <?php endif; ?>
-		
-		
+
+
 	});
 
 <?php if($this->ajaxSlider || $this->ajaxLayered): ?>
@@ -103,10 +103,10 @@ function sliderAjax(url) {
                             });
                         };
                         <?php if($this->ajaxLayered): ?>
-                        $('.block-layered-nav a').on('click', function(e){sliderAjax($(this).attr('href'));e.preventDefault();});    
+                        $('.block-layered-nav a').on('click', function(e){sliderAjax($(this).attr('href'));e.preventDefault();});
                         <?php endif; ?>
-                        
-                        
+
+
                         <?php if($this->ajaxToolbar): ?>
                         $('.toolbar a').on('click', function(e){if(!$(this).hasClass('sbToggle') && !$(this).hasClass('sbSelector') && !$(this).parent().parent().hasClass('sbOptions')){var url=$(this).attr('href');sliderAjax(url);e.preventDefault()}});
                         $('.toolbar select').removeAttr('onchange');
@@ -122,10 +122,10 @@ function sliderAjax(url) {
     }
     return false;
 }
-<?php endif; ?> 
+<?php endif; ?>
 
 function callback(){
-	<?php echo $this->getCallbackJs(); ?>	
+	<?php echo $this->getCallbackJs(); ?>
 }
 //]]>
 </script>
