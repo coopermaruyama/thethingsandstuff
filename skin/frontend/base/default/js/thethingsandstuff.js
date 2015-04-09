@@ -36,7 +36,18 @@ function updateQueryStringParameter(uri, key, value) {
 		return uri + separator + key + "=" + value;
 	}
 }
+// custom isboud plugin
+(function($) {
+$.fn.isBound = function(type, namespace) {
+    var data = $._data(this[0], 'events')[type];
 
+    if (data === undefined || data.length === 0) {
+        return false;
+    }
+
+    return (-1 !== $.inArray(namespace,   $.map(data, function(_ev) {return _ev.namespace})  ));
+};
+})(jQuery);
 
 jQuery.noConflict();
 (function( $ ) {
@@ -68,11 +79,11 @@ jQuery.noConflict();
 		// 		img.css({"position":"relative","top":"0","left":"0"});
 		// 		if (yStretch) {
 		// 			xOverflow = ($(img).width() - imgStartWidth) / 2;
-		// 			img.css('margin-left',  '-'+xOverflow+'px'); 
+		// 			img.css('margin-left',  '-'+xOverflow+'px');
 		// 		}
 		// 		else {
 		// 			yOverflow = ($(img).height() - imgStartHeight) / 2;
-		// 			img.css('margin-top',  '-'+yOverflow+'px'); 
+		// 			img.css('margin-top',  '-'+yOverflow+'px');
 		// 		};
 
 		// 	};
@@ -82,8 +93,8 @@ jQuery.noConflict();
 
 		/* Resize Category Images Plugin by Envy Websites
 		END */
-		
-		
+
+
 	});
 $(function() {
 
@@ -104,7 +115,7 @@ $(function() {
 	};
 
 	// Mobile search bug fix: since resizing window can toggle the sidebar, and clicking the search box on mobile opens up a keyboard which in turn fires a window resize, the sidebar which contains the searchbox goes away. this fixes that.
-	$(".form-search input").click(function(e) { 
+	$(".form-search input").click(function(e) {
 		window.pauseResize = true;
 		window.setTimeout(function() {
 			window.pauseResize = false;
@@ -146,19 +157,19 @@ $(function() {
 	 $(window).resize(function() {
 	     clearTimeout(id);
 	     id = setTimeout(doneResizing, 500);
-	     
+
 	 });
 
 	 function doneResizing(){
 	    if ($("#header-toggle").hasClass("open-state") && $(window).width() < 835 && !window.pauseResize) {
 	    	$("#header-toggle").trigger("click");
 	    };
-	 } 
+	 }
 		/*
 		*   INFINITE SCROLL CUSTOM
-		*/ 
+		*/
 		window.currpage = 1;
-		
+
 		if (/total/.test(jQuery(".toolbar:last .amount").text())) { //returns false if only 1 page available
 		  //kinda bootleg, parses onpage text to find out the total amount of items in the collection
 			window.collectionItems = parseInt(jQuery(".toolbar:last .amount").text().match(/([0-9]+).total/)[1]);
@@ -189,13 +200,13 @@ $(function() {
 							$items.each(function(index, value) {
 								$("ul.products-grid").append(value);
 								itemsCounter++;
-								if (itemsCounter == totalItems) { 
-									window.scrollProcessing = false; 
+								if (itemsCounter == totalItems) {
+									window.scrollProcessing = false;
 									$(".infscr-loading-msg").remove();
 									window.Grid.addItems( $items );
 								}
 							});
-						} 
+						}
 						else {
 							$(window).unbind("scroll");
 							$("#infscr-loading img").remove();
@@ -207,7 +218,7 @@ $(function() {
 		}
 		/*
 		*   /INFINITE SCROLL CUSTOM
-		*/ 
+		*/
 
 
 	});
@@ -217,7 +228,7 @@ $(function() {
 /*
  * jQuery throttle / debounce - v1.1 - 3/7/2010
  * http://benalman.com/projects/jquery-throttle-debounce-plugin/
- * 
+ *
  * Copyright (c) 2010 "Cowboy" Ben Alman
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/

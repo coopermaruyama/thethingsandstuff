@@ -80,7 +80,7 @@ function sliderAjax(url) {
                             $('.col-main .category-products').append(data.productlist)
                         }
                         var hist = url.split('?');
-                        if(window.history && window.history.pushState && data.title){
+                        if(window.history && window.history.pushState){
 							window.history.pushState('GET', data.title, url);
 						}
                         $('body').find('.toolbar select').removeAttr('onchange');

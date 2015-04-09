@@ -45,7 +45,7 @@ function showChildrenCategories($_category, $level, $level_limit, $columns){
     $_children = $_category->getChildren();
     $children_ids = explode(",", $_children);
     $i = 0;
-    $categoryChildren = array();   
+    $categoryChildren = array();
     if ($children_ids) {
         foreach ($children_ids as $categoryId){
             $category = Mage::getModel('catalog/category')->load($categoryId);

@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 class Trego_Ajaxfilter_Block_Ajax extends Mage_Core_Block_Template{
 	public function __construct(){
-		
+
 		$this->config = Mage::getStoreConfig('price_slider');
 		$this->url = Mage::getStoreConfig('web/unsecure/base_url');
-		
+
 		$this->ajaxSlider = $this->config['ajax_conf']['slider'];
 		$this->ajaxLayered = $this->config['ajax_conf']['layered'];
 		$this->ajaxToolbar = $this->config['ajax_conf']['toolbar'];
@@ -18,9 +18,9 @@ class Trego_Ajaxfilter_Block_Ajax extends Mage_Core_Block_Template{
 			$this->loadingImage = $this->url.'media/wysiwyg/trego/ajaxfilter/default/ajax-loader.gif';
 		}else{
 			$this->loadingImage = $this->url.'media/wysiwyg/trego/ajaxfilter/default/'.$loadingImage;
-		}	
+		}
 	}
-	
+
 	public function getCallbackJs(){
 		return Mage::getStoreConfig('price_slider/ajax_conf/afterAjax');
 	}
