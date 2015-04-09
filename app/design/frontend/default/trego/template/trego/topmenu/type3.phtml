@@ -1,8 +1,8 @@
 <?php
-$store = Mage::app()->getStore();
+$store = Mage::app()->getStore('website');
 $code  = $store->getCode();
 //Get store id
-$storeId    = Mage::app()->getStore()->getId();
+$storeId    = Mage::app()->getWebsiteId();
 $show_columns = Mage::getStoreConfig("slidermenu/menu/show_column", $code);
 //Get category model
 $_category = Mage::getModel('catalog/category')->setStoreId($storeId);

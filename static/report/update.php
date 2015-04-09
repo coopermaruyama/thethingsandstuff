@@ -28,6 +28,7 @@ if( !function_exists( 'http_parse_headers' ) ) {
 function generateResourceUrl($page, $apiUrl) {
 	return "$apiUrl/orders?limit=10&page=$page";
 }
+
 function moreRecordsExist($page, $oauthClient, $apiUrl) {
 	$resourceUrl = generateResourceUrl($page, $apiUrl);
 	$headers = array('Content-Type' => 'application/json');
@@ -93,7 +94,11 @@ try {
 
         $order_ids = array();
         $page = 1;
-        while (moreRecordsExist($page, $oauthClient, $apiUrl)) {
+        echo "<pre>";
+        $extra_i = 1;
+        $runOneMore = true;
+        while (moreRecordsExist($page, $oauthClient, $apiUrl) || $runOneMore) {
+            echo "checking page $page...<br>";
             $resourceUrl = generateResourceUrl($page, $apiUrl);
         	$oauthClient->fetch($resourceUrl, null, OAUTH_HTTP_METHOD_GET, $headers);
             $data = $oauthClient->getLastResponse();
@@ -102,9 +107,15 @@ try {
                 array_push($order_ids, intval($order['entity_id']));
             }
         	$page++;
+            if (!moreRecordsExist($page, $oauthClient, $apiUrl) && $extra_i > 0) {
+                $runOneMore = true;
+                $extra_i--;
+            } else {
+                $runOneMore = false;
+            }
         }
-        foreach ($order_ids as $order_id) { 
-            echo "getting order id $order_id...";
+        foreach ($order_ids as $order_id) {
+            echo "<br>getting order id $order_id...";
             $query = $conn->prepare("SELECT * from `revenue_report`.`revenue_records` WHERE magento_order_id=$order_id");
             $query->execute();
             $result = $query->fetch();
@@ -128,20 +139,24 @@ try {
                     }
                 }
                 //Insert row
-                $query = $conn->prepare("INSERT INTO  `revenue_report`.`revenue_records` (`id`, `manual_entry`, `order_date`, `order_type`, `shipping_street`,`shipping_city`,`shipping_region`,`shipping_postal`,`locked`,`deleted`,`magento_order_id`,`customer_name`,`total_paid`)VALUES (NULL,0,'$order_date','$order_type','$shipping_street','$shipping_city','$shipping_region','$shipping_postal',1,0,$order_id,'$customer_name',$total_paid)");
+                $query_command = "INSERT INTO  `revenue_report`.`revenue_records` (`id`, `manual_entry`, `order_date`, `order_type`, `shipping_street`,`shipping_city`,`shipping_region`,`shipping_postal`,`locked`,`deleted`,`magento_order_id`,`customer_name`,`total_paid`)VALUES (NULL,0,'$order_date','$order_type','$shipping_street','$shipping_city','$shipping_region','$shipping_postal',1,0,$order_id,'$customer_name',$total_paid)";
+                $query = $conn->prepare( $query_command );
                 $query->execute();
+                $revenue_record_id = null;
                 $revenue_record_id = intval($conn->lastInsertId());
+                echo "<br>working on revenue_record_id $revenue_record_id...";
+                print_r($order_array['order_items']);
+                $item_number = 0;
                 foreach ($order_array['order_items'] as $item) {
-                    $item_name = $item['name'];
+                    $item_name = addslashes($item['name']);
                     $item_price = number_format((float)floatval($item['price']), 2, '.', '');
-                    $query = $conn->prepare("INSERT INTO  `revenue_report`.`revenue_record_items` (`id`,`revenue_record_id`,`item`,`price`)VALUES (NULL,:revenue_record_id,:item_name,:item_price)");
-                    $query->bindParam(":revenue_record_id", $revenue_record_id);
-                    $query->bindParam(":item_name", $item_name);
-                    $query->bindParam(":item_price", $item_price);
+                    $query = $conn->prepare("INSERT INTO  `revenue_report`.`revenue_record_items` (`id`,`revenue_record_id`,`item`,`price`, `item_number`)VALUES (NULL,$revenue_record_id,'$item_name','$item_price', '$item_number')");
                     $query->execute();
-                }   
+                    $item_number++;
+                }
             }
         }
+        echo "</pre>";
         $query = $conn->prepare("INSERT INTO `revenue_report`.`magento_updates` (`id`)VALUES (NULL);");
         $query->execute();
     }

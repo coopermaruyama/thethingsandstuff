@@ -208,3 +208,14 @@
 ## http://developer.yahoo.com/performance/rules.html#etags
 
     #FileETag none
+###
+SetEnvIf Server_Addr 205.186.146.64  MAGE_APPLICATION_ENV=production
+SetEnvIf Host localhost  MAGE_APPLICATION_ENV=development
+#SetEnvIf Host localhost MAGE_IS_DEVELOPER_MODE=true
+SetEnvIf Host ttas.dev  MAGE_APPLICATION_ENV=development
+#SetEnvIf Host ttas.dev MAGE_IS_DEVELOPER_MODE=true
+SetEnvIf Host ttas.dev TMPDIR=/tmp/
+
+
+php_flag display_errors On
+php_flag error_reporting E_ALL

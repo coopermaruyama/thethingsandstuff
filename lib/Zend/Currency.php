@@ -71,7 +71,7 @@ class Zend_Currency
         'script'    => null,
         'format'    => null,
         'display'   => self::NO_SYMBOL,
-        'precision' => 2,
+        'precision' => 0, // cooper: changed to 0 from 2 to remove decimal
         'name'      => null,
         'currency'  => null,
         'symbol'    => null,
