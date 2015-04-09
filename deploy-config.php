@@ -109,7 +109,7 @@ define('TIME_LIMIT', 30);
  *
  * @var string Full backup directory path e.g. `/tmp/`
  */
-define('BACKUP_DIR', false);
+define('BACKUP_DIR', '/tmp/');
 
 /**
  * OPTIONAL
