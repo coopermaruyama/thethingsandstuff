@@ -1,4 +1,4 @@
-<?php $category = Mage::registry('current_category'); 
+<?php $category = Mage::registry('current_category');
 ?>
 <div class="header-container">
     <div class="header">
@@ -26,14 +26,14 @@
                     <?php echo $this->getChildHtml('topSearch'); ?>
                     <div class="clearer"></div>
                     <?php echo $this->getChildHtml('topMenu'); ?>
-                    
+
                     <!-- Landers Optimized: Commented out to remove the links for specials (Featured, New, etc). Replace w/ product filter */ -->
 
                     <!-- <div class="clear"></div>
                     <?php echo $this->getChildHtml('topSpecialMenu'); ?> -->
-                    
+
                     <div id="side-filters">
-                       <!--  <?php 
+                       <!--  <?php
                         if(Mage::app()->getRequest()->getModuleName() != Trego_Blog_Helper_Data::DEFAULT_ROOT && Mage::registry('current_category')){
                             $block = new Trego_Ajaxfilter_Block_Catalog_Layer_Filter_Price();
                             echo $block->getHtml();
@@ -87,8 +87,8 @@
 									$(this).toggleClass('active');
 									conditionArray = [];
 									$('.condition-option').each(function() {
-										if ( $(this).data("active") == "true" ) { 
-											conditionArray.push( $(this).attr("data-value") ); 
+										if ( $(this).data("active") == "true" ) {
+											conditionArray.push( $(this).attr("data-value") );
 										}
 									});
 									conditionVal = conditionArray.join(",");
@@ -110,8 +110,8 @@
 									$(this).toggleClass('active');
 									priceArray = [];
 									$('.price-option').each(function() {
-										if ( $(this).data("active") == "true" ) { 
-											priceArray.push( $(this).attr("data-value") ); 
+										if ( $(this).data("active") == "true" ) {
+											priceArray.push( $(this).attr("data-value") );
 										}
 									});
 									priceVal = priceArray.join(",");
@@ -124,7 +124,7 @@
 
 
 </script>
-<?php 
+<?php
 $toolbar = $this->getChild('catalog_product_list')->getToolbarBlock();
 $toolbar->setCollection($this->getChild('catalog_product_list')->getLoadedProductCollection());
 
@@ -169,7 +169,7 @@ jQuery(function($){
            'z-index':'10000000',
            'top':'0',
            'left':'0'
-       });	
+       });
         $('#resultLoading .bg').css({
            'background':'#000000',
            'opacity':'0.5',
@@ -195,8 +195,8 @@ jQuery(function($){
 								//         // $('.toolbar a').on('click', function(e){if(!$(this).hasClass('sbToggle') && !$(this).hasClass('sbSelector') && !$(this).parent().parent().hasClass('sbOptions')){var url=$(this).attr('href');sliderAjax(url);e.preventDefault()}});
 								// $('.toolbar select').removeAttr('onchange');
 								// $('.toolbar select').on('change', function(e){var url=$(this).val();sliderAjax(url);e.preventDefault()});
-								// 		
-								
+								//
+
 							});
 
 /*DONOT EDIT THIS CODE*/
@@ -236,7 +236,7 @@ function callback(){
         </div>
         <div class="clear"></div>
     </div>
-    
+
 </div>
 <a href="javascript:void(0)" class="filterproducts-link">&nbsp;</a>
 </div>
@@ -245,20 +245,26 @@ function callback(){
         <?php echo $this->getChildHtml('store_language') ?>
         <?php echo $this->getChildHtml('custom_currency_selector') ?>
         <?php echo $this->getChildHtml('cart_cartheader') ?>
+        <ul class="nav-secondary">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contacts/">Contact</a></li>
+        </ul>
     </div>
     <nav id="nav-top">
         <ul class="top-nav">
             <li><a href="/">Buy</a></li>
             <li><a href="/sell">Sell</a></li>
-            <li><a href="/move">Move</a></li>
-            <li><a href="/about/">About</a></li>
-            <li><a href="/contacts/">Contact</a></li>
+            <li><a href="/moving">Moving</a></li>
+            <li><a href="/delivery">Delivery</a></li>
+            <li><a href="/storage">Storage</a></li>
         </ul>
         <select name="" id="">
             <option value="" selected="selected">Go to...</option>
             <option value="/">Buy</option>
             <option value="/sell">Sell</option>
-            <option value="/move">Move</option>
+            <li><a href="/moving">Moving</a></li>
+            <li><a href="/delivery">Delivery</a></li>
+            <li><a href="/storage">Storage</a></li>
             <option value="/about/">About</option>
             <option value="/contacts/">Contact</option>
         </select>

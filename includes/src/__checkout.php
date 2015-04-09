@@ -25051,7 +25051,9 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
      */
     public function format($price, $options=array(), $includeContainer = true, $addBrackets = false)
     {
-        return $this->formatPrecision($price, 2, $options, $includeContainer, $addBrackets);
+        return $this->formatPrecision($price, 0, $options, $includeContainer, $addBrackets);
+        // Cooper: changed to 4 from 2 to remove decimals after price
+        // return $this->formatPrecision($price, 2, $options, $includeContainer, $addBrackets);
     }
 
     /**
@@ -41115,7 +41117,7 @@ class Zend_Currency
         'script'    => null,
         'format'    => null,
         'display'   => self::NO_SYMBOL,
-        'precision' => 2,
+        'precision' => 0, // cooper: changed to 0 from 2 to remove decimal
         'name'      => null,
         'currency'  => null,
         'symbol'    => null,

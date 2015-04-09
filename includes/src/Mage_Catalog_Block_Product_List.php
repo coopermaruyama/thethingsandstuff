@@ -127,6 +127,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 			$_productCollection->addAttributeToSelect('*')
 				->addAttributeToFilter('price_tier', array('in' => $priceTierArray))
 				->setOrder('price', 'DESC');
+            error_log(var_dump($_productCollection));
 		}
 		else if ((isset($_GET['condition']) && $_GET['condition'] != '' && !isset($_GET['pt']))  || (isset($_GET['condition']) && $_GET['condition'] != '' && isset($_GET['pt']) && $_GET['pt'] == '')) //only condition is set
 		{

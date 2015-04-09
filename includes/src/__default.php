@@ -34433,7 +34433,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function roundPrice($price)
     {
-        return round($price, 2);
+        return round($price, 0); // changed to 4 from 2 to remove decimal
     }
 
     /**
